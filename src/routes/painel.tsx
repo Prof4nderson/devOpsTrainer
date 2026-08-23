@@ -17,7 +17,7 @@ import {
 export const Route = createFileRoute("/painel")({
   head: () => ({
     meta: [
-      { title: "Painel de treino — DevOps Trainer" },
+      { title: "Painel de aprendizado — DevOps Trainer" },
       {
         name: "description",
         content:
@@ -90,7 +90,7 @@ function Painel() {
 
   return (
     <AppShell
-      titulo="Escolha seu treino"
+      titulo="Escolha a linguagem a ser avaliada:"
       nome={perfil?.nome ?? "Aluno"}
       xp={perfil?.xp ?? 0}
       isProfessor={isProfessor}
@@ -102,7 +102,7 @@ function Painel() {
       <div className="space-y-8">
         <section>
           <h2 className="text-sm font-semibold uppercase tracking-wider txt-dim mb-3">
-            1. Linguagem a treinar
+            1. Linguagem a avaliar
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {LINGUAGENS.map((l) => {
@@ -163,7 +163,7 @@ function Painel() {
                         params={{ lang: linguagem.id, nivel }}
                         className="btn-primary w-full mt-auto"
                       >
-                        <Play className="w-4 h-4" /> Iniciar treino
+                        <Play className="w-4 h-4" /> Iniciar Avaliação
                       </Link>
                     ) : (
                       <button disabled className="btn-secondary w-full mt-auto">

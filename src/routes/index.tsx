@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "DevOps Trainer — Treino gamificado de Bash, PowerShell e Docker" },
+      { title: "DevOps Trainer — Aprendizado gamificado de Bash, PowerShell e Docker" },
       {
         name: "description",
         content:
