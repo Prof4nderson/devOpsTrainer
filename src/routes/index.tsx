@@ -92,7 +92,7 @@ function Entrada() {
             Qual o seu nível de conhecimento na cultura <span className="neon">DevOps?</span>
           </h1>
           <p className="txt-dim mt-4 max-w-md">
-            Teste seus conhecimentos em bash shell, power shell, docker e kubernetes em nosso simulador.
+            Faça o treinamento e teste seus conhecimentos em bash shell, power shell, docker e kubernetes em nosso simulador.
           </p>
           <ul className="mt-8 space-y-4">
             <li className="flex gap-3 items-start">
@@ -117,29 +117,7 @@ function Entrada() {
           </ul>
 
           {/* Destaque do Terminal Ciberpunk */}
-          <div className="mt-8 p-5 bg-gray-950/80 border border-cyan-500/40 rounded-xl shadow-[0_0_15px_rgba(6,182,212,0.15)] flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2.5 bg-cyan-950/80 border border-cyan-500/30 rounded-lg">
-                <Terminal className="w-6 h-6 text-cyan-400 animate-pulse" />
-              </div>
-              <div>
-                <h3 className="text-sm font-bold text-cyan-300 font-mono flex items-center gap-2">
-                  Terminal Ciberpunk // Phi-3.5
-                </h3>
-                <p className="text-xs text-gray-400 mt-0.5">
-                  Treine comandos Shell/Docker com tutor visual.
-                </p>
-              </div>
-            </div>
-
-            <Link
-              to="/terminal"
-              className="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-mono font-bold text-xs rounded-lg transition-all duration-200 shadow-[0_0_10px_rgba(6,182,212,0.4)] whitespace-nowrap flex items-center gap-1.5"
-            >
-              <Cpu className="w-3.5 h-3.5" />
-              Acessar
-            </Link>
-          </div>
+          
         </section>
 
         <div className="w-full max-w-md mx-auto">
