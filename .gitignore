@@ -1,0 +1,22 @@
+
+node_modules
+dist
+dist-ssr
+.output
+.vinxi
+.
+# Wrangler / Cloudflare
+.wrangler/
+.dev.vars
+
+# Editor directories and files
+
+!.vscode/extensions.json
+.idea
+.DS_Store
+
+.workspace/
+.tanstack/
+.dev
+.env
+

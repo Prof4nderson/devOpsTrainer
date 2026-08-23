@@ -1,0 +1,393 @@
+{
+  "id": "powershell",
+  "nome": "MS PowerShell",
+  "icone": "SquareTerminal",
+  "descricao": "Automação Windows com cmdlets, pipeline de objetos, módulos e scripts .ps1.",
+  "niveis": {
+    "facil": [
+      {
+        "id": "ps-f-01",
+        "tipo": "multipla",
+        "pergunta": "Qual cmdlet lista os processos em execução?",
+        "opcoes": ["Get-Process", "List-Process", "Show-Process", "Get-Tasks"],
+        "resposta": "Get-Process",
+        "dica": "PowerShell usa o padrão Verbo-Substantivo.",
+        "explicacao": "Cmdlets seguem Verbo-Substantivo. 'Get-Process' (alias gps/ps) retorna objetos de processo."
+      },
+      {
+        "id": "ps-f-02",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que descobre quais cmdlets existem para serviços (substantivo Service).",
+        "resposta": "Get-Command -Noun Service",
+        "aceitas": ["Get-Command *Service*", "Get-Command -Noun service"],
+        "dica": "Existe um cmdlet para descobrir comandos.",
+        "explicacao": "'Get-Command -Noun Service' lista todos os cmdlets do substantivo Service. Use Get-Help para detalhes."
+      },
+      {
+        "id": "ps-f-03",
+        "tipo": "multipla",
+        "pergunta": "Como declarar a variável $nome com o valor 'deploy'?",
+        "opcoes": ["$nome = 'deploy'", "nome := deploy", "var nome = deploy", "set $nome deploy"],
+        "resposta": "$nome = 'deploy'",
+        "dica": "Variáveis sempre começam com cifrão.",
+        "explicacao": "Em PowerShell variáveis começam com $ e a atribuição usa '=' com espaços permitidos."
+      },
+      {
+        "id": "ps-f-04",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que mostra a ajuda completa do cmdlet Get-Service com exemplos.",
+        "resposta": "Get-Help Get-Service -Examples",
+        "aceitas": ["Get-Help Get-Service -Full", "help Get-Service -Examples"],
+        "dica": "O cmdlet de ajuda aceita um parâmetro de exemplos.",
+        "explicacao": "'Get-Help <cmdlet> -Examples' mostra exemplos práticos; -Full traz a documentação inteira."
+      },
+      {
+        "id": "ps-f-05",
+        "tipo": "multipla",
+        "pergunta": "O que o pipeline do PowerShell transporta entre os comandos?",
+        "opcoes": ["Objetos .NET", "Somente texto", "Bytes brutos", "Arquivos temporários"],
+        "resposta": "Objetos .NET",
+        "dica": "É a maior diferença em relação ao Bash.",
+        "explicacao": "O pipeline transporta objetos completos com propriedades e métodos, e não texto plano como em shells Unix."
+      },
+      {
+        "id": "ps-f-06",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que exibe as propriedades e métodos do objeto retornado por Get-Service.",
+        "resposta": "Get-Service | Get-Member",
+        "aceitas": ["Get-Service | gm"],
+        "dica": "Existe um cmdlet 'membro'.",
+        "explicacao": "'Get-Member' inspeciona o tipo do objeto no pipeline — o primeiro passo para saber o que filtrar."
+      },
+      {
+        "id": "ps-f-07",
+        "tipo": "multipla",
+        "pergunta": "Qual extensão identifica um script PowerShell?",
+        "opcoes": [".ps1", ".psh", ".pwsh", ".ps"],
+        "resposta": ".ps1",
+        "dica": "Termina com um número.",
+        "explicacao": "Scripts usam .ps1; módulos usam .psm1 e manifests .psd1."
+      },
+      {
+        "id": "ps-f-08",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que imprime o texto Deploy concluído no console.",
+        "resposta": "Write-Output 'Deploy concluído'",
+        "aceitas": ["Write-Host 'Deploy concluído'", "Write-Output \"Deploy concluído\"", "Write-Host \"Deploy concluído\""],
+        "dica": "Prefira o cmdlet que escreve no pipeline.",
+        "explicacao": "'Write-Output' envia ao pipeline (reaproveitável); 'Write-Host' escreve direto no console do usuário."
+      },
+      {
+        "id": "ps-f-09",
+        "tipo": "multipla",
+        "pergunta": "Qual cmdlet filtra objetos do pipeline por uma condição?",
+        "opcoes": ["Where-Object", "Select-Object", "Filter-Object", "Find-Object"],
+        "resposta": "Where-Object",
+        "dica": "Select escolhe colunas; outro cmdlet escolhe linhas.",
+        "explicacao": "'Where-Object' filtra itens (linhas) e 'Select-Object' escolhe propriedades (colunas) ou limita a quantidade."
+      },
+      {
+        "id": "ps-f-10",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que lista os arquivos da pasta C:\\logs.",
+        "resposta": "Get-ChildItem C:\\logs",
+        "aceitas": ["Get-ChildItem -Path C:\\logs", "gci C:\\logs", "ls C:\\logs", "dir C:\\logs"],
+        "dica": "O cmdlet real por trás de dir e ls.",
+        "explicacao": "'Get-ChildItem' (aliases gci, ls, dir) lista itens de um provider, incluindo registro e certificados."
+      },
+      {
+        "id": "ps-f-11",
+        "tipo": "multipla",
+        "pergunta": "Como consultar a política de execução de scripts da máquina?",
+        "opcoes": ["Get-ExecutionPolicy", "Get-ScriptPolicy", "Show-Policy", "Get-Policy -Script"],
+        "resposta": "Get-ExecutionPolicy",
+        "dica": "Verbo Get e o nome da política.",
+        "explicacao": "'Get-ExecutionPolicy' mostra a política atual; 'Set-ExecutionPolicy RemoteSigned' é comum em estações de trabalho."
+      },
+      {
+        "id": "ps-f-12",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que reinicia o serviço chamado Spooler.",
+        "resposta": "Restart-Service -Name Spooler",
+        "aceitas": ["Restart-Service Spooler", "Restart-Service -Name 'Spooler'"],
+        "dica": "Verbo Restart.",
+        "explicacao": "'Restart-Service -Name Spooler' para e inicia o serviço. Use -Force quando houver serviços dependentes."
+      }
+    ],
+    "intermediario": [
+      {
+        "id": "ps-i-01",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que lista apenas os serviços em execução.",
+        "resposta": "Get-Service | Where-Object { $_.Status -eq 'Running' }",
+        "aceitas": [
+          "Get-Service | Where-Object Status -eq 'Running'",
+          "Get-Service | ? { $_.Status -eq 'Running' }",
+          "Get-Service | Where-Object {$_.Status -eq \"Running\"}"
+        ],
+        "dica": "$_ representa o objeto atual do pipeline.",
+        "explicacao": "'Where-Object { $_.Status -eq 'Running' }' filtra pelo valor da propriedade Status do objeto corrente."
+      },
+      {
+        "id": "ps-i-02",
+        "tipo": "multipla",
+        "pergunta": "Qual operador compara igualdade em PowerShell?",
+        "opcoes": ["-eq", "==", "=", "-is"],
+        "resposta": "-eq",
+        "dica": "Operadores de comparação começam com traço.",
+        "explicacao": "PowerShell usa -eq, -ne, -gt, -lt, -like, -match. O '=' é apenas atribuição."
+      },
+      {
+        "id": "ps-i-03",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que exporta a lista de processos para o arquivo proc.csv sem cabeçalho de tipo.",
+        "resposta": "Get-Process | Export-Csv proc.csv -NoTypeInformation",
+        "aceitas": [
+          "Get-Process | Export-Csv -Path proc.csv -NoTypeInformation",
+          "Get-Process | Export-Csv proc.csv -NoTypeInformation -Encoding UTF8"
+        ],
+        "dica": "Existe um switch para remover a linha de tipo.",
+        "explicacao": "'Export-Csv -NoTypeInformation' evita a primeira linha #TYPE. No PowerShell 7 esse comportamento já é padrão."
+      },
+      {
+        "id": "ps-i-04",
+        "tipo": "multipla",
+        "pergunta": "Como declarar um parâmetro obrigatório em uma função avançada?",
+        "opcoes": [
+          "[Parameter(Mandatory=$true)][string]$Nome",
+          "[Required][string]$Nome",
+          "param(string $Nome!)",
+          "[Parameter(Required)][string]$Nome"
+        ],
+        "resposta": "[Parameter(Mandatory=$true)][string]$Nome",
+        "dica": "O atributo se chama Parameter.",
+        "explicacao": "O atributo [Parameter(Mandatory=$true)] dentro do bloco param() força o usuário a informar o valor."
+      },
+      {
+        "id": "ps-i-05",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o laço que percorre a coleção $servidores usando a variável $s (somente a linha do foreach).",
+        "resposta": "foreach ($s in $servidores) {",
+        "aceitas": ["foreach($s in $servidores){", "foreach ($s in $servidores)"],
+        "dica": "Palavra-chave foreach com 'in'.",
+        "explicacao": "'foreach ($item in $colecao) { ... }' é a estrutura de repetição por coleção; no pipeline usa-se ForEach-Object."
+      },
+      {
+        "id": "ps-i-06",
+        "tipo": "multipla",
+        "pergunta": "O que faz o parâmetro comum -WhatIf?",
+        "opcoes": [
+          "Mostra o que aconteceria sem executar a ação",
+          "Executa em modo verboso",
+          "Pede confirmação e executa",
+          "Repete o comando em caso de erro"
+        ],
+        "resposta": "Mostra o que aconteceria sem executar a ação",
+        "dica": "É o 'dry run' do PowerShell.",
+        "explicacao": "-WhatIf simula a operação; -Confirm pede confirmação interativa. Ambos exigem SupportsShouldProcess em funções."
+      },
+      {
+        "id": "ps-i-07",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o bloco que captura erros ao redor de um comando (apenas a linha de abertura do tratamento).",
+        "resposta": "try {",
+        "aceitas": ["try{"],
+        "dica": "Mesmo nome usado em C#.",
+        "explicacao": "'try { ... } catch { ... } finally { ... }' trata exceções. Use -ErrorAction Stop para transformar erros não terminantes em exceções."
+      },
+      {
+        "id": "ps-i-08",
+        "tipo": "multipla",
+        "pergunta": "Como converter uma resposta JSON em objeto PowerShell?",
+        "opcoes": ["ConvertFrom-Json", "ConvertTo-Json", "Parse-Json", "Read-Json"],
+        "resposta": "ConvertFrom-Json",
+        "dica": "'From' converte de texto para objeto.",
+        "explicacao": "'ConvertFrom-Json' transforma texto em objeto; 'ConvertTo-Json' faz o caminho inverso ao chamar APIs."
+      },
+      {
+        "id": "ps-i-09",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que faz uma requisição GET REST para https://api.exemplo.com/status.",
+        "resposta": "Invoke-RestMethod -Uri https://api.exemplo.com/status",
+        "aceitas": [
+          "Invoke-RestMethod https://api.exemplo.com/status",
+          "Invoke-RestMethod -Uri 'https://api.exemplo.com/status' -Method Get"
+        ],
+        "dica": "Existe um cmdlet REST que já desserializa o JSON.",
+        "explicacao": "'Invoke-RestMethod' converte JSON automaticamente em objetos; 'Invoke-WebRequest' devolve a resposta HTTP crua."
+      },
+      {
+        "id": "ps-i-10",
+        "tipo": "multipla",
+        "pergunta": "Qual cmdlet ordena objetos pela propriedade CPU em ordem decrescente?",
+        "opcoes": [
+          "Sort-Object CPU -Descending",
+          "Order-Object CPU -Desc",
+          "Sort -by CPU desc",
+          "Select-Object -Sort CPU"
+        ],
+        "resposta": "Sort-Object CPU -Descending",
+        "dica": "Verbo Sort.",
+        "explicacao": "'Sort-Object Propriedade -Descending' ordena o pipeline; combine com 'Select-Object -First 5' para um top 5."
+      },
+      {
+        "id": "ps-i-11",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que salva credenciais informadas pelo usuário na variável $cred.",
+        "resposta": "$cred = Get-Credential",
+        "aceitas": ["$cred = Get-Credential -Message 'Informe as credenciais'"],
+        "dica": "Existe um cmdlet dedicado a credenciais.",
+        "explicacao": "'Get-Credential' abre um prompt seguro e devolve um PSCredential com a senha como SecureString."
+      },
+      {
+        "id": "ps-i-12",
+        "tipo": "multipla",
+        "pergunta": "Como executar um comando em um servidor remoto via WinRM?",
+        "opcoes": [
+          "Invoke-Command -ComputerName SRV01 -ScriptBlock { Get-Service }",
+          "Run-Remote SRV01 { Get-Service }",
+          "Enter-Remote SRV01 Get-Service",
+          "Start-Process -Remote SRV01"
+        ],
+        "resposta": "Invoke-Command -ComputerName SRV01 -ScriptBlock { Get-Service }",
+        "dica": "O parâmetro recebe um ScriptBlock.",
+        "explicacao": "'Invoke-Command' executa um ScriptBlock remotamente via WinRM; 'Enter-PSSession' abre uma sessão interativa."
+      }
+    ],
+    "avancado": [
+      {
+        "id": "ps-a-01",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o atributo que transforma uma função em função avançada com parâmetros comuns.",
+        "resposta": "[CmdletBinding()]",
+        "aceitas": ["[CmdletBinding(SupportsShouldProcess=$true)]"],
+        "dica": "Começa com Cmdlet e termina com Binding.",
+        "explicacao": "[CmdletBinding()] antes de param() habilita -Verbose, -Debug, -ErrorAction e o pipeline avançado."
+      },
+      {
+        "id": "ps-a-02",
+        "tipo": "multipla",
+        "pergunta": "Quais blocos uma função que processa pipeline deve implementar?",
+        "opcoes": [
+          "begin, process, end",
+          "start, run, stop",
+          "init, main, exit",
+          "pre, exec, post"
+        ],
+        "resposta": "begin, process, end",
+        "dica": "O bloco do meio roda uma vez por item.",
+        "explicacao": "'begin' roda uma vez, 'process' por item recebido do pipeline e 'end' ao final — essencial para funções streaming."
+      },
+      {
+        "id": "ps-a-03",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que executa um script bloqueando erros não terminantes e transformando-os em exceção.",
+        "resposta": "Get-Service -Name X -ErrorAction Stop",
+        "aceitas": ["Get-Service X -ErrorAction Stop", "Get-Service -Name X -EA Stop"],
+        "dica": "Parâmetro comum de tratamento de erro.",
+        "explicacao": "'-ErrorAction Stop' converte erros não terminantes em exceções capturáveis por try/catch."
+      },
+      {
+        "id": "ps-a-04",
+        "tipo": "multipla",
+        "pergunta": "Como armazenar uma senha de forma segura em um script automatizado?",
+        "opcoes": [
+          "Usar um cofre (SecretManagement/Key Vault) e nunca texto plano",
+          "Guardar em variável de ambiente em texto plano",
+          "Escrever no próprio .ps1 comentada",
+          "Codificar em Base64 no script"
+        ],
+        "resposta": "Usar um cofre (SecretManagement/Key Vault) e nunca texto plano",
+        "dica": "Base64 não é criptografia.",
+        "explicacao": "Microsoft.PowerShell.SecretManagement ou Azure Key Vault fornecem segredos sob demanda; Base64 é apenas codificação."
+      },
+      {
+        "id": "ps-a-05",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva a linha que cria uma sessão remota persistente para SRV01 na variável $s.",
+        "resposta": "$s = New-PSSession -ComputerName SRV01",
+        "aceitas": ["$s = New-PSSession SRV01", "$s = New-PSSession -ComputerName 'SRV01'"],
+        "dica": "Verbo New e o substantivo PSSession.",
+        "explicacao": "'New-PSSession' cria uma sessão reutilizável; passe-a em -Session para vários Invoke-Command sem reconectar."
+      },
+      {
+        "id": "ps-a-06",
+        "tipo": "multipla",
+        "pergunta": "O que o parâmetro -ThrottleLimit faz em ForEach-Object -Parallel (PowerShell 7)?",
+        "opcoes": [
+          "Limita quantas execuções paralelas ocorrem ao mesmo tempo",
+          "Define o timeout de cada item",
+          "Limita o uso de memória",
+          "Reduz a prioridade do processo"
+        ],
+        "resposta": "Limita quantas execuções paralelas ocorrem ao mesmo tempo",
+        "dica": "É o tamanho do pool.",
+        "explicacao": "'ForEach-Object -Parallel -ThrottleLimit 5' executa até 5 runspaces simultâneos; o padrão é 5."
+      },
+      {
+        "id": "ps-a-07",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando Pester que executa os testes do arquivo Deploy.Tests.ps1.",
+        "resposta": "Invoke-Pester ./Deploy.Tests.ps1",
+        "aceitas": ["Invoke-Pester -Path ./Deploy.Tests.ps1", "Invoke-Pester .\\Deploy.Tests.ps1"],
+        "dica": "O cmdlet começa com Invoke.",
+        "explicacao": "Pester é o framework de testes do PowerShell; 'Invoke-Pester -Path' roda os testes e integra com CI."
+      },
+      {
+        "id": "ps-a-08",
+        "tipo": "multipla",
+        "pergunta": "Qual módulo faz análise estática de código PowerShell em pipelines?",
+        "opcoes": ["PSScriptAnalyzer", "PSLint", "PowerCheck", "ScriptGuard"],
+        "resposta": "PSScriptAnalyzer",
+        "dica": "O nome contém Analyzer.",
+        "explicacao": "'Invoke-ScriptAnalyzer -Path .' aplica regras de estilo e segurança — equivalente ao ShellCheck do mundo Bash."
+      },
+      {
+        "id": "ps-a-09",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que converte o objeto $config em JSON com profundidade 5.",
+        "resposta": "$config | ConvertTo-Json -Depth 5",
+        "aceitas": ["ConvertTo-Json -InputObject $config -Depth 5"],
+        "dica": "Objetos aninhados exigem um parâmetro de profundidade.",
+        "explicacao": "Sem -Depth o ConvertTo-Json trunca em 2 níveis, gerando strings de tipo em vez de objetos aninhados."
+      },
+      {
+        "id": "ps-a-10",
+        "tipo": "multipla",
+        "pergunta": "Como declarar uma classe em PowerShell 5+?",
+        "opcoes": [
+          "class Servidor { [string]$Nome }",
+          "New-Class Servidor",
+          "type Servidor { }",
+          "define class Servidor"
+        ],
+        "resposta": "class Servidor { [string]$Nome }",
+        "dica": "A sintaxe se parece com C#.",
+        "explicacao": "PowerShell 5 introduziu 'class' com propriedades tipadas, construtores e métodos, útil para DSC e módulos."
+      },
+      {
+        "id": "ps-a-11",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que registra a mensagem 'iniciando' no fluxo verbose de uma função avançada.",
+        "resposta": "Write-Verbose 'iniciando'",
+        "aceitas": ["Write-Verbose \"iniciando\""],
+        "dica": "Só aparece quando -Verbose é usado.",
+        "explicacao": "'Write-Verbose' escreve no fluxo 4, exibido apenas com -Verbose ou $VerbosePreference='Continue'."
+      },
+      {
+        "id": "ps-a-12",
+        "tipo": "multipla",
+        "pergunta": "Qual comando executa o script apenas se o usuário confirmar, em funções com SupportsShouldProcess?",
+        "opcoes": [
+          "if ($PSCmdlet.ShouldProcess($alvo)) { ... }",
+          "if ($Confirm) { ... }",
+          "if (Read-Host) { ... }",
+          "if ($WhatIfPreference) { ... }"
+        ],
+        "resposta": "if ($PSCmdlet.ShouldProcess($alvo)) { ... }",
+        "dica": "Use o objeto $PSCmdlet.",
+        "explicacao": "$PSCmdlet.ShouldProcess() integra a função com -WhatIf e -Confirm de forma nativa e previsível."
+      }
+    ]
+  }
+}

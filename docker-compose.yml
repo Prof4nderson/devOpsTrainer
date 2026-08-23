@@ -1,0 +1,18 @@
+services:
+  devops-trainer:
+    build: .
+    container_name: devops_trainer
+    restart: always
+    ports:
+      - "3004:3000" # Porta 3004 no Host -> Porta 3000 dentro do Container
+    
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - HOST=0.0.0.0
+    networks:
+      - devops-trainer-net
+
+networks:
+  devops-trainer-net:
+    driver: bridge

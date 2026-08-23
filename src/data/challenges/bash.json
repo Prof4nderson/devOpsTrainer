@@ -1,0 +1,395 @@
+{
+  "id": "bash",
+  "nome": "Bash Scripting",
+  "icone": "Terminal",
+  "descricao": "Shell scripting em Linux: variáveis, testes, loops, pipes e automação.",
+  "niveis": {
+    "facil": [
+      {
+        "id": "bash-f-01",
+        "tipo": "multipla",
+        "pergunta": "Qual linha deve iniciar um script Bash para garantir que ele seja executado pelo interpretador correto?",
+        "opcoes": ["#!/bin/bash", "#/bin/bash", "!#/bin/bash", "# bash"],
+        "resposta": "#!/bin/bash",
+        "dica": "O par de caracteres se chama shebang.",
+        "explicacao": "O shebang '#!/bin/bash' na primeira linha informa ao kernel qual interpretador usar para executar o script."
+      },
+      {
+        "id": "bash-f-02",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que torna o arquivo deploy.sh executável para todos os usuários.",
+        "resposta": "chmod +x deploy.sh",
+        "aceitas": ["chmod a+x deploy.sh", "chmod 755 deploy.sh"],
+        "dica": "Pense na permissão de execução (x).",
+        "explicacao": "'chmod +x deploy.sh' adiciona a permissão de execução. Também vale 'chmod 755 deploy.sh'."
+      },
+      {
+        "id": "bash-f-03",
+        "tipo": "multipla",
+        "pergunta": "Como se imprime o valor da variável NOME?",
+        "opcoes": ["echo $NOME", "echo NOME", "print NOME", "echo &NOME"],
+        "resposta": "echo $NOME",
+        "dica": "Expansão de variável usa um símbolo antes do nome.",
+        "explicacao": "Em Bash a expansão de variáveis usa '$'. Prefira \"${NOME}\" entre aspas para evitar word splitting."
+      },
+      {
+        "id": "bash-f-04",
+        "tipo": "multipla",
+        "pergunta": "O que a variável especial $? contém?",
+        "opcoes": [
+          "O código de saída do último comando",
+          "O PID do shell atual",
+          "O número de argumentos",
+          "O nome do script"
+        ],
+        "resposta": "O código de saída do último comando",
+        "dica": "Está relacionada a sucesso (0) ou falha (diferente de 0).",
+        "explicacao": "$? guarda o exit code do último comando: 0 significa sucesso e qualquer outro valor indica erro."
+      },
+      {
+        "id": "bash-f-05",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que lista os arquivos do diretório atual, incluindo ocultos, em formato longo.",
+        "resposta": "ls -la",
+        "aceitas": ["ls -al", "ls -l -a", "ls -lah"],
+        "dica": "Combine as flags de listagem longa e de arquivos ocultos.",
+        "explicacao": "'ls -la' combina -l (formato longo) e -a (inclui arquivos que começam com ponto)."
+      },
+      {
+        "id": "bash-f-06",
+        "tipo": "multipla",
+        "pergunta": "Qual comando envia a saída de um comando como entrada de outro?",
+        "opcoes": ["|", ">", ">>", "&"],
+        "resposta": "|",
+        "dica": "É chamado de pipe.",
+        "explicacao": "O pipe '|' conecta a saída padrão de um comando à entrada padrão do próximo, por exemplo 'ps aux | grep nginx'."
+      },
+      {
+        "id": "bash-f-07",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o redirecionamento que acrescenta (sem apagar) a saída de 'echo ok' no arquivo log.txt.",
+        "resposta": "echo ok >> log.txt",
+        "dica": "Um sinal de maior sobrescreve; dois acrescentam.",
+        "explicacao": "'>>' acrescenta ao final do arquivo, enquanto '>' trunca o conteúdo existente."
+      },
+      {
+        "id": "bash-f-08",
+        "tipo": "multipla",
+        "pergunta": "Qual estrutura testa se o arquivo /etc/hosts existe?",
+        "opcoes": [
+          "if [ -f /etc/hosts ]; then",
+          "if ( /etc/hosts ) then",
+          "if exists /etc/hosts {",
+          "if -file /etc/hosts do"
+        ],
+        "resposta": "if [ -f /etc/hosts ]; then",
+        "dica": "O operador de teste de arquivo regular é -f.",
+        "explicacao": "'[ -f caminho ]' retorna verdadeiro quando o caminho existe e é um arquivo regular. Use -d para diretórios."
+      },
+      {
+        "id": "bash-f-09",
+        "tipo": "multipla",
+        "pergunta": "O que $1 representa dentro de um script?",
+        "opcoes": [
+          "O primeiro argumento passado ao script",
+          "O nome do script",
+          "O primeiro caractere da linha",
+          "A primeira variável de ambiente"
+        ],
+        "resposta": "O primeiro argumento passado ao script",
+        "dica": "$0 é outra coisa.",
+        "explicacao": "$0 é o nome do script e $1, $2... são os argumentos posicionais. $# traz a quantidade de argumentos."
+      },
+      {
+        "id": "bash-f-10",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que procura recursivamente a palavra 'ERROR' nos arquivos do diretório /var/log.",
+        "resposta": "grep -r ERROR /var/log",
+        "aceitas": ["grep -r \"ERROR\" /var/log", "grep -R ERROR /var/log", "grep -rn ERROR /var/log"],
+        "dica": "grep tem uma flag para busca recursiva.",
+        "explicacao": "'grep -r PADRAO CAMINHO' busca recursivamente. Acrescente -n para mostrar o número da linha."
+      },
+      {
+        "id": "bash-f-11",
+        "tipo": "multipla",
+        "pergunta": "Como criar um diretório e todos os pais que faltarem?",
+        "opcoes": ["mkdir -p a/b/c", "mkdir -r a/b/c", "mkdir --all a/b/c", "makedir a/b/c"],
+        "resposta": "mkdir -p a/b/c",
+        "dica": "A flag significa 'parents'.",
+        "explicacao": "'mkdir -p' cria a árvore inteira e não falha se o diretório já existir — ideal em scripts idempotentes."
+      },
+      {
+        "id": "bash-f-12",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva a atribuição de variável correta em Bash para NOME receber o texto deploy.",
+        "resposta": "NOME=deploy",
+        "aceitas": ["NOME=\"deploy\"", "NOME='deploy'"],
+        "dica": "Em Bash não existe espaço ao redor do sinal de igual.",
+        "explicacao": "A atribuição é 'NOME=valor', sem espaços. 'NOME = valor' seria interpretado como um comando chamado NOME."
+      }
+    ],
+    "intermediario": [
+      {
+        "id": "bash-i-01",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva a linha que ativa o modo estrito recomendado em scripts (encerrar em erro, variável indefinida e falha em pipe).",
+        "resposta": "set -euo pipefail",
+        "aceitas": ["set -eu -o pipefail", "set -o errexit -o nounset -o pipefail"],
+        "dica": "São três opções combinadas em um único set.",
+        "explicacao": "'set -euo pipefail': -e aborta em erro, -u falha em variável não definida e pipefail propaga erro de qualquer etapa do pipe."
+      },
+      {
+        "id": "bash-i-02",
+        "tipo": "multipla",
+        "pergunta": "Qual expansão fornece um valor padrão quando PORT não está definida?",
+        "opcoes": ["${PORT:-8080}", "${PORT:=?8080}", "$PORT||8080", "${PORT?8080}"],
+        "resposta": "${PORT:-8080}",
+        "dica": "O operador combina dois pontos com um traço.",
+        "explicacao": "${PORT:-8080} devolve 8080 se PORT estiver vazia ou indefinida, sem alterar a variável. ${PORT:=8080} também atribui."
+      },
+      {
+        "id": "bash-i-03",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o laço for que percorre todos os arquivos .log do diretório atual usando a variável f (apenas a linha do for).",
+        "resposta": "for f in *.log; do",
+        "aceitas": ["for f in ./*.log; do", "for f in *.log", "for f in *.log ; do"],
+        "dica": "Use glob e a palavra-chave do.",
+        "explicacao": "'for f in *.log; do ... done' itera sobre o glob. Sempre use \"$f\" entre aspas dentro do corpo."
+      },
+      {
+        "id": "bash-i-04",
+        "tipo": "multipla",
+        "pergunta": "Qual é a forma moderna e segura de capturar a saída de um comando em uma variável?",
+        "opcoes": ["HOJE=$(date +%F)", "HOJE=`date +%F`", "HOJE=<date +%F>", "HOJE=${date +%F}"],
+        "resposta": "HOJE=$(date +%F)",
+        "dica": "Prefira parênteses a crases.",
+        "explicacao": "$( ) é a substituição de comando recomendada: aninha melhor e é mais legível que as crases legadas."
+      },
+      {
+        "id": "bash-i-05",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que executa cleanup ao receber sinal de término ou interrupção do script.",
+        "resposta": "trap cleanup EXIT",
+        "aceitas": ["trap cleanup INT TERM EXIT", "trap 'cleanup' EXIT", "trap cleanup SIGINT SIGTERM EXIT"],
+        "dica": "O comando começa com trap.",
+        "explicacao": "'trap funcao SINAL' registra um handler. 'trap cleanup EXIT' garante limpeza mesmo em saída normal."
+      },
+      {
+        "id": "bash-i-06",
+        "tipo": "multipla",
+        "pergunta": "Por que usar \"$@\" em vez de $* ao repassar argumentos?",
+        "opcoes": [
+          "\"$@\" preserva cada argumento com espaços como item separado",
+          "$* é mais rápido",
+          "\"$@\" só funciona em sh",
+          "Não há diferença prática"
+        ],
+        "resposta": "\"$@\" preserva cada argumento com espaços como item separado",
+        "dica": "Pense em argumentos com espaços no nome.",
+        "explicacao": "\"$@\" expande para uma lista de palavras citadas individualmente; \"$*\" junta tudo em uma única string."
+      },
+      {
+        "id": "bash-i-07",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o teste que compara se a string \"$AMBIENTE\" é igual a prod usando colchetes duplos.",
+        "resposta": "[[ \"$AMBIENTE\" == \"prod\" ]]",
+        "aceitas": ["[[ $AMBIENTE == prod ]]", "[[ \"$AMBIENTE\" = \"prod\" ]]", "[[ $AMBIENTE == \"prod\" ]]"],
+        "dica": "Colchetes duplos e comparação de string.",
+        "explicacao": "[[ ]] é o teste estendido do Bash: mais seguro com strings vazias e suporta padrões e regex."
+      },
+      {
+        "id": "bash-i-08",
+        "tipo": "multipla",
+        "pergunta": "Qual comando lê um arquivo linha a linha de forma segura?",
+        "opcoes": [
+          "while IFS= read -r linha; do ... done < arquivo",
+          "for linha in $(cat arquivo); do ... done",
+          "while read linha in arquivo; do ... done",
+          "cat arquivo | for linha; do ... done"
+        ],
+        "resposta": "while IFS= read -r linha; do ... done < arquivo",
+        "dica": "IFS vazio e a flag -r evitam surpresas.",
+        "explicacao": "'while IFS= read -r linha' preserva espaços iniciais e barras invertidas; o for com $(cat) quebra em espaços."
+      },
+      {
+        "id": "bash-i-09",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o redirecionamento que envia stdout e stderr de ./build.sh para build.log.",
+        "resposta": "./build.sh > build.log 2>&1",
+        "aceitas": ["./build.sh &> build.log", "./build.sh >build.log 2>&1"],
+        "dica": "O descritor 2 é o stderr.",
+        "explicacao": "'> arquivo 2>&1' redireciona stdout e depois aponta stderr para o mesmo destino. A ordem importa."
+      },
+      {
+        "id": "bash-i-10",
+        "tipo": "multipla",
+        "pergunta": "O que faz 'command -v docker >/dev/null 2>&1'?",
+        "opcoes": [
+          "Verifica silenciosamente se o docker existe no PATH",
+          "Instala o docker",
+          "Inicia o serviço docker",
+          "Mostra a versão do docker"
+        ],
+        "resposta": "Verifica silenciosamente se o docker existe no PATH",
+        "dica": "O resultado útil é o exit code.",
+        "explicacao": "'command -v' resolve o binário; descartando a saída, só o exit code importa — padrão para checar dependências."
+      },
+      {
+        "id": "bash-i-11",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva a declaração de uma função chamada deploy na sintaxe POSIX (somente a primeira linha).",
+        "resposta": "deploy() {",
+        "aceitas": ["deploy () {", "function deploy() {"],
+        "dica": "Nome, parênteses vazios e abertura de bloco.",
+        "explicacao": "'nome() { ... }' é a forma portável. A palavra-chave 'function' é uma extensão do Bash."
+      },
+      {
+        "id": "bash-i-12",
+        "tipo": "multipla",
+        "pergunta": "Qual expansão remove o sufixo .tar.gz de \"$ARQ\"?",
+        "opcoes": ["${ARQ%.tar.gz}", "${ARQ#.tar.gz}", "${ARQ/.tar.gz}", "${ARQ-.tar.gz}"],
+        "resposta": "${ARQ%.tar.gz}",
+        "dica": "Um símbolo corta do fim, o outro do começo.",
+        "explicacao": "% remove o menor sufixo casado (%% o maior); # remove do início (## o maior prefixo)."
+      }
+    ],
+    "avancado": [
+      {
+        "id": "bash-a-01",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando find que apaga com segurança arquivos .tmp com mais de 7 dias em /data, tratando nomes com espaço.",
+        "resposta": "find /data -name '*.tmp' -mtime +7 -print0 | xargs -0 rm -f",
+        "aceitas": [
+          "find /data -name \"*.tmp\" -mtime +7 -delete",
+          "find /data -name '*.tmp' -mtime +7 -exec rm -f {} +"
+        ],
+        "dica": "-print0 com xargs -0, ou -delete/-exec ... +.",
+        "explicacao": "Nomes com espaço exigem -print0 | xargs -0, ou o uso direto de -delete / -exec rm -f {} +."
+      },
+      {
+        "id": "bash-a-02",
+        "tipo": "multipla",
+        "pergunta": "Como capturar o exit code de um comando quando 'set -e' está ativo, sem abortar o script?",
+        "opcoes": [
+          "if ! saida=$(cmd); then rc=$?; fi",
+          "cmd; rc=$?  sempre funciona igual",
+          "set +e é obrigatório em todo script",
+          "Usar exit trap"
+        ],
+        "resposta": "if ! saida=$(cmd); then rc=$?; fi",
+        "dica": "Comandos dentro de if não disparam o errexit.",
+        "explicacao": "Sob 'set -e' o errexit é suprimido em condições de if/while e após && ou ||, permitindo tratar o erro."
+      },
+      {
+        "id": "bash-a-03",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva a declaração de um array associativo chamado CONFIG em Bash.",
+        "resposta": "declare -A CONFIG",
+        "aceitas": ["typeset -A CONFIG", "declare -A CONFIG=()"],
+        "dica": "A flag maiúscula indica associativo.",
+        "explicacao": "'declare -A' cria um hash map (Bash 4+); 'declare -a' cria um array indexado."
+      },
+      {
+        "id": "bash-a-04",
+        "tipo": "multipla",
+        "pergunta": "Qual construção lê a saída de um comando em um array preservando linhas?",
+        "opcoes": [
+          "mapfile -t linhas < <(comando)",
+          "linhas=($(comando))",
+          "read -a linhas <<< comando",
+          "IFS=$'\\n' linhas=comando"
+        ],
+        "resposta": "mapfile -t linhas < <(comando)",
+        "dica": "Existe um builtin dedicado a ler linhas em array.",
+        "explicacao": "'mapfile -t arr < <(cmd)' (ou readarray) evita word splitting e globbing que ocorrem em arr=($(cmd))."
+      },
+      {
+        "id": "bash-a-05",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que executa health.sh com timeout de 30 segundos.",
+        "resposta": "timeout 30 ./health.sh",
+        "aceitas": ["timeout 30s ./health.sh", "timeout --signal=TERM 30 ./health.sh"],
+        "dica": "Existe um utilitário coreutils com esse nome.",
+        "explicacao": "'timeout DURACAO COMANDO' encerra o processo e retorna 124 quando o tempo estoura — útil em health checks de pipeline."
+      },
+      {
+        "id": "bash-a-06",
+        "tipo": "multipla",
+        "pergunta": "O que faz 'exec 3< arquivo' em um script?",
+        "opcoes": [
+          "Abre o arquivo no descritor 3 para leitura",
+          "Executa o arquivo em background",
+          "Copia o arquivo para o descritor 3",
+          "Redireciona stderr para o arquivo"
+        ],
+        "resposta": "Abre o arquivo no descritor 3 para leitura",
+        "dica": "3 é um file descriptor personalizado.",
+        "explicacao": "'exec 3< arquivo' abre um descritor persistente; leia com 'read -u 3' e feche com 'exec 3<&-'."
+      },
+      {
+        "id": "bash-a-07",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que cria um diretório temporário seguro e guarda o caminho na variável TMPDIR.",
+        "resposta": "TMPDIR=$(mktemp -d)",
+        "aceitas": ["TMPDIR=\"$(mktemp -d)\"", "TMPDIR=$(mktemp -d -t app.XXXXXX)"],
+        "dica": "Nunca use /tmp/nome-fixo em script de produção.",
+        "explicacao": "'mktemp -d' cria um diretório com nome único e permissões restritas, evitando ataques de symlink em /tmp."
+      },
+      {
+        "id": "bash-a-08",
+        "tipo": "multipla",
+        "pergunta": "Qual técnica evita que duas execuções do mesmo cron script rodem em paralelo?",
+        "opcoes": [
+          "flock em um arquivo de lock",
+          "sleep aleatório no início",
+          "Checar 'ps aux | grep script'",
+          "Definir set -e"
+        ],
+        "resposta": "flock em um arquivo de lock",
+        "dica": "É um lock de arquivo atômico do kernel.",
+        "explicacao": "'flock -n /var/lock/job.lock comando' garante exclusão mútua atômica; grep em ps é sujeito a corrida."
+      },
+      {
+        "id": "bash-a-09",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando awk que imprime a segunda coluna de um arquivo separado por dois-pontos chamado /etc/passwd.",
+        "resposta": "awk -F: '{print $2}' /etc/passwd",
+        "aceitas": ["awk -F ':' '{print $2}' /etc/passwd", "awk -F\":\" '{print $2}' /etc/passwd"],
+        "dica": "-F define o separador de campos.",
+        "explicacao": "awk -F: define ':' como delimitador e $2 referencia o segundo campo de cada registro."
+      },
+      {
+        "id": "bash-a-10",
+        "tipo": "multipla",
+        "pergunta": "Como processar itens em paralelo limitando a 4 execuções simultâneas?",
+        "opcoes": [
+          "xargs -P 4 -n 1",
+          "for ... & sem controle",
+          "nohup em cada item",
+          "bash -x script"
+        ],
+        "resposta": "xargs -P 4 -n 1",
+        "dica": "xargs tem uma flag de paralelismo.",
+        "explicacao": "'xargs -P N -n 1 comando' executa até N processos simultâneos; GNU parallel é a alternativa mais rica."
+      },
+      {
+        "id": "bash-a-11",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva a substituição que troca todas as ocorrências de 'dev' por 'prod' na variável URL.",
+        "resposta": "${URL//dev/prod}",
+        "aceitas": ["\"${URL//dev/prod}\""],
+        "dica": "Uma barra troca a primeira ocorrência; duas trocam todas.",
+        "explicacao": "${VAR/padrao/novo} substitui a primeira ocorrência e ${VAR//padrao/novo} substitui todas, sem chamar sed."
+      },
+      {
+        "id": "bash-a-12",
+        "tipo": "multipla",
+        "pergunta": "Qual ferramenta faz análise estática de scripts shell em pipelines de CI?",
+        "opcoes": ["shellcheck", "shfmt --lint-all", "bashdb", "checkbash"],
+        "resposta": "shellcheck",
+        "dica": "O nome combina shell e verificação.",
+        "explicacao": "ShellCheck aponta quoting incorreto, variáveis não usadas e armadilhas comuns; shfmt cuida da formatação."
+      }
+    ]
+  }
+}
