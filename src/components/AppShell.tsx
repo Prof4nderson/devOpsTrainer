@@ -26,7 +26,8 @@ export function AppShell({ titulo, nome, xp, isProfessor, onSair, children }: Pr
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   const itens = [
-    { to: "/painel", label: "Treinar", icon: LayoutDashboard },
+    { to: "/painel", label: "Avaliar", icon: LayoutDashboard },
+    { to: "/terminal", label: "Treinamento", icon: Terminal },
     { to: "/progresso", label: "Minha evolução", icon: Trophy },
     ...(isProfessor ? [{ to: "/professor", label: "Base do professor", icon: BookOpen }] : []),
   ];

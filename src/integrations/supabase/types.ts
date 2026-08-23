@@ -154,6 +154,42 @@ export type Database = {
         }
         Relationships: []
       }
+      terminal_stats: {
+        Row: {
+          badges: string[]
+          comandos_erro: number
+          comandos_ok: number
+          melhor_combo: number
+          streak_dias: number
+          ultima_pratica: string | null
+          updated_at: string
+          user_id: string
+          xp: number
+        }
+        Insert: {
+          badges?: string[]
+          comandos_erro?: number
+          comandos_ok?: number
+          melhor_combo?: number
+          streak_dias?: number
+          ultima_pratica?: string | null
+          updated_at?: string
+          user_id: string
+          xp?: number
+        }
+        Update: {
+          badges?: string[]
+          comandos_erro?: number
+          comandos_ok?: number
+          melhor_combo?: number
+          streak_dias?: number
+          ultima_pratica?: string | null
+          updated_at?: string
+          user_id?: string
+          xp?: number
+        }
+        Relationships: []
+      }
       training_sessions: {
         Row: {
           challenge_ids: Json
@@ -222,6 +258,15 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      terminal_ranking: {
+        Args: never
+        Returns: {
+          badges: string[]
+          melhor_combo: number
+          nome: string
+          xp: number
+        }[]
       }
     }
     Enums: {
