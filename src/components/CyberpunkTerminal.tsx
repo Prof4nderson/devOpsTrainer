@@ -53,7 +53,7 @@ const ESTADO_INICIAL: Estado = {
 
 const BOAS_VINDAS: Linha[] = [
   { tipo: "sistema", texto: "CYBER-LAB v5.0 — ambiente de treino DevOps conectado." },
-  { tipo: "sistema", texto: "Cada comando vale XP. Erros valem explicação. Digite 'help' ou 'missoes'." },
+  { tipo: "sistema", texto: "Digite aqui os comando das missões abaixo. Digite 'help' ou 'missoes'." },
 ];
 
 const hoje = () => new Date().toISOString().slice(0, 10);
@@ -332,7 +332,7 @@ export function CyberpunkTerminal({ user }: { user: User }) {
   return (
     <div className="space-y-6">
       {/* HUD */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
         <div className="card !p-4">
           <div className="flex items-center gap-2 text-xs txt-dim mb-1">
             <Award className="w-4 h-4 neon" /> Patente
@@ -341,7 +341,7 @@ export function CyberpunkTerminal({ user }: { user: User }) {
           <div className="progress-track mt-3">
             <div className="progress-fill" style={{ width: `${progresso}%` }} />
           </div>
-          <p className="text-[11px] txt-faint mt-1.5">
+          <p className="text-[15px] txt-faint mt-1.5">
             {proxima ? `${proxima.xpMinimo - estado.xp} XP para ${proxima.nome}` : "Patente máxima alcançada"}
           </p>
         </div>
@@ -351,7 +351,7 @@ export function CyberpunkTerminal({ user }: { user: User }) {
             <Zap className="w-4 h-4 neon-amber" /> XP total
           </div>
           <p className="text-2xl font-bold neon-amber">{estado.xp}</p>
-          <p className="text-[11px] txt-faint mt-1">+{xpSessao} nesta sessão</p>
+          <p className="text-[15px] txt-faint mt-1">+{xpSessao} nesta sessão</p>
           {ganhoFlash !== null && (
             <span className="absolute right-3 top-3 badge-neon pulse-neon">+{ganhoFlash} XP</span>
           )}
@@ -362,7 +362,7 @@ export function CyberpunkTerminal({ user }: { user: User }) {
             <Flame className="w-4 h-4 neon" /> Combo
           </div>
           <p className="text-2xl font-bold neon">x{combo}</p>
-          <p className="text-[11px] txt-faint mt-1">recorde x{estado.melhorCombo}</p>
+          <p className="text-[15px] txt-faint mt-1">recorde x{estado.melhorCombo}</p>
         </div>
 
         <div className="card !p-4">
@@ -375,7 +375,7 @@ export function CyberpunkTerminal({ user }: { user: User }) {
               : 0}
             %
           </p>
-          <p className="text-[11px] txt-faint mt-1">
+          <p className="text-[15px] txt-faint mt-1">
             {estado.comandosOk} acertos · {estado.comandosErro} falhas · {estado.streakDias}d de ofensiva
           </p>
         </div>
@@ -389,7 +389,7 @@ export function CyberpunkTerminal({ user }: { user: User }) {
               <span className="w-2.5 h-2.5 rounded-full bg-[var(--neon-4)]" />
               <span className="w-2.5 h-2.5 rounded-full bg-[var(--neon-2)]" />
               <span className="w-2.5 h-2.5 rounded-full bg-[var(--neon)]" />
-              <span className="ml-2 text-xs font-semibold tracking-wide txt-dim">
+              <span className="ml-2 x2:text-xs font-semibold tracking-wide txt-dim">
                 devops@cyber-lab: ~/app
               </span>
             </div>
@@ -401,7 +401,7 @@ export function CyberpunkTerminal({ user }: { user: User }) {
           </div>
 
           <div
-            className="flex-1 min-h-[420px] max-h-[520px] overflow-y-auto p-4 space-y-1.5 font-mono text-[12.5px] leading-relaxed cursor-text"
+            className="flex-1 min-h-[420px] max-h-[520px] overflow-y-auto p-4 space-y-1.5 font-mono text-[18.5px] leading-relaxed cursor-text"
             onClick={() => campo.current?.focus()}
           >
             {linhas.map((linha, i) => (
@@ -442,7 +442,7 @@ export function CyberpunkTerminal({ user }: { user: User }) {
               placeholder="docker run -d -p 80:80 nginx:alpine"
               spellCheck={false}
               autoComplete="off"
-              className="flex-1 bg-transparent outline-none font-mono text-[13px] text-[var(--neon-2)] placeholder:text-[var(--txt-faint)]"
+              className="flex-1 bg-transparent outline-none font-mono text-[18px] text-[var(--neon-2)] placeholder:text-[var(--txt-faint)]"
             />
             <button type="submit" className="btn-primary !py-1.5 !px-3 !text-xs">
               Executar <ChevronRight className="w-3.5 h-3.5" />

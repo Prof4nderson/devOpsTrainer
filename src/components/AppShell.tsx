@@ -26,8 +26,8 @@ export function AppShell({ titulo, nome, xp, isProfessor, onSair, children }: Pr
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   const itens = [
-    { to: "/terminal", label: "Treinamento", icon: Terminal },
-    { to: "/painel", label: "DevOps Arena", icon: LayoutDashboard },
+    { to: "/painel", label: "Treinar", icon: LayoutDashboard },
+    { to: "/terminal", label: "arena", icon: Terminal },
     { to: "/progresso", label: "Minha evolução", icon: Trophy },
     ...(isProfessor ? [{ to: "/professor", label: "Base do professor", icon: BookOpen }] : []),
   ];
@@ -36,11 +36,11 @@ export function AppShell({ titulo, nome, xp, isProfessor, onSair, children }: Pr
     <div className="min-h-screen flex flex-col md:flex-row relative z-10">
       <div className="md:hidden flex items-center justify-between p-4 glass-bar border-b divider z-50">
         <div className="flex items-center gap-2">
-          <Terminal className="w-6 h-6 neon" />
-          <span className="font-bold title-glow">DevOps Trainer</span>
+          <span className="display text-lg">LABS<span className="neon">.</span></span>
+          <span className="kicker-dim">Trainer</span>
         </div>
         <button onClick={() => setAberto(!aberto)} className="icon-btn" aria-label="Menu">
-          {aberto ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {aberto ? <X className="w-6 h-5" /> : <Menu className="w-6 h-5" />}
         </button>
       </div>
 
@@ -51,8 +51,9 @@ export function AppShell({ titulo, nome, xp, isProfessor, onSair, children }: Pr
       >
         <div>
           <div className="hidden md:flex p-4 border-b divider items-center gap-2">
-            <Terminal className="w-6 h-6 neon pulse-neon" />
-            <span className="font-bold title-glow">DevOps Trainer</span>
+            <Terminal className="w-5 h-3 neon pulse-neon" />
+            <span className="display text-lg">LABS<span className="neon">.</span></span>
+            <span className="kicker-dim">Trainer</span>
           </div>
 
           <nav className="p-3 space-y-1.5 mt-14 md:mt-0">
@@ -66,7 +67,7 @@ export function AppShell({ titulo, nome, xp, isProfessor, onSair, children }: Pr
                   onClick={() => setAberto(false)}
                   className={`nav-item ${ativo ? "nav-item-active" : ""}`}
                 >
-                  <Icon className="w-4 h-4" />
+                  <Icon className="w-4 h-3" />
                   {item.label}
                 </Link>
               );
@@ -107,7 +108,10 @@ export function AppShell({ titulo, nome, xp, isProfessor, onSair, children }: Pr
       <div className="flex-1 overflow-x-hidden min-w-0">
         <header className="p-4 md:p-6 border-b divider glass-bar">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-            <h1 className="text-xl md:text-2xl font-bold title-glow">{titulo}</h1>
+            <div>
+              <p className="kicker mb-1">Learning Labs</p>
+              <h1 className="display text-2xl md:text-3xl">{titulo}</h1>
+            </div>
             <span className="text-xs md:text-sm txt-dim">
               {new Date().toLocaleDateString("pt-BR", {
                 weekday: "long",
@@ -118,6 +122,19 @@ export function AppShell({ titulo, nome, xp, isProfessor, onSair, children }: Pr
             </span>
           </div>
         </header>
+        <div className="ticker">
+          <div className="ticker-track">
+            {Array.from({ length: 2 }).map((_, i) => (
+              <span key={i} className="inline-flex gap-12">
+                <span>432 desafios</span>
+                <span className="neon">CHAME SEUS COLEGAS</span>
+                <span>APRENDA SE DIVERTINDO</span>
+                <span className="neon-amber">sala de chat ao vivo</span>
+                <span>bash · powershell · docker · kubernetes</span>
+              </span>
+            ))}
+          </div>
+        </div>
         <main className="p-4 md:p-6">{children}</main>
       </div>
     </div>

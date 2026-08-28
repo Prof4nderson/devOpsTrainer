@@ -9,55 +9,85 @@
         "id": "dk-f-01",
         "tipo": "multipla",
         "pergunta": "Qual instrução define a imagem base de um Dockerfile?",
-        "opcoes": ["FROM", "BASE", "IMAGE", "SOURCE"],
+        "opcoes": [
+          "FROM",
+          "BASE",
+          "IMAGE",
+          "SOURCE"
+        ],
         "resposta": "FROM",
         "dica": "É sempre a primeira instrução útil do arquivo.",
-        "explicacao": "'FROM imagem:tag' define a camada base. Um Dockerfile pode ter vários FROM em builds multi-stage."
+        "explicacao": "'FROM imagem:tag' define a camada base. Um Dockerfile pode ter vários FROM em builds multi-stage.",
+        "topico": "dockerfile-instrucoes"
       },
       {
         "id": "dk-f-02",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando que constrói uma imagem chamada api com a tag 1.0 a partir do diretório atual.",
         "resposta": "docker build -t api:1.0 .",
-        "aceitas": ["docker build --tag api:1.0 .", "docker image build -t api:1.0 ."],
+        "aceitas": [
+          "docker build --tag api:1.0 .",
+          "docker image build -t api:1.0 ."
+        ],
         "dica": "Não esqueça o contexto de build no final.",
-        "explicacao": "'docker build -t nome:tag .' usa o diretório atual como contexto e o Dockerfile padrão."
+        "explicacao": "'docker build -t nome:tag .' usa o diretório atual como contexto e o Dockerfile padrão.",
+        "topico": "imagens-camadas"
       },
       {
         "id": "dk-f-03",
         "tipo": "multipla",
         "pergunta": "Qual instrução define o comando padrão executado quando o container inicia?",
-        "opcoes": ["CMD", "RUN", "EXEC", "START"],
+        "opcoes": [
+          "CMD",
+          "RUN",
+          "EXEC",
+          "START"
+        ],
         "resposta": "CMD",
         "dica": "RUN roda durante o build.",
-        "explicacao": "'RUN' executa no build gerando camada; 'CMD' define o comando padrão em runtime, substituível na linha de comando."
+        "explicacao": "'RUN' executa no build gerando camada; 'CMD' define o comando padrão em runtime, substituível na linha de comando.",
+        "topico": "dockerfile-instrucoes"
       },
       {
         "id": "dk-f-04",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando que lista somente os containers em execução.",
         "resposta": "docker ps",
-        "aceitas": ["docker container ls", "docker ps -a --filter status=running"],
+        "aceitas": [
+          "docker container ls",
+          "docker ps -a --filter status=running"
+        ],
         "dica": "Sem flags ele já mostra apenas os ativos.",
-        "explicacao": "'docker ps' lista containers em execução; adicione -a para incluir os parados."
+        "explicacao": "'docker ps' lista containers em execução; adicione -a para incluir os parados.",
+        "topico": "troubleshooting"
       },
       {
         "id": "dk-f-05",
         "tipo": "multipla",
         "pergunta": "Qual instrução copia arquivos do contexto de build para dentro da imagem?",
-        "opcoes": ["COPY", "MOVE", "PUT", "IMPORT"],
+        "opcoes": [
+          "COPY",
+          "MOVE",
+          "PUT",
+          "IMPORT"
+        ],
         "resposta": "COPY",
         "dica": "ADD faz mais coisas do que o necessário.",
-        "explicacao": "'COPY origem destino' é a forma recomendada; 'ADD' também extrai tar e baixa URLs, o que costuma ser indesejado."
+        "explicacao": "'COPY origem destino' é a forma recomendada; 'ADD' também extrai tar e baixa URLs, o que costuma ser indesejado.",
+        "topico": "dockerfile-instrucoes"
       },
       {
         "id": "dk-f-06",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando que executa um container nginx em segundo plano publicando a porta 8080 do host na 80 do container.",
         "resposta": "docker run -d -p 8080:80 nginx",
-        "aceitas": ["docker run -d -p 8080:80 nginx:latest", "docker run --detach -p 8080:80 nginx"],
+        "aceitas": [
+          "docker run -d -p 8080:80 nginx:latest",
+          "docker run --detach -p 8080:80 nginx"
+        ],
         "dica": "A ordem do mapeamento é host:container.",
-        "explicacao": "'-d' roda em background e '-p host:container' publica a porta. Inverter a ordem expõe a porta errada."
+        "explicacao": "'-d' roda em background e '-p host:container' publica a porta. Inverter a ordem expõe a porta errada.",
+        "topico": "redes"
       },
       {
         "id": "dk-f-07",
@@ -71,34 +101,50 @@
         ],
         "resposta": "Excluir arquivos do contexto enviado ao build",
         "dica": "Pense em node_modules e .git.",
-        "explicacao": ".dockerignore reduz o contexto enviado ao daemon, acelerando o build e evitando vazar segredos na imagem."
+        "explicacao": ".dockerignore reduz o contexto enviado ao daemon, acelerando o build e evitando vazar segredos na imagem.",
+        "topico": "build-cache"
       },
       {
         "id": "dk-f-08",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando que mostra os logs do container chamado api em modo contínuo.",
         "resposta": "docker logs -f api",
-        "aceitas": ["docker logs --follow api", "docker container logs -f api"],
+        "aceitas": [
+          "docker logs --follow api",
+          "docker container logs -f api"
+        ],
         "dica": "A flag lembra o 'tail -f'.",
-        "explicacao": "'docker logs -f nome' acompanha a saída em tempo real; use --tail 100 para limitar o histórico."
+        "explicacao": "'docker logs -f nome' acompanha a saída em tempo real; use --tail 100 para limitar o histórico.",
+        "topico": "logs"
       },
       {
         "id": "dk-f-09",
         "tipo": "multipla",
         "pergunta": "Qual instrução define o diretório de trabalho dentro da imagem?",
-        "opcoes": ["WORKDIR", "CD", "DIR", "PATH"],
+        "opcoes": [
+          "WORKDIR",
+          "CD",
+          "DIR",
+          "PATH"
+        ],
         "resposta": "WORKDIR",
         "dica": "É uma instrução, não um comando de shell.",
-        "explicacao": "'WORKDIR /app' cria e entra no diretório para as instruções seguintes; usar 'RUN cd' não persiste entre camadas."
+        "explicacao": "'WORKDIR /app' cria e entra no diretório para as instruções seguintes; usar 'RUN cd' não persiste entre camadas.",
+        "topico": "dockerfile-instrucoes"
       },
       {
         "id": "dk-f-10",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando que abre um shell interativo bash dentro do container api em execução.",
         "resposta": "docker exec -it api bash",
-        "aceitas": ["docker exec -it api /bin/bash", "docker exec -i -t api bash", "docker exec -it api sh"],
+        "aceitas": [
+          "docker exec -it api /bin/bash",
+          "docker exec -i -t api bash",
+          "docker exec -it api sh"
+        ],
         "dica": "Duas flags: interativo e tty.",
-        "explicacao": "'docker exec -it container comando' entra em um container já rodando; 'docker run' criaria um novo."
+        "explicacao": "'docker exec -it container comando' entra em um container já rodando; 'docker run' criaria um novo.",
+        "topico": "troubleshooting"
       },
       {
         "id": "dk-f-11",
@@ -112,16 +158,346 @@
         ],
         "resposta": "Imagem é o modelo imutável; container é a instância em execução",
         "dica": "Compare com classe e objeto.",
-        "explicacao": "A imagem é um conjunto de camadas somente leitura; o container adiciona uma camada gravável e um processo."
+        "explicacao": "A imagem é um conjunto de camadas somente leitura; o container adiciona uma camada gravável e um processo.",
+        "topico": "imagens-camadas"
       },
       {
         "id": "dk-f-12",
         "tipo": "sintaxe",
         "pergunta": "Escreva a chave do docker-compose.yml que define a versão da sintaxe usada em arquivos legados (versão 3.8).",
         "resposta": "version: \"3.8\"",
-        "aceitas": ["version: '3.8'", "version: 3.8"],
+        "aceitas": [
+          "version: '3.8'",
+          "version: 3.8"
+        ],
         "dica": "Chave no nível raiz do arquivo.",
-        "explicacao": "Em arquivos antigos 'version: \"3.8\"' define o schema. O Compose V2 tornou a chave opcional e obsoleta."
+        "explicacao": "Em arquivos antigos 'version: \"3.8\"' define o schema. O Compose V2 tornou a chave opcional e obsoleta.",
+        "topico": "docker-compose"
+      },
+      {
+        "id": "dk-f-13",
+        "tipo": "multipla",
+        "topico": "imagens-camadas",
+        "pergunta": "O que acontece com as alterações feitas dentro de um container quando ele é removido?",
+        "opcoes": [
+          "São perdidas, a menos que estejam em um volume",
+          "Voltam automaticamente para a imagem",
+          "São salvas no registry",
+          "Ficam guardadas no host indefinidamente"
+        ],
+        "resposta": "São perdidas, a menos que estejam em um volume",
+        "dica": "A camada do container é efêmera.",
+        "explicacao": "A camada gravável do container é descartada ao removê-lo; dados importantes devem ficar em volumes."
+      },
+      {
+        "id": "dk-f-14",
+        "tipo": "sintaxe",
+        "topico": "imagens-camadas",
+        "pergunta": "Escreva o comando que lista todas as imagens Docker presentes na máquina.",
+        "resposta": "docker images",
+        "aceitas": [
+          "docker image ls"
+        ],
+        "dica": "É o comando mais direto para listar imagens.",
+        "explicacao": "'docker images' (ou 'docker image ls') mostra repositório, tag, id e tamanho de cada imagem local."
+      },
+      {
+        "id": "dk-f-15",
+        "tipo": "multipla",
+        "topico": "dockerfile-instrucoes",
+        "pergunta": "Qual instrução do Dockerfile executa um comando durante a construção da imagem, criando uma nova camada?",
+        "opcoes": [
+          "RUN",
+          "CMD",
+          "ENTRYPOINT",
+          "EXPOSE"
+        ],
+        "resposta": "RUN",
+        "dica": "É a instrução usada para instalar pacotes.",
+        "explicacao": "'RUN' executa comandos no momento do build e persiste o resultado como uma nova camada da imagem."
+      },
+      {
+        "id": "dk-f-16",
+        "tipo": "sintaxe",
+        "topico": "imagens-camadas",
+        "pergunta": "Escreva o comando que remove a imagem chamada api:1.0 do disco local.",
+        "resposta": "docker rmi api:1.0",
+        "aceitas": [
+          "docker image rm api:1.0"
+        ],
+        "dica": "O comando começa com 'docker rmi'.",
+        "explicacao": "'docker rmi' remove imagens locais; falha se algum container ainda referenciar a imagem, a menos que use -f."
+      },
+      {
+        "id": "dk-f-17",
+        "tipo": "multipla",
+        "topico": "troubleshooting",
+        "pergunta": "Qual comando remove um container parado chamado api?",
+        "opcoes": [
+          "docker rm api",
+          "docker stop api",
+          "docker kill api",
+          "docker delete api"
+        ],
+        "resposta": "docker rm api",
+        "dica": "Não confunda com stop, que apenas para.",
+        "explicacao": "'docker rm' apaga o container (precisa estar parado, ou use -f); 'docker stop' apenas encerra o processo."
+      },
+      {
+        "id": "dk-f-18",
+        "tipo": "sintaxe",
+        "topico": "troubleshooting",
+        "pergunta": "Escreva o comando que para o container chamado api de forma graciosa.",
+        "resposta": "docker stop api",
+        "aceitas": [
+          "docker container stop api"
+        ],
+        "dica": "Envia SIGTERM e depois SIGKILL.",
+        "explicacao": "'docker stop' envia SIGTERM, aguarda um timeout e força com SIGKILL caso o processo não termine sozinho."
+      },
+      {
+        "id": "dk-f-19",
+        "tipo": "multipla",
+        "topico": "volumes-bind-mounts",
+        "pergunta": "Qual comando cria um volume nomeado chamado dados_db?",
+        "opcoes": [
+          "docker volume create dados_db",
+          "docker create volume dados_db",
+          "docker mount dados_db",
+          "docker vol new dados_db"
+        ],
+        "resposta": "docker volume create dados_db",
+        "dica": "O subcomando é 'volume create'.",
+        "explicacao": "'docker volume create nome' cria um volume gerenciado pelo Docker que pode ser montado em qualquer container."
+      },
+      {
+        "id": "dk-f-20",
+        "tipo": "sintaxe",
+        "topico": "volumes-bind-mounts",
+        "pergunta": "Escreva o comando que roda um container postgres montando o volume dados_db em /var/lib/postgresql/data.",
+        "resposta": "docker run -d -v dados_db:/var/lib/postgresql/data postgres",
+        "aceitas": [
+          "docker run -d --mount source=dados_db,target=/var/lib/postgresql/data postgres"
+        ],
+        "dica": "A flag -v aceita nome-do-volume:caminho.",
+        "explicacao": "'-v volume:caminho' monta um volume nomeado; sem ele, os dados do banco seriam perdidos ao remover o container."
+      },
+      {
+        "id": "dk-f-21",
+        "tipo": "multipla",
+        "topico": "redes",
+        "pergunta": "Qual comando lista as redes Docker existentes na máquina?",
+        "opcoes": [
+          "docker network ls",
+          "docker network list-all",
+          "docker net ls",
+          "docker show networks"
+        ],
+        "resposta": "docker network ls",
+        "dica": "Segue o padrão 'docker <recurso> ls'.",
+        "explicacao": "'docker network ls' lista as redes, incluindo as padrões bridge, host e none."
+      },
+      {
+        "id": "dk-f-22",
+        "tipo": "sintaxe",
+        "topico": "dockerfile-instrucoes",
+        "pergunta": "Escreva a instrução do Dockerfile que instala o pacote curl em uma imagem baseada em Debian/Ubuntu.",
+        "resposta": "RUN apt-get update && apt-get install -y curl",
+        "aceitas": [
+          "RUN apt update && apt install -y curl"
+        ],
+        "dica": "É necessário atualizar o índice de pacotes antes de instalar.",
+        "explicacao": "'apt-get update' atualiza a lista de pacotes e '-y' evita confirmação interativa durante o build."
+      },
+      {
+        "id": "dk-f-23",
+        "tipo": "multipla",
+        "topico": "docker-compose",
+        "pergunta": "Em um arquivo docker-compose.yml, qual chave define quais imagens/contextos compõem cada serviço?",
+        "opcoes": [
+          "services",
+          "containers",
+          "apps",
+          "stacks"
+        ],
+        "resposta": "services",
+        "dica": "É a chave raiz mais usada no arquivo.",
+        "explicacao": "'services' é a seção principal do compose; cada chave dentro dela representa um container a ser criado."
+      },
+      {
+        "id": "dk-f-24",
+        "tipo": "sintaxe",
+        "topico": "docker-compose",
+        "pergunta": "Escreva o comando que exibe os logs de todos os serviços definidos no docker-compose.yml.",
+        "resposta": "docker compose logs",
+        "aceitas": [
+          "docker compose logs -f",
+          "docker-compose logs"
+        ],
+        "dica": "O subcomando é igual ao do docker normal.",
+        "explicacao": "'docker compose logs' agrega a saída de todos os serviços do arquivo compose atual."
+      },
+      {
+        "id": "dk-f-25",
+        "tipo": "multipla",
+        "topico": "tags-registries",
+        "pergunta": "O que representa a parte depois dos dois-pontos em 'nginx:1.25'?",
+        "opcoes": [
+          "A tag da imagem",
+          "O nome do registry",
+          "O nome do container",
+          "O protocolo de rede"
+        ],
+        "resposta": "A tag da imagem",
+        "dica": "É usada para versionar a imagem.",
+        "explicacao": "A tag identifica uma versão específica da imagem; sem tag, o Docker assume 'latest'."
+      },
+      {
+        "id": "dk-f-26",
+        "tipo": "sintaxe",
+        "topico": "tags-registries",
+        "pergunta": "Escreva o comando que baixa a imagem redis na tag 7-alpine do Docker Hub.",
+        "resposta": "docker pull redis:7-alpine",
+        "aceitas": [
+          "docker image pull redis:7-alpine"
+        ],
+        "dica": "O comando busca a imagem sem criar container.",
+        "explicacao": "'docker pull' baixa a imagem do registry configurado (Docker Hub por padrão) sem executar nenhum container."
+      },
+      {
+        "id": "dk-f-27",
+        "tipo": "multipla",
+        "topico": "logs",
+        "pergunta": "Para onde uma aplicação em container deve enviar seus logs, seguindo boas práticas?",
+        "opcoes": [
+          "stdout e stderr",
+          "Um arquivo dentro do container",
+          "Um banco de dados externo obrigatoriamente",
+          "Somente para syslog do host"
+        ],
+        "resposta": "stdout e stderr",
+        "dica": "O Docker já captura essas duas saídas nativamente.",
+        "explicacao": "Logar em stdout/stderr permite que 'docker logs' e drivers de log capturem tudo sem configuração extra na aplicação."
+      },
+      {
+        "id": "dk-f-28",
+        "tipo": "sintaxe",
+        "topico": "restart-policies",
+        "pergunta": "Escreva o comando que roda um container chamado api reiniciando sempre, mesmo após reboot do host.",
+        "resposta": "docker run -d --restart always --name api api:1.0",
+        "aceitas": [
+          "docker run -d --name api --restart=always api:1.0"
+        ],
+        "dica": "A política mais permissiva de reinício é 'always'.",
+        "explicacao": "'--restart always' garante que o container volte a subir mesmo depois do host reiniciar."
+      },
+      {
+        "id": "dk-f-29",
+        "tipo": "multipla",
+        "topico": "usuarios-nao-root",
+        "pergunta": "Por que evitar rodar containers como usuário root sempre que possível?",
+        "opcoes": [
+          "Reduz o impacto caso um invasor comprometa o processo",
+          "Deixa a imagem menor automaticamente",
+          "É exigido pelo Docker Hub",
+          "Acelera o tempo de build"
+        ],
+        "resposta": "Reduz o impacto caso um invasor comprometa o processo",
+        "dica": "Pense em princípio do menor privilégio.",
+        "explicacao": "Um processo comprometido rodando como root tem muito mais poder dentro (e às vezes fora) do container do que um usuário limitado."
+      },
+      {
+        "id": "dk-f-30",
+        "tipo": "sintaxe",
+        "topico": "imagens-camadas",
+        "pergunta": "Escreva o comando que mostra detalhes completos (em JSON) do container chamado api.",
+        "resposta": "docker inspect api",
+        "aceitas": [
+          "docker container inspect api"
+        ],
+        "dica": "O comando retorna um JSON extenso.",
+        "explicacao": "'docker inspect' retorna configuração, estado, redes, montagens e muito mais sobre o container ou imagem informado."
+      },
+      {
+        "id": "dk-f-31",
+        "tipo": "multipla",
+        "topico": "dockerfile-instrucoes",
+        "pergunta": "Qual instrução adiciona metadados como autor ou versão à imagem?",
+        "opcoes": [
+          "LABEL",
+          "META",
+          "TAG",
+          "INFO"
+        ],
+        "resposta": "LABEL",
+        "dica": "Funciona como pares chave-valor.",
+        "explicacao": "'LABEL chave=valor' anexa metadados à imagem, úteis para organização e automações que leem 'docker inspect'."
+      },
+      {
+        "id": "dk-f-32",
+        "tipo": "sintaxe",
+        "topico": "limites-recursos",
+        "pergunta": "Escreva o comando que mostra em tempo real o uso de CPU e memória dos containers em execução.",
+        "resposta": "docker stats",
+        "aceitas": [
+          "docker container stats"
+        ],
+        "dica": "É parecido com o comando 'top' do Linux, mas para containers.",
+        "explicacao": "'docker stats' exibe uso de CPU, memória, rede e I/O de cada container em tempo real."
+      },
+      {
+        "id": "dk-f-33",
+        "tipo": "multipla",
+        "topico": "build-cache",
+        "pergunta": "O que a flag --no-cache do docker build faz?",
+        "opcoes": [
+          "Ignora todo o cache de camadas e reconstrói do zero",
+          "Apaga imagens antigas automaticamente",
+          "Desliga o daemon do Docker",
+          "Impede o uso de volumes"
+        ],
+        "resposta": "Ignora todo o cache de camadas e reconstrói do zero",
+        "dica": "Útil quando uma dependência externa mudou sem alterar o Dockerfile.",
+        "explicacao": "'--no-cache' força a reexecução de todas as instruções, útil para garantir dependências atualizadas."
+      },
+      {
+        "id": "dk-f-34",
+        "tipo": "sintaxe",
+        "topico": "troubleshooting",
+        "pergunta": "Escreva o comando que remove todos os containers parados, redes não usadas e imagens sem uso do sistema.",
+        "resposta": "docker system prune",
+        "aceitas": [
+          "docker system prune -a"
+        ],
+        "dica": "O comando pede confirmação antes de agir.",
+        "explicacao": "'docker system prune' limpa recursos não utilizados; '-a' também remove imagens não referenciadas por nenhum container."
+      },
+      {
+        "id": "dk-f-35",
+        "tipo": "multipla",
+        "topico": "volumes-bind-mounts",
+        "pergunta": "Qual a diferença entre um volume nomeado e um bind mount?",
+        "opcoes": [
+          "O volume é gerenciado pelo Docker; o bind mount aponta para um caminho específico do host",
+          "Não há diferença prática",
+          "Bind mount só funciona no Windows",
+          "Volume nomeado não pode ser reutilizado por outro container"
+        ],
+        "resposta": "O volume é gerenciado pelo Docker; o bind mount aponta para um caminho específico do host",
+        "dica": "Pense em quem controla o local de armazenamento.",
+        "explicacao": "Volumes ficam sob controle do Docker (em /var/lib/docker/volumes); bind mounts referenciam diretamente um path do host, útil em dev."
+      },
+      {
+        "id": "dk-f-36",
+        "tipo": "sintaxe",
+        "topico": "dockerfile-instrucoes",
+        "pergunta": "Escreva a instrução ENTRYPOINT em exec form que executa o binário /app/server.",
+        "resposta": "ENTRYPOINT [\"/app/server\"]",
+        "aceitas": [
+          "ENTRYPOINT [\"/app/server\"]"
+        ],
+        "dica": "Use colchetes e aspas duplas.",
+        "explicacao": "ENTRYPOINT define o processo fixo do container; CMD pode complementar como argumentos padrão que o usuário pode sobrescrever."
       }
     ],
     "intermediario": [
@@ -137,16 +513,20 @@
         ],
         "resposta": "Para aproveitar o cache de camadas quando só o código muda",
         "dica": "Pense em invalidação de cache por camada.",
-        "explicacao": "Cada instrução gera uma camada. Instalar dependências antes do COPY do código evita reinstalar a cada alteração."
+        "explicacao": "Cada instrução gera uma camada. Instalar dependências antes do COPY do código evita reinstalar a cada alteração.",
+        "topico": "build-cache"
       },
       {
         "id": "dk-i-02",
         "tipo": "sintaxe",
         "pergunta": "Escreva a instrução do Dockerfile que define a variável de ambiente NODE_ENV como production.",
         "resposta": "ENV NODE_ENV=production",
-        "aceitas": ["ENV NODE_ENV production"],
+        "aceitas": [
+          "ENV NODE_ENV production"
+        ],
         "dica": "A instrução tem três letras.",
-        "explicacao": "'ENV chave=valor' persiste a variável na imagem; 'ARG' existe apenas durante o build."
+        "explicacao": "'ENV chave=valor' persiste a variável na imagem; 'ARG' existe apenas durante o build.",
+        "topico": "variaveis-secrets"
       },
       {
         "id": "dk-i-03",
@@ -160,16 +540,21 @@
         ],
         "resposta": "ARG só existe durante o build; ENV persiste no container",
         "dica": "Um é build-time e o outro runtime.",
-        "explicacao": "ARG é build-time (visível no histórico da imagem, portanto não use para segredos); ENV fica disponível em runtime."
+        "explicacao": "ARG é build-time (visível no histórico da imagem, portanto não use para segredos); ENV fica disponível em runtime.",
+        "topico": "variaveis-secrets"
       },
       {
         "id": "dk-i-04",
         "tipo": "sintaxe",
         "pergunta": "Escreva a instrução que faz o container rodar com o usuário não-root chamado app.",
         "resposta": "USER app",
-        "aceitas": ["USER app:app", "USER 1000"],
+        "aceitas": [
+          "USER app:app",
+          "USER 1000"
+        ],
         "dica": "Uma instrução de quatro letras.",
-        "explicacao": "'USER app' troca o usuário das instruções seguintes e do runtime — prática essencial de segurança."
+        "explicacao": "'USER app' troca o usuário das instruções seguintes e do runtime — prática essencial de segurança.",
+        "topico": "usuarios-nao-root"
       },
       {
         "id": "dk-i-05",
@@ -183,34 +568,48 @@
         ],
         "resposta": "Vários FROM, copiando artefatos do estágio de build para uma imagem final enxuta",
         "dica": "COPY --from=builder é a peça-chave.",
-        "explicacao": "Multi-stage compila em um estágio pesado e copia só o binário/dist para uma base mínima, reduzindo tamanho e superfície de ataque."
+        "explicacao": "Multi-stage compila em um estágio pesado e copia só o binário/dist para uma base mínima, reduzindo tamanho e superfície de ataque.",
+        "topico": "multi-stage"
       },
       {
         "id": "dk-i-06",
         "tipo": "sintaxe",
         "pergunta": "Escreva a instrução que copia /app/dist do estágio chamado builder para /usr/share/nginx/html.",
         "resposta": "COPY --from=builder /app/dist /usr/share/nginx/html",
-        "aceitas": ["COPY --from=builder /app/dist/ /usr/share/nginx/html/"],
+        "aceitas": [
+          "COPY --from=builder /app/dist/ /usr/share/nginx/html/"
+        ],
         "dica": "COPY aceita uma flag apontando o estágio de origem.",
-        "explicacao": "'COPY --from=<estagio>' traz artefatos de outro estágio sem carregar as ferramentas de build para a imagem final."
+        "explicacao": "'COPY --from=<estagio>' traz artefatos de outro estágio sem carregar as ferramentas de build para a imagem final.",
+        "topico": "multi-stage"
       },
       {
         "id": "dk-i-07",
         "tipo": "multipla",
         "pergunta": "No compose, qual chave garante que o dado de um banco sobreviva à recriação do container?",
-        "opcoes": ["volumes", "ports", "networks", "restart"],
+        "opcoes": [
+          "volumes",
+          "ports",
+          "networks",
+          "restart"
+        ],
         "resposta": "volumes",
         "dica": "Persistência de dados.",
-        "explicacao": "Volumes nomeados são gerenciados pelo Docker e persistem independentemente do ciclo de vida do container."
+        "explicacao": "Volumes nomeados são gerenciados pelo Docker e persistem independentemente do ciclo de vida do container.",
+        "topico": "volumes-bind-mounts"
       },
       {
         "id": "dk-i-08",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando que sobe todos os serviços do compose em segundo plano.",
         "resposta": "docker compose up -d",
-        "aceitas": ["docker-compose up -d", "docker compose up --detach"],
+        "aceitas": [
+          "docker-compose up -d",
+          "docker compose up --detach"
+        ],
         "dica": "Compose V2 é um subcomando do docker.",
-        "explicacao": "'docker compose up -d' cria redes, volumes e containers em background; use --build para reconstruir imagens."
+        "explicacao": "'docker compose up -d' cria redes, volumes e containers em background; use --build para reconstruir imagens.",
+        "topico": "docker-compose"
       },
       {
         "id": "dk-i-09",
@@ -224,16 +623,20 @@
         ],
         "resposta": "Pelo hostname db, resolvido pelo DNS interno",
         "dica": "O nome do serviço vira nome de host.",
-        "explicacao": "O Docker fornece DNS embutido: o nome do serviço resolve para o container na mesma rede, sem publicar portas."
+        "explicacao": "O Docker fornece DNS embutido: o nome do serviço resolve para o container na mesma rede, sem publicar portas.",
+        "topico": "redes"
       },
       {
         "id": "dk-i-10",
         "tipo": "sintaxe",
         "pergunta": "Escreva a chave do compose que reinicia o serviço automaticamente, exceto quando parado manualmente.",
         "resposta": "restart: unless-stopped",
-        "aceitas": ["restart: always"],
+        "aceitas": [
+          "restart: always"
+        ],
         "dica": "Existe uma política com 'unless'.",
-        "explicacao": "'unless-stopped' reinicia sempre, menos quando o operador parou o container de propósito; 'always' ignora essa exceção."
+        "explicacao": "'unless-stopped' reinicia sempre, menos quando o operador parou o container de propósito; 'always' ignora essa exceção.",
+        "topico": "restart-policies"
       },
       {
         "id": "dk-i-11",
@@ -247,16 +650,344 @@
         ],
         "resposta": "docker compose down -v",
         "dica": "A flag remove os volumes.",
-        "explicacao": "'docker compose down -v' derruba o stack e apaga volumes declarados — cuidado, os dados são perdidos."
+        "explicacao": "'docker compose down -v' derruba o stack e apaga volumes declarados — cuidado, os dados são perdidos.",
+        "topico": "docker-compose"
       },
       {
         "id": "dk-i-12",
         "tipo": "sintaxe",
         "pergunta": "Escreva a instrução do Dockerfile que declara a porta 3000 usada pela aplicação.",
         "resposta": "EXPOSE 3000",
-        "aceitas": ["EXPOSE 3000/tcp"],
+        "aceitas": [
+          "EXPOSE 3000/tcp"
+        ],
         "dica": "Instrução documental de porta.",
-        "explicacao": "'EXPOSE' apenas documenta a porta; a publicação real acontece com -p no run ou com a chave ports no compose."
+        "explicacao": "'EXPOSE' apenas documenta a porta; a publicação real acontece com -p no run ou com a chave ports no compose.",
+        "topico": "dockerfile-instrucoes"
+      },
+      {
+        "id": "dk-i-13",
+        "tipo": "multipla",
+        "topico": "build-cache",
+        "pergunta": "Qual estratégia acelera o build quando o Dockerfile roda 'npm ci' seguido de 'npm run build'?",
+        "opcoes": [
+          "Copiar package.json/package-lock.json antes do restante do código",
+          "Rodar npm run build antes do npm ci",
+          "Remover o cache do npm a cada build",
+          "Usar apenas a instrução ADD"
+        ],
+        "resposta": "Copiar package.json/package-lock.json antes do restante do código",
+        "dica": "Cache é reaproveitado enquanto o arquivo copiado não mudar.",
+        "explicacao": "Como o hash do arquivo copiado determina a validade do cache, isolar as dependências evita reinstalar tudo a cada mudança de código."
+      },
+      {
+        "id": "dk-i-14",
+        "tipo": "sintaxe",
+        "topico": "build-cache",
+        "pergunta": "Escreva o comando que builda a imagem usando um cache externo compartilhado do registry (BuildKit).",
+        "resposta": "docker build --cache-from registry.exemplo.com/api:cache -t api:1.0 .",
+        "aceitas": [
+          "docker buildx build --cache-from=type=registry,ref=registry.exemplo.com/api:cache -t api:1.0 --push ."
+        ],
+        "dica": "A flag chama-se --cache-from.",
+        "explicacao": "'--cache-from' reaproveita camadas de uma imagem publicada anteriormente, útil em CI onde cada execução é isolada."
+      },
+      {
+        "id": "dk-i-15",
+        "tipo": "multipla",
+        "topico": "multi-stage",
+        "pergunta": "Em um Dockerfile multi-stage, o que acontece com os estágios intermediários após o build terminar?",
+        "opcoes": [
+          "Não fazem parte da imagem final, a menos que algo seja copiado deles",
+          "São todos mesclados na imagem final",
+          "Ficam disponíveis como containers separados",
+          "São enviados ao registry automaticamente"
+        ],
+        "resposta": "Não fazem parte da imagem final, a menos que algo seja copiado deles",
+        "dica": "Só o último FROM (ou o alvo escolhido) vira a imagem resultante.",
+        "explicacao": "Estágios anteriores só contribuem via 'COPY --from'; o restante é descartado, mantendo a imagem final enxuta."
+      },
+      {
+        "id": "dk-i-16",
+        "tipo": "sintaxe",
+        "topico": "multi-stage",
+        "pergunta": "Escreva o comando que builda apenas até o estágio chamado test de um Dockerfile multi-stage.",
+        "resposta": "docker build --target test -t api:test .",
+        "aceitas": [
+          "docker build --target=test -t api:test ."
+        ],
+        "dica": "A flag chama-se --target.",
+        "explicacao": "'--target' permite parar o build em um estágio nomeado, útil para rodar testes sem gerar a imagem final."
+      },
+      {
+        "id": "dk-i-17",
+        "tipo": "multipla",
+        "topico": "volumes-bind-mounts",
+        "pergunta": "Qual chave do docker-compose monta o código local dentro do container em modo desenvolvimento?",
+        "opcoes": [
+          "volumes",
+          "networks",
+          "ports",
+          "environment"
+        ],
+        "resposta": "volumes",
+        "dica": "A mesma chave serve tanto para bind mount quanto volume nomeado.",
+        "explicacao": "'volumes: - ./src:/app/src' faz bind mount do host, permitindo hot reload sem reconstruir a imagem."
+      },
+      {
+        "id": "dk-i-18",
+        "tipo": "sintaxe",
+        "topico": "redes",
+        "pergunta": "Escreva o comando que conecta o container já em execução chamado worker à rede minha-rede.",
+        "resposta": "docker network connect minha-rede worker",
+        "aceitas": [
+          "docker network connect minha-rede worker"
+        ],
+        "dica": "O subcomando é 'network connect'.",
+        "explicacao": "'docker network connect rede container' adiciona uma interface extra ao container sem precisar recriá-lo."
+      },
+      {
+        "id": "dk-i-19",
+        "tipo": "multipla",
+        "topico": "redes",
+        "pergunta": "Qual driver de rede remove o isolamento e faz o container compartilhar a stack de rede do host?",
+        "opcoes": [
+          "host",
+          "bridge",
+          "overlay",
+          "none"
+        ],
+        "resposta": "host",
+        "dica": "Não há mapeamento de portas nesse driver.",
+        "explicacao": "O driver 'host' elimina o isolamento de rede, útil para performance, mas reduz a segurança e não permite -p."
+      },
+      {
+        "id": "dk-i-20",
+        "tipo": "sintaxe",
+        "topico": "docker-compose",
+        "pergunta": "Escreva a chave do compose que define uma variável de ambiente DATABASE_URL para o serviço api.",
+        "resposta": "environment:\n  DATABASE_URL: postgres://user:pass@db:5432/app",
+        "aceitas": [
+          "environment:\n  - DATABASE_URL=postgres://user:pass@db:5432/app"
+        ],
+        "dica": "Pode ser mapa ou lista no formato chave=valor.",
+        "explicacao": "'environment' injeta variáveis no container; alternativamente 'env_file' aponta para um arquivo .env."
+      },
+      {
+        "id": "dk-i-21",
+        "tipo": "multipla",
+        "topico": "docker-compose",
+        "pergunta": "Qual comando reconstrói as imagens dos serviços antes de subir o compose?",
+        "opcoes": [
+          "docker compose up -d --build",
+          "docker compose restart",
+          "docker compose rebuild",
+          "docker compose start --force"
+        ],
+        "resposta": "docker compose up -d --build",
+        "dica": "A flag força o build mesmo se já existir imagem.",
+        "explicacao": "'--build' garante que alterações no Dockerfile ou no contexto sejam refletidas antes de subir os containers."
+      },
+      {
+        "id": "dk-i-22",
+        "tipo": "sintaxe",
+        "topico": "variaveis-secrets",
+        "pergunta": "Escreva a instrução do Dockerfile que declara um argumento de build chamado VERSION com valor padrão 1.0.",
+        "resposta": "ARG VERSION=1.0",
+        "aceitas": [
+          "ARG VERSION=\"1.0\""
+        ],
+        "dica": "A instrução aceita um valor padrão opcional.",
+        "explicacao": "'ARG nome=padrao' define um argumento configurável via --build-arg, disponível só durante o build."
+      },
+      {
+        "id": "dk-i-23",
+        "tipo": "multipla",
+        "topico": "variaveis-secrets",
+        "pergunta": "Qual comando passa a variável de build VERSION=2.0 durante o docker build?",
+        "opcoes": [
+          "docker build --build-arg VERSION=2.0 -t api:2.0 .",
+          "docker build --env VERSION=2.0 -t api:2.0 .",
+          "docker build -v VERSION=2.0 -t api:2.0 .",
+          "docker build --arg VERSION=2.0 -t api:2.0 ."
+        ],
+        "resposta": "docker build --build-arg VERSION=2.0 -t api:2.0 .",
+        "dica": "A flag específica para ARG é --build-arg.",
+        "explicacao": "'--build-arg' sobrescreve o valor de um ARG declarado no Dockerfile no momento do build."
+      },
+      {
+        "id": "dk-i-24",
+        "tipo": "sintaxe",
+        "topico": "usuarios-nao-root",
+        "pergunta": "Escreva as instruções que criam um grupo e usuário chamados app e depois definem esse usuário como padrão.",
+        "resposta": "RUN addgroup -S app && adduser -S app -G app\nUSER app",
+        "aceitas": [
+          "RUN groupadd app && useradd -g app app\nUSER app"
+        ],
+        "dica": "Primeiro cria o grupo/usuário, depois usa USER.",
+        "explicacao": "Criar um usuário dedicado e trocar com USER evita rodar a aplicação com privilégios de root desnecessários."
+      },
+      {
+        "id": "dk-i-25",
+        "tipo": "multipla",
+        "topico": "healthcheck",
+        "pergunta": "O que o compose faz quando um serviço declara healthcheck e outro usa depends_on com condition: service_healthy?",
+        "opcoes": [
+          "Espera o primeiro serviço ficar 'healthy' antes de iniciar o segundo",
+          "Ignora o healthcheck e inicia tudo junto",
+          "Reinicia o segundo serviço a cada falha do primeiro",
+          "Bloqueia o build até o healthcheck passar"
+        ],
+        "resposta": "Espera o primeiro serviço ficar 'healthy' antes de iniciar o segundo",
+        "dica": "É uma forma de orquestrar ordem de inicialização real, não só de criação do container.",
+        "explicacao": "'condition: service_healthy' faz o Compose aguardar o resultado do HEALTHCHECK, evitando que a app suba antes do banco estar pronto."
+      },
+      {
+        "id": "dk-i-26",
+        "tipo": "sintaxe",
+        "topico": "limites-recursos",
+        "pergunta": "Escreva a chave do compose (formato deploy) que limita o serviço api a 0.5 CPU e 256M de memória.",
+        "resposta": "deploy:\n  resources:\n    limits:\n      cpus: '0.5'\n      memory: 256M",
+        "aceitas": [
+          "deploy:\n  resources:\n    limits:\n      cpus: \"0.5\"\n      memory: 256M"
+        ],
+        "dica": "A chave fica aninhada em deploy > resources > limits.",
+        "explicacao": "'deploy.resources.limits' define teto de CPU e memória; sem o Swarm, algumas ferramentas ignoram deploy, exigindo mem_limit/cpus no nível do serviço."
+      },
+      {
+        "id": "dk-i-27",
+        "tipo": "multipla",
+        "topico": "restart-policies",
+        "pergunta": "Qual política de restart reinicia o container apenas se ele sair com código de erro, até 5 tentativas?",
+        "opcoes": [
+          "on-failure:5",
+          "always:5",
+          "unless-stopped:5",
+          "retry:5"
+        ],
+        "resposta": "on-failure:5",
+        "dica": "O número vem depois de dois-pontos.",
+        "explicacao": "'--restart on-failure:5' limita as tentativas de reinício a 5 vezes, apenas quando o processo termina com erro."
+      },
+      {
+        "id": "dk-i-28",
+        "tipo": "sintaxe",
+        "topico": "logs",
+        "pergunta": "Escreva o comando que mostra apenas as últimas 50 linhas de log do container api.",
+        "resposta": "docker logs --tail 50 api",
+        "aceitas": [
+          "docker logs -n 50 api"
+        ],
+        "dica": "A flag limita o número de linhas mostradas.",
+        "explicacao": "'--tail N' evita despejar todo o histórico de logs, mostrando só as últimas N linhas."
+      },
+      {
+        "id": "dk-i-29",
+        "tipo": "multipla",
+        "topico": "tags-registries",
+        "pergunta": "O que é um digest de imagem (sha256:...)?",
+        "opcoes": [
+          "Um identificador imutável do conteúdo exato da imagem",
+          "Um apelido alternativo para a tag latest",
+          "O ID do container em execução",
+          "Uma assinatura exigida só em registries privados"
+        ],
+        "resposta": "Um identificador imutável do conteúdo exato da imagem",
+        "dica": "Diferente da tag, o digest não pode ser sobrescrito.",
+        "explicacao": "O digest é um hash do manifest da imagem; referenciar por digest garante que o mesmo conteúdo será usado sempre."
+      },
+      {
+        "id": "dk-i-30",
+        "tipo": "sintaxe",
+        "topico": "otimizacao-tamanho",
+        "pergunta": "Escreva a instrução Dockerfile que instala curl e já remove o cache do apt na mesma camada.",
+        "resposta": "RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*",
+        "aceitas": [
+          "RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*"
+        ],
+        "dica": "Combine tudo com && para ficar em uma única camada.",
+        "explicacao": "Fazer instalação e limpeza na mesma instrução RUN evita que o cache do apt fique preso em uma camada anterior, aumentando o tamanho final."
+      },
+      {
+        "id": "dk-i-31",
+        "tipo": "multipla",
+        "topico": "seguranca-scanning",
+        "pergunta": "Qual comando do Docker Compose oficial permite escanear a imagem local por vulnerabilidades usando Docker Scout?",
+        "opcoes": [
+          "docker scout cves api:1.0",
+          "docker compose scan",
+          "docker vuln check api:1.0",
+          "docker security scan api:1.0"
+        ],
+        "resposta": "docker scout cves api:1.0",
+        "dica": "O comando faz parte da CLI 'docker scout'.",
+        "explicacao": "'docker scout cves' analisa a imagem e lista as vulnerabilidades conhecidas encontradas nas dependências."
+      },
+      {
+        "id": "dk-i-32",
+        "tipo": "sintaxe",
+        "topico": "buildx-multi-arch",
+        "pergunta": "Escreva o comando que lista os builders disponíveis do buildx.",
+        "resposta": "docker buildx ls",
+        "aceitas": [
+          "docker buildx list"
+        ],
+        "dica": "Segue o padrão 'docker buildx <subcomando>'.",
+        "explicacao": "'docker buildx ls' mostra os builders configurados e as plataformas suportadas por cada um."
+      },
+      {
+        "id": "dk-i-33",
+        "tipo": "multipla",
+        "topico": "troubleshooting",
+        "pergunta": "Um container encerra imediatamente após iniciar (status Exited 0). Qual a causa mais provável?",
+        "opcoes": [
+          "O processo principal (PID 1) terminou porque não há mais trabalho a fazer",
+          "O host está sem memória",
+          "A imagem não existe",
+          "A rede bridge está desabilitada"
+        ],
+        "resposta": "O processo principal (PID 1) terminou porque não há mais trabalho a fazer",
+        "dica": "Containers vivem enquanto o processo principal roda.",
+        "explicacao": "O ciclo de vida do container é atrelado ao PID 1; se ele finaliza (mesmo com sucesso), o container é encerrado."
+      },
+      {
+        "id": "dk-i-34",
+        "tipo": "sintaxe",
+        "topico": "troubleshooting",
+        "pergunta": "Escreva o comando que mostra os eventos do daemon Docker em tempo real, útil para depuração.",
+        "resposta": "docker events",
+        "aceitas": [
+          "docker system events"
+        ],
+        "dica": "O comando fica escutando indefinidamente.",
+        "explicacao": "'docker events' transmite em tempo real ações como start, stop, die e health_status de containers e imagens."
+      },
+      {
+        "id": "dk-i-35",
+        "tipo": "multipla",
+        "topico": "imagens-camadas",
+        "pergunta": "Qual comando mostra o espaço em disco usado por imagens, containers e volumes?",
+        "opcoes": [
+          "docker system df",
+          "docker disk usage",
+          "docker df -h",
+          "docker stats --disk"
+        ],
+        "resposta": "docker system df",
+        "dica": "É parecido com o comando 'df' do Linux.",
+        "explicacao": "'docker system df' resume o espaço ocupado por imagens, containers, volumes e cache de build."
+      },
+      {
+        "id": "dk-i-36",
+        "tipo": "sintaxe",
+        "topico": "docker-compose",
+        "pergunta": "Escreva o comando que executa um comando único (ex.: migrações) dentro do serviço api do compose, sem afetar o container principal.",
+        "resposta": "docker compose run --rm api npm run migrate",
+        "aceitas": [
+          "docker compose run --rm api npm run migrate"
+        ],
+        "dica": "A flag --rm remove o container temporário depois da execução.",
+        "explicacao": "'docker compose run' cria um container avulso do serviço para tarefas pontuais, sem interferir no container principal em execução."
       }
     ],
     "avancado": [
@@ -270,7 +1001,8 @@
           "HEALTHCHECK --interval=30s --timeout=5s CMD curl -f http://localhost:3000/health || exit 1"
         ],
         "dica": "A instrução aceita opções e depois CMD.",
-        "explicacao": "HEALTHCHECK marca o container como healthy/unhealthy; orquestradores usam esse estado para reiniciar ou rotear tráfego."
+        "explicacao": "HEALTHCHECK marca o container como healthy/unhealthy; orquestradores usam esse estado para reiniciar ou rotear tráfego.",
+        "topico": "healthcheck"
       },
       {
         "id": "dk-a-02",
@@ -284,16 +1016,20 @@
         ],
         "resposta": "Para permitir shutdown gracioso antes do SIGKILL",
         "dica": "O docker stop tem um período de graça.",
-        "explicacao": "'docker stop' envia SIGTERM e mata com SIGKILL após o timeout; usar exec form no CMD faz o app ser PID 1 e receber o sinal."
+        "explicacao": "'docker stop' envia SIGTERM e mata com SIGKILL após o timeout; usar exec form no CMD faz o app ser PID 1 e receber o sinal.",
+        "topico": "troubleshooting"
       },
       {
         "id": "dk-a-03",
         "tipo": "sintaxe",
         "pergunta": "Escreva o CMD em exec form que executa node server.js.",
         "resposta": "CMD [\"node\", \"server.js\"]",
-        "aceitas": ["CMD [\"node\",\"server.js\"]"],
+        "aceitas": [
+          "CMD [\"node\",\"server.js\"]"
+        ],
         "dica": "Exec form usa notação JSON com aspas duplas.",
-        "explicacao": "A exec form não cria um shell intermediário, então o processo vira PID 1 e recebe os sinais diretamente."
+        "explicacao": "A exec form não cria um shell intermediário, então o processo vira PID 1 e recebe os sinais diretamente.",
+        "topico": "dockerfile-instrucoes"
       },
       {
         "id": "dk-a-04",
@@ -307,16 +1043,21 @@
         ],
         "resposta": "RUN --mount=type=secret,id=npmtoken com BuildKit",
         "dica": "BuildKit tem um tipo de mount específico.",
-        "explicacao": "Secrets do BuildKit são montados apenas durante aquele RUN e não ficam nas camadas nem no histórico da imagem."
+        "explicacao": "Secrets do BuildKit são montados apenas durante aquele RUN e não ficam nas camadas nem no histórico da imagem.",
+        "topico": "variaveis-secrets"
       },
       {
         "id": "dk-a-05",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando que inspeciona o histórico de camadas da imagem api:1.0.",
         "resposta": "docker history api:1.0",
-        "aceitas": ["docker image history api:1.0", "docker history --no-trunc api:1.0"],
+        "aceitas": [
+          "docker image history api:1.0",
+          "docker history --no-trunc api:1.0"
+        ],
         "dica": "O subcomando tem o nome de 'histórico'.",
-        "explicacao": "'docker history' mostra cada camada, seu tamanho e o comando que a criou — útil para caçar imagens infladas."
+        "explicacao": "'docker history' mostra cada camada, seu tamanho e o comando que a criou — útil para caçar imagens infladas.",
+        "topico": "otimizacao-tamanho"
       },
       {
         "id": "dk-a-06",
@@ -330,34 +1071,48 @@
         ],
         "resposta": "Não possui shell nem gerenciador de pacotes, reduzindo a superfície de ataque",
         "dica": "Se não há shell, não há como abrir um bash dentro.",
-        "explicacao": "Imagens mínimas contêm apenas o binário e suas libs; debugar exige containers efêmeros com 'docker debug' ou sidecars."
+        "explicacao": "Imagens mínimas contêm apenas o binário e suas libs; debugar exige containers efêmeros com 'docker debug' ou sidecars.",
+        "topico": "otimizacao-tamanho"
       },
       {
         "id": "dk-a-07",
         "tipo": "sintaxe",
         "pergunta": "Escreva a chave do compose que só inicia a api depois do db estar saudável (linha principal).",
         "resposta": "depends_on:",
-        "aceitas": ["depends_on:\n  db:\n    condition: service_healthy"],
+        "aceitas": [
+          "depends_on:\n  db:\n    condition: service_healthy"
+        ],
         "dica": "A condição usada é service_healthy.",
-        "explicacao": "'depends_on: db: condition: service_healthy' aguarda o healthcheck do banco; o depends_on simples só espera o start."
+        "explicacao": "'depends_on: db: condition: service_healthy' aguarda o healthcheck do banco; o depends_on simples só espera o start.",
+        "topico": "docker-compose"
       },
       {
         "id": "dk-a-08",
         "tipo": "multipla",
         "pergunta": "Qual ferramenta escaneia vulnerabilidades em imagens dentro do pipeline?",
-        "opcoes": ["Trivy", "Portainer", "Watchtower", "Dive"],
+        "opcoes": [
+          "Trivy",
+          "Portainer",
+          "Watchtower",
+          "Dive"
+        ],
         "resposta": "Trivy",
         "dica": "Dive analisa camadas, não CVEs.",
-        "explicacao": "Trivy (ou Grype / docker scout) escaneia CVEs de pacotes; Dive analisa desperdício de espaço nas camadas."
+        "explicacao": "Trivy (ou Grype / docker scout) escaneia CVEs de pacotes; Dive analisa desperdício de espaço nas camadas.",
+        "topico": "seguranca-scanning"
       },
       {
         "id": "dk-a-09",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando que limita o container api a 512 MB de memória ao rodar.",
         "resposta": "docker run -m 512m api",
-        "aceitas": ["docker run --memory=512m api", "docker run -m 512M api"],
+        "aceitas": [
+          "docker run --memory=512m api",
+          "docker run -m 512M api"
+        ],
         "dica": "A flag curta é -m.",
-        "explicacao": "'--memory' (ou -m) aplica um cgroup limit; sem limites um container pode derrubar o host inteiro."
+        "explicacao": "'--memory' (ou -m) aplica um cgroup limit; sem limites um container pode derrubar o host inteiro.",
+        "topico": "limites-recursos"
       },
       {
         "id": "dk-a-10",
@@ -371,16 +1126,20 @@
         ],
         "resposta": "Ela é mutável e quebra a reprodutibilidade dos deploys",
         "dica": "Pense em 'funciona na minha máquina'.",
-        "explicacao": "'latest' aponta para conteúdos diferentes ao longo do tempo; use tags imutáveis ou digest sha256 para deploy previsível."
+        "explicacao": "'latest' aponta para conteúdos diferentes ao longo do tempo; use tags imutáveis ou digest sha256 para deploy previsível.",
+        "topico": "tags-registries"
       },
       {
         "id": "dk-a-11",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando que constrói a imagem para as plataformas amd64 e arm64 com buildx.",
         "resposta": "docker buildx build --platform linux/amd64,linux/arm64 -t api:1.0 .",
-        "aceitas": ["docker buildx build --platform=linux/amd64,linux/arm64 -t api:1.0 ."],
+        "aceitas": [
+          "docker buildx build --platform=linux/amd64,linux/arm64 -t api:1.0 ."
+        ],
         "dica": "O subcomando é buildx e a flag é --platform.",
-        "explicacao": "buildx cria manifests multi-arquitetura; acrescente --push para publicar as duas variantes no registry."
+        "explicacao": "buildx cria manifests multi-arquitetura; acrescente --push para publicar as duas variantes no registry.",
+        "topico": "buildx-multi-arch"
       },
       {
         "id": "dk-a-12",
@@ -394,8 +1153,551 @@
         ],
         "resposta": "Rodar sem privilégios, com read_only e cap_drop: ALL",
         "dica": "Menos capacidades, menos risco.",
-        "explicacao": "Descartar capabilities, usar filesystem read-only e não montar o docker.sock são práticas básicas de hardening."
+        "explicacao": "Descartar capabilities, usar filesystem read-only e não montar o docker.sock são práticas básicas de hardening.",
+        "topico": "seguranca-scanning"
+      },
+      {
+        "id": "dk-a-13",
+        "tipo": "multipla",
+        "topico": "healthcheck",
+        "pergunta": "Qual comando lista o status de saúde atual (healthy/unhealthy) do container api?",
+        "opcoes": [
+          "docker inspect --format '{{.State.Health.Status}}' api",
+          "docker health api",
+          "docker ps --health api",
+          "docker status api"
+        ],
+        "resposta": "docker inspect --format '{{.State.Health.Status}}' api",
+        "dica": "A informação vem de dentro do JSON de inspect.",
+        "explicacao": "'docker inspect' com um template Go extrai apenas o campo de status de saúde, útil em scripts de automação."
+      },
+      {
+        "id": "dk-a-14",
+        "tipo": "sintaxe",
+        "topico": "limites-recursos",
+        "pergunta": "Escreva o comando que limita o container api a usar no máximo o núcleo de CPU 0 e 1 (cpuset).",
+        "resposta": "docker run -d --cpuset-cpus=\"0,1\" api",
+        "aceitas": [
+          "docker run -d --cpuset-cpus=0,1 api"
+        ],
+        "dica": "A flag é --cpuset-cpus.",
+        "explicacao": "'--cpuset-cpus' fixa o container a núcleos específicos, útil para isolamento em cargas sensíveis a latência."
+      },
+      {
+        "id": "dk-a-15",
+        "tipo": "multipla",
+        "topico": "seguranca-scanning",
+        "pergunta": "Qual flag do docker run remove todas as capabilities do Linux do container, deixando-o adicionar só as necessárias?",
+        "opcoes": [
+          "--cap-drop=ALL",
+          "--no-privileges",
+          "--security=strict",
+          "--isolate"
+        ],
+        "resposta": "--cap-drop=ALL",
+        "dica": "Depois pode-se usar --cap-add para liberar pontualmente.",
+        "explicacao": "'--cap-drop=ALL' remove todas as capabilities do kernel; combine com '--cap-add' apenas para as estritamente necessárias."
+      },
+      {
+        "id": "dk-a-16",
+        "tipo": "sintaxe",
+        "topico": "seguranca-scanning",
+        "pergunta": "Escreva o comando que roda o container api com sistema de arquivos raiz somente leitura.",
+        "resposta": "docker run -d --read-only api",
+        "aceitas": [
+          "docker run -d --read-only --tmpfs /tmp api"
+        ],
+        "dica": "A flag é --read-only.",
+        "explicacao": "'--read-only' impede escrita na maior parte do filesystem; use --tmpfs para diretórios que realmente precisam ser graváveis."
+      },
+      {
+        "id": "dk-a-17",
+        "tipo": "multipla",
+        "topico": "otimizacao-tamanho",
+        "pergunta": "Qual das opções mais reduz o tamanho final de uma imagem Go compilada estaticamente?",
+        "opcoes": [
+          "Usar multi-stage e copiar o binário para uma imagem scratch",
+          "Trocar RUN por ADD em todo o Dockerfile",
+          "Aumentar o número de camadas COPY",
+          "Usar apenas a tag latest"
+        ],
+        "resposta": "Usar multi-stage e copiar o binário para uma imagem scratch",
+        "dica": "Binários estáticos não precisam de sistema operacional completo.",
+        "explicacao": "Uma imagem 'scratch' não tem SO algum; um binário Go estático roda sozinho nela, resultando em imagens de poucos MB."
+      },
+      {
+        "id": "dk-a-18",
+        "tipo": "sintaxe",
+        "topico": "otimizacao-tamanho",
+        "pergunta": "Escreva o comando que analisa as camadas da imagem api:1.0 com a ferramenta dive.",
+        "resposta": "dive api:1.0",
+        "aceitas": [
+          "dive image api:1.0"
+        ],
+        "dica": "O nome do binário é o próprio nome da ferramenta.",
+        "explicacao": "'dive' abre uma interface no terminal mostrando o conteúdo de cada camada e o desperdício de espaço."
+      },
+      {
+        "id": "dk-a-19",
+        "tipo": "multipla",
+        "topico": "buildx-multi-arch",
+        "pergunta": "O que é o QEMU no contexto de builds multi-arquitetura com buildx?",
+        "opcoes": [
+          "Um emulador que permite compilar para arquiteturas diferentes da máquina host",
+          "Um registry alternativo ao Docker Hub",
+          "Um driver de rede do buildx",
+          "Uma ferramenta de scanning de vulnerabilidades"
+        ],
+        "resposta": "Um emulador que permite compilar para arquiteturas diferentes da máquina host",
+        "dica": "Sem ele, buildar arm64 numa máquina amd64 não seria possível sem hardware nativo.",
+        "explicacao": "O QEMU emula instruções de outra CPU, permitindo ao buildx compilar imagens para arquiteturas que o host não possui nativamente."
+      },
+      {
+        "id": "dk-a-20",
+        "tipo": "sintaxe",
+        "topico": "buildx-multi-arch",
+        "pergunta": "Escreva o comando que registra os emuladores QEMU necessários para builds multi-arquitetura.",
+        "resposta": "docker run --privileged --rm tonistiigi/binfmt --install all",
+        "aceitas": [
+          "docker run --privileged --rm tonistiigi/binfmt --install all"
+        ],
+        "dica": "É um container auxiliar que registra os binfmt_misc handlers.",
+        "explicacao": "Esse container instala os handlers binfmt_misc no kernel do host, habilitando o buildx a emular outras arquiteturas."
+      },
+      {
+        "id": "dk-a-21",
+        "tipo": "multipla",
+        "topico": "variaveis-secrets",
+        "pergunta": "No docker compose, qual chave de nível superior permite declarar um secret vindo de um arquivo, sem colocá-lo em environment?",
+        "opcoes": [
+          "secrets",
+          "credentials",
+          "vault",
+          "private"
+        ],
+        "resposta": "secrets",
+        "dica": "É uma seção irmã de services e volumes.",
+        "explicacao": "A chave 'secrets' no compose monta arquivos sensíveis em /run/secrets/ dentro do container, evitando exposição em variáveis de ambiente."
+      },
+      {
+        "id": "dk-a-22",
+        "tipo": "sintaxe",
+        "topico": "variaveis-secrets",
+        "pergunta": "Escreva a definição de compose que declara um secret chamado db_password lido do arquivo ./db_password.txt.",
+        "resposta": "secrets:\n  db_password:\n    file: ./db_password.txt",
+        "aceitas": [
+          "secrets:\n  db_password:\n    file: ./db_password.txt"
+        ],
+        "dica": "A chave 'file' aponta para o caminho no host.",
+        "explicacao": "O compose monta o conteúdo do arquivo em /run/secrets/db_password dentro dos serviços que referenciarem esse secret."
+      },
+      {
+        "id": "dk-a-23",
+        "tipo": "multipla",
+        "topico": "redes",
+        "pergunta": "Qual driver de rede do Docker permite comunicação entre containers em hosts diferentes, usado em Swarm?",
+        "opcoes": [
+          "overlay",
+          "bridge",
+          "host",
+          "macvlan"
+        ],
+        "resposta": "overlay",
+        "dica": "É o driver padrão em clusters Swarm.",
+        "explicacao": "O driver overlay cria uma rede virtual distribuída entre múltiplos hosts Docker, essencial para orquestração multi-nó."
+      },
+      {
+        "id": "dk-a-24",
+        "tipo": "sintaxe",
+        "topico": "redes",
+        "pergunta": "Escreva o comando que cria uma rede overlay chamada rede-cluster, permitindo containers autônomos (attachable).",
+        "resposta": "docker network create --driver overlay --attachable rede-cluster",
+        "aceitas": [
+          "docker network create -d overlay --attachable rede-cluster"
+        ],
+        "dica": "Precisa de duas flags: driver e attachable.",
+        "explicacao": "'--attachable' permite que containers standalone (fora de serviços Swarm) também se conectem à rede overlay."
+      },
+      {
+        "id": "dk-a-25",
+        "tipo": "multipla",
+        "topico": "troubleshooting",
+        "pergunta": "Um container é morto com código de saída 137. O que isso normalmente indica?",
+        "opcoes": [
+          "Foi finalizado por OOM killer (falta de memória) ou SIGKILL",
+          "Terminou normalmente sem erros",
+          "O Dockerfile tem erro de sintaxe",
+          "A rede do container caiu"
+        ],
+        "resposta": "Foi finalizado por OOM killer (falta de memória) ou SIGKILL",
+        "dica": "137 = 128 + 9 (SIGKILL).",
+        "explicacao": "Código 137 corresponde a 128+9, indicando SIGKILL — frequentemente disparado pelo OOM killer quando o container excede o limite de memória."
+      },
+      {
+        "id": "dk-a-26",
+        "tipo": "sintaxe",
+        "topico": "troubleshooting",
+        "pergunta": "Escreva o comando que mostra a razão pela qual o container api foi finalizado, incluindo se houve OOM.",
+        "resposta": "docker inspect --format '{{.State.OOMKilled}} {{.State.ExitCode}}' api",
+        "aceitas": [
+          "docker inspect api | grep OOMKilled"
+        ],
+        "dica": "O campo OOMKilled é booleano dentro de State.",
+        "explicacao": "'State.OOMKilled' indica se o kernel matou o processo por falta de memória; combine com ExitCode para diagnóstico completo."
+      },
+      {
+        "id": "dk-a-27",
+        "tipo": "multipla",
+        "topico": "seguranca-scanning",
+        "pergunta": "Por que evitar montar /var/run/docker.sock dentro de um container comum?",
+        "opcoes": [
+          "Dá controle total do daemon Docker do host, permitindo escapar do isolamento",
+          "Deixa a imagem maior",
+          "Impede o uso de volumes nomeados",
+          "É necessário apenas para builds multi-stage"
+        ],
+        "resposta": "Dá controle total do daemon Docker do host, permitindo escapar do isolamento",
+        "dica": "Quem controla o socket controla todos os containers do host.",
+        "explicacao": "Acesso ao docker.sock equivale a root no host, pois permite criar containers privilegiados e montar qualquer caminho do sistema."
+      },
+      {
+        "id": "dk-a-28",
+        "tipo": "sintaxe",
+        "topico": "healthcheck",
+        "pergunta": "Escreva a instrução Dockerfile que desabilita explicitamente o healthcheck herdado da imagem base.",
+        "resposta": "HEALTHCHECK NONE",
+        "aceitas": [
+          "HEALTHCHECK NONE"
+        ],
+        "dica": "A palavra-chave é NONE, sem CMD.",
+        "explicacao": "'HEALTHCHECK NONE' remove qualquer verificação de saúde definida por uma imagem base, útil quando ela não se aplica ao seu caso."
+      },
+      {
+        "id": "dk-a-29",
+        "tipo": "multipla",
+        "topico": "docker-compose",
+        "pergunta": "Qual chave do compose permite definir múltiplos arquivos de configuração combinados (base + override)?",
+        "opcoes": [
+          "A flag -f repetida no comando docker compose",
+          "A chave 'extends' obrigatoriamente",
+          "A chave 'merge' no YAML",
+          "Não é possível combinar arquivos"
+        ],
+        "resposta": "A flag -f repetida no comando docker compose",
+        "dica": "Pense em 'docker compose -f base.yml -f prod.yml up'.",
+        "explicacao": "Repetir '-f arquivo' mescla configurações, permitindo um docker-compose.yml base e overrides por ambiente (dev, prod)."
+      },
+      {
+        "id": "dk-a-30",
+        "tipo": "sintaxe",
+        "topico": "docker-compose",
+        "pergunta": "Escreva o comando que sobe o compose combinando docker-compose.yml com docker-compose.prod.yml.",
+        "resposta": "docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d",
+        "aceitas": [
+          "docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d"
+        ],
+        "dica": "A flag -f é repetida na ordem de precedência.",
+        "explicacao": "Arquivos posteriores sobrescrevem/mesclam chaves dos anteriores, permitindo customizar por ambiente sem duplicar tudo."
+      },
+      {
+        "id": "dk-a-31",
+        "tipo": "multipla",
+        "topico": "tags-registries",
+        "pergunta": "Qual prática melhora a rastreabilidade de deploys ao referenciar imagens em produção?",
+        "opcoes": [
+          "Fixar a imagem pelo digest sha256 além da tag",
+          "Sempre usar latest para simplificar",
+          "Nunca versionar imagens",
+          "Usar apenas o nome do repositório sem tag"
+        ],
+        "resposta": "Fixar a imagem pelo digest sha256 além da tag",
+        "dica": "Tags podem ser sobrescritas; digests não.",
+        "explicacao": "Referenciar 'imagem@sha256:...' garante que o exato conteúdo implantado seja sempre o mesmo, mesmo se a tag for atualizada depois."
+      },
+      {
+        "id": "dk-a-32",
+        "tipo": "sintaxe",
+        "topico": "tags-registries",
+        "pergunta": "Escreva o comando que descobre o digest sha256 da imagem local api:1.0.",
+        "resposta": "docker inspect --format='{{index .RepoDigests 0}}' api:1.0",
+        "aceitas": [
+          "docker images --digests api"
+        ],
+        "dica": "O campo se chama RepoDigests.",
+        "explicacao": "'RepoDigests' guarda o digest resolvido quando a imagem foi puxada de um registry, permitindo fixar deploys com precisão."
+      },
+      {
+        "id": "dk-a-33",
+        "tipo": "multipla",
+        "topico": "multi-stage",
+        "pergunta": "Em um Dockerfile multi-stage para uma SPA React, qual costuma ser a imagem final ideal?",
+        "opcoes": [
+          "Uma imagem leve de servidor web como nginx:alpine servindo os arquivos estáticos",
+          "A mesma imagem node usada para o build",
+          "Uma imagem ubuntu completa",
+          "Uma imagem scratch sem nenhum processo"
+        ],
+        "resposta": "Uma imagem leve de servidor web como nginx:alpine servindo os arquivos estáticos",
+        "dica": "O resultado do build de uma SPA são arquivos estáticos (HTML/JS/CSS).",
+        "explicacao": "Depois do 'npm run build', basta copiar o diretório dist para um servidor estático como nginx, descartando node e node_modules na imagem final."
+      },
+      {
+        "id": "dk-a-34",
+        "tipo": "sintaxe",
+        "topico": "multi-stage",
+        "pergunta": "Escreva o Dockerfile multi-stage completo para uma SPA: build com node:20 e serve com nginx:alpine.",
+        "resposta": "FROM node:20 AS builder\nWORKDIR /app\nCOPY . .\nRUN npm ci && npm run build\n\nFROM nginx:alpine\nCOPY --from=builder /app/dist /usr/share/nginx/html",
+        "aceitas": [
+          "FROM node:20 AS build\nWORKDIR /app\nCOPY . .\nRUN npm ci && npm run build\n\nFROM nginx:alpine\nCOPY --from=build /app/dist /usr/share/nginx/html"
+        ],
+        "dica": "Dois estágios: um builder e um nginx final.",
+        "explicacao": "O primeiro estágio compila os assets; o segundo, muito mais leve, apenas os serve via nginx, sem ferramentas de build na imagem final."
+      },
+      {
+        "id": "dk-a-35",
+        "tipo": "multipla",
+        "topico": "limites-recursos",
+        "pergunta": "O que ocorre quando um container ultrapassa o limite de memória definido com --memory?",
+        "opcoes": [
+          "O kernel pode finalizar o processo (OOM kill) dentro do container",
+          "O Docker aumenta o limite automaticamente",
+          "O container é pausado indefinidamente",
+          "Nada acontece, o limite é apenas informativo"
+        ],
+        "resposta": "O kernel pode finalizar o processo (OOM kill) dentro do container",
+        "dica": "O limite é um cgroup rígido de memória.",
+        "explicacao": "Ao atingir o teto de memória, o cgroup aciona o OOM killer, que finaliza processos dentro do container para liberar memória."
+      },
+      {
+        "id": "dk-a-36",
+        "tipo": "sintaxe",
+        "topico": "limites-recursos",
+        "pergunta": "Escreva o comando que define memória reservada (soft limit) de 256m e limite rígido de 512m para o container api.",
+        "resposta": "docker run -d --memory-reservation=256m --memory=512m api",
+        "aceitas": [
+          "docker run -d --memory-reservation 256m --memory 512m api"
+        ],
+        "dica": "Duas flags distintas: reservation (soft) e memory (hard).",
+        "explicacao": "'--memory-reservation' é um alvo flexível usado sob pressão de memória do host; '--memory' é o teto absoluto que dispara o OOM killer."
       }
     ]
-  }
+  },
+  "teorias": [
+    {
+      "id": "imagens-camadas",
+      "titulo": "Imagens e camadas",
+      "resumo": "Uma imagem Docker é um conjunto de camadas somente leitura empilhadas, geradas por cada instrução do Dockerfile.",
+      "pontos": [
+        "Cada instrução (FROM, RUN, COPY...) cria uma nova camada imutável.",
+        "Camadas são cacheadas e reutilizadas entre builds quando não mudam.",
+        "O container adiciona uma camada gravável fina sobre a imagem.",
+        "Imagens são identificadas por nome:tag ou por digest sha256 (imutável)."
+      ],
+      "exemplo": "FROM node:20-alpine\nWORKDIR /app\nCOPY package.json .\nRUN npm install\nCOPY . .\nCMD [\"node\", \"index.js\"]"
+    },
+    {
+      "id": "dockerfile-instrucoes",
+      "titulo": "Instruções do Dockerfile",
+      "resumo": "O Dockerfile descreve, instrução a instrução, como construir uma imagem a partir de uma base.",
+      "pontos": [
+        "FROM define a base; WORKDIR define o diretório de trabalho.",
+        "RUN executa comandos no build; CMD/ENTRYPOINT definem o processo padrão.",
+        "COPY/ADD trazem arquivos para dentro da imagem; EXPOSE documenta portas.",
+        "Prefira a forma exec (JSON array) em CMD/ENTRYPOINT para receber sinais corretamente."
+      ],
+      "exemplo": "FROM python:3.12-slim\nWORKDIR /app\nCOPY requirements.txt .\nRUN pip install -r requirements.txt\nCOPY . .\nEXPOSE 8000\nENTRYPOINT [\"python\", \"app.py\"]"
+    },
+    {
+      "id": "build-cache",
+      "titulo": "Cache de build",
+      "resumo": "O Docker reaproveita camadas já construídas quando a instrução e seu contexto não mudaram, acelerando builds.",
+      "pontos": [
+        "Ordene instruções das que mudam menos para as que mudam mais.",
+        "Copiar arquivos de dependências (package.json) antes do código evita reinstalar libs.",
+        "O .dockerignore reduz o contexto enviado e evita invalidar cache à toa.",
+        "'docker build --no-cache' força reconstrução total quando necessário."
+      ],
+      "exemplo": "FROM node:20-alpine\nWORKDIR /app\nCOPY package*.json ./\nRUN npm ci\nCOPY . .\nRUN npm run build"
+    },
+    {
+      "id": "multi-stage",
+      "titulo": "Multi-stage builds",
+      "resumo": "Builds com múltiplos estágios FROM permitem compilar em uma imagem pesada e copiar só o necessário para a final.",
+      "pontos": [
+        "Cada estágio pode ter um apelido com 'FROM imagem AS nome'.",
+        "COPY --from=estagio traz artefatos sem herdar ferramentas de build.",
+        "Reduz drasticamente o tamanho e a superfície de ataque da imagem final.",
+        "Pode ter estágios intermediários apenas para testes ou lint."
+      ],
+      "exemplo": "FROM golang:1.22 AS builder\nWORKDIR /src\nCOPY . .\nRUN go build -o app .\n\nFROM scratch\nCOPY --from=builder /src/app /app\nENTRYPOINT [\"/app\"]"
+    },
+    {
+      "id": "tags-registries",
+      "titulo": "Tags e registries",
+      "resumo": "Tags identificam versões de uma imagem; registries armazenam e distribuem imagens.",
+      "pontos": [
+        "Evite 'latest' em produção: prefira tags semânticas ou digest imutável.",
+        "'docker tag' cria um novo apelido para a mesma imagem local.",
+        "'docker push'/'docker pull' enviam e baixam imagens de um registry.",
+        "Registries privados exigem 'docker login' antes do push."
+      ],
+      "exemplo": "docker build -t registry.exemplo.com/api:1.4.0 .\ndocker push registry.exemplo.com/api:1.4.0"
+    },
+    {
+      "id": "volumes-bind-mounts",
+      "titulo": "Volumes e bind mounts",
+      "resumo": "Volumes e bind mounts persistem e compartilham dados entre o host e os containers.",
+      "pontos": [
+        "Volumes nomeados são gerenciados pelo Docker e sobrevivem à recriação do container.",
+        "Bind mounts apontam para um caminho específico do host, úteis em desenvolvimento.",
+        "tmpfs mounts guardam dados só em memória, sem persistir em disco.",
+        "'docker volume ls'/'docker volume rm' gerenciam volumes nomeados."
+      ],
+      "exemplo": "docker run -d -v dados_db:/var/lib/postgresql/data postgres:16\ndocker run -d -v $(pwd)/src:/app/src api:dev"
+    },
+    {
+      "id": "redes",
+      "titulo": "Redes no Docker",
+      "resumo": "Redes conectam containers entre si e ao mundo externo, com DNS interno resolvendo nomes de serviço.",
+      "pontos": [
+        "O driver bridge é o padrão para comunicação entre containers na mesma rede.",
+        "Containers na mesma rede se enxergam pelo nome, sem precisar publicar porta.",
+        "O driver host remove o isolamento de rede, compartilhando a stack do host.",
+        "'docker network create' cria redes customizadas isolando grupos de serviços."
+      ],
+      "exemplo": "docker network create minha-rede\ndocker run -d --network minha-rede --name db postgres:16\ndocker run -d --network minha-rede --name api api:1.0"
+    },
+    {
+      "id": "docker-compose",
+      "titulo": "Docker Compose",
+      "resumo": "O Compose orquestra múltiplos containers definidos em um arquivo YAML declarativo.",
+      "pontos": [
+        "Cada chave em 'services' vira um container com sua própria configuração.",
+        "'depends_on' com 'condition: service_healthy' aguarda o serviço ficar saudável.",
+        "'docker compose up -d' sobe tudo; 'down -v' remove containers, redes e volumes.",
+        "Volumes e redes declarados no compose são compartilhados entre os serviços."
+      ],
+      "exemplo": "services:\n  api:\n    build: .\n    ports:\n      - \"3000:3000\"\n    depends_on:\n      - db\n  db:\n    image: postgres:16\n    volumes:\n      - dados_db:/var/lib/postgresql/data\nvolumes:\n  dados_db:"
+    },
+    {
+      "id": "variaveis-secrets",
+      "titulo": "Variáveis de ambiente e secrets",
+      "resumo": "Configurações e segredos devem ser injetados em runtime, nunca gravados nas camadas da imagem.",
+      "pontos": [
+        "ENV persiste na imagem e no container; ARG só existe durante o build.",
+        "Nunca use ARG/ENV para senhas: ficam visíveis no histórico da imagem.",
+        "Secrets do BuildKit (--mount=type=secret) ou do compose evitam vazamento.",
+        "Arquivos .env facilitam passar variáveis ao 'docker compose up'."
+      ],
+      "exemplo": "RUN --mount=type=secret,id=npm_token \\\n  NPM_TOKEN=$(cat /run/secrets/npm_token) npm install"
+    },
+    {
+      "id": "healthcheck",
+      "titulo": "Healthcheck",
+      "resumo": "HEALTHCHECK define um comando periódico que reporta se o container está saudável.",
+      "pontos": [
+        "O estado pode ser starting, healthy ou unhealthy.",
+        "Orquestradores usam esse status para reiniciar ou rotear tráfego.",
+        "Parâmetros --interval, --timeout, --retries ajustam a verificação.",
+        "'docker inspect' mostra o histórico dos últimos checks executados."
+      ],
+      "exemplo": "HEALTHCHECK --interval=30s --timeout=5s --retries=3 \\\n  CMD curl -f http://localhost:3000/health || exit 1"
+    },
+    {
+      "id": "logs",
+      "titulo": "Logs de containers",
+      "resumo": "O Docker captura stdout/stderr do processo principal e os expõe via drivers de log.",
+      "pontos": [
+        "'docker logs -f' acompanha a saída em tempo real, como um tail -f.",
+        "O driver padrão json-file grava logs em disco no host.",
+        "Em produção, drivers como json-file com rotação ou syslog evitam disco cheio.",
+        "Aplicações em container devem logar em stdout/stderr, nunca em arquivos internos."
+      ],
+      "exemplo": "docker run -d --log-opt max-size=10m --log-opt max-file=3 api:1.0"
+    },
+    {
+      "id": "restart-policies",
+      "titulo": "Restart policies",
+      "resumo": "Políticas de reinício definem o comportamento do Docker quando um container falha ou o host reinicia.",
+      "pontos": [
+        "'no' é o padrão: nunca reinicia automaticamente.",
+        "'on-failure[:N]' reinicia apenas em caso de saída com erro, até N vezes.",
+        "'always' sempre reinicia, inclusive após reboot do host.",
+        "'unless-stopped' reinicia sempre, exceto quando parado manualmente."
+      ],
+      "exemplo": "docker run -d --restart unless-stopped api:1.0"
+    },
+    {
+      "id": "limites-recursos",
+      "titulo": "Limites de CPU e memória",
+      "resumo": "Cgroups permitem limitar quanto CPU e memória um container pode consumir do host.",
+      "pontos": [
+        "'-m'/'--memory' define o limite máximo de memória do container.",
+        "'--cpus' limita quantos núcleos lógicos o container pode usar.",
+        "Sem limites, um container problemático pode afetar todo o host.",
+        "No compose, os limites ficam em 'deploy.resources.limits'."
+      ],
+      "exemplo": "docker run -d --memory=512m --cpus=1.5 api:1.0"
+    },
+    {
+      "id": "usuarios-nao-root",
+      "titulo": "Usuários não-root",
+      "resumo": "Rodar processos como usuário não privilegiado reduz o impacto de uma eventual invasão.",
+      "pontos": [
+        "USER no Dockerfile troca o usuário das instruções seguintes e do runtime.",
+        "Muitas imagens oficiais já trazem um usuário 'node', 'app' etc. pronto.",
+        "Combine com permissões corretas nos arquivos copiados (chown).",
+        "'--user' no docker run também sobrescreve o usuário em tempo de execução."
+      ],
+      "exemplo": "RUN addgroup -S app && adduser -S app -G app\nUSER app\nCMD [\"node\", \"server.js\"]"
+    },
+    {
+      "id": "seguranca-scanning",
+      "titulo": "Segurança e scanning de imagens",
+      "resumo": "Imagens devem ser escaneadas por vulnerabilidades e configuradas com o mínimo de privilégios possível.",
+      "pontos": [
+        "Ferramentas como Trivy, Grype e Docker Scout detectam CVEs em pacotes.",
+        "Evite --privileged e o montar de /var/run/docker.sock sem necessidade.",
+        "cap_drop: ALL e read_only reduzem a superfície de ataque do container.",
+        "Prefira imagens base mínimas (alpine, distroless) para menos pacotes vulneráveis."
+      ],
+      "exemplo": "trivy image api:1.0\n\n# no compose\nservices:\n  api:\n    read_only: true\n    cap_drop:\n      - ALL"
+    },
+    {
+      "id": "buildx-multi-arch",
+      "titulo": "Buildx e multi-arquitetura",
+      "resumo": "O buildx estende o build do Docker para gerar imagens de múltiplas arquiteturas com um único comando.",
+      "pontos": [
+        "'--platform' aceita várias arquiteturas separadas por vírgula.",
+        "Um manifest list agrupa as variantes; o Docker baixa a correta automaticamente.",
+        "'--push' é necessário para publicar builds multi-arquitetura, pois não cabem no daemon local.",
+        "É essencial para suportar servidores ARM e Macs com Apple Silicon."
+      ],
+      "exemplo": "docker buildx create --use\ndocker buildx build --platform linux/amd64,linux/arm64 \\\n  -t registry.exemplo.com/api:1.0 --push ."
+    },
+    {
+      "id": "otimizacao-tamanho",
+      "titulo": "Otimização de tamanho de imagem",
+      "resumo": "Imagens menores buildam, transferem e iniciam mais rápido, além de reduzirem a superfície de ataque.",
+      "pontos": [
+        "Prefira bases alpine/slim/distroless em vez de imagens completas.",
+        "Combine comandos RUN e limpe caches de pacotes na mesma camada.",
+        "Use multi-stage para não levar ferramentas de build para a imagem final.",
+        "'docker history' e ferramentas como 'dive' ajudam a achar camadas infladas."
+      ],
+      "exemplo": "RUN apt-get update && apt-get install -y curl \\\n  && rm -rf /var/lib/apt/lists/*"
+    },
+    {
+      "id": "troubleshooting",
+      "titulo": "Troubleshooting de containers",
+      "resumo": "Diagnosticar problemas envolve inspecionar logs, processos, eventos e a configuração do container.",
+      "pontos": [
+        "'docker logs' e 'docker inspect' são o primeiro passo para entender uma falha.",
+        "'docker exec -it' permite investigar o sistema de arquivos e processos vivos.",
+        "'docker events' mostra em tempo real o que o daemon está fazendo.",
+        "Código de saída 137 costuma indicar OOM kill; 143 indica SIGTERM recebido."
+      ],
+      "exemplo": "docker inspect --format '{{.State.ExitCode}}' api\ndocker exec -it api ps aux"
+    }
+  ]
 }

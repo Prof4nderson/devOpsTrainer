@@ -1,12 +1,12 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Terminal, LogIn, UserPlus, Rocket, Shield, Trophy, Loader2, Cpu } from "lucide-react";
+import { Terminal, LogIn, UserPlus, Loader2, Cpu } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "DevOps Trainer — Aprendizado gamificado de Bash, PowerShell e Docker" },
+      { title: "DevOps Trainer — Treino gamificado de Bash, PowerShell e Docker" },
       {
         name: "description",
         content:
@@ -85,48 +85,48 @@ function Entrada() {
     <div className="min-h-screen relative z-10 flex items-center justify-center p-4">
       <div className="w-full max-w-5xl grid lg:grid-cols-2 gap-10 items-center">
         <section className="hidden lg:block">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl glass mb-6">
-            <Terminal className="w-8 h-8 neon pulse-neon" />
+          <div className="flex items-center gap-3 mb-4">
+            <span className="display text-7xl">
+              LABS<span className="neon">.</span>
+            </span>
+            <span className="kicker-dim">Dev · AI · DevOps</span>
           </div>
-          <h1 className="text-4xl font-bold title-glow leading-tight">
-            Qual o seu nível de conhecimento na cultura <span className="neon">DevOps?</span>
+
+          <p className="kicker mb-4">01 / Learning Labs</p>
+          <h1 className="display text-4xl xl:text-4xl">
+            Quem é ninja na TI?
+            <br />
+            <span className="neon">Prove em 108 </span>  desafios.
           </h1>
-          <p className="txt-dim mt-4 max-w-md">
-            Faça o treinamento e teste seus conhecimentos em bash shell, power shell, docker e kubernetes em nosso simulador.
+          <p className="txt-dim mt-5 max-w-md x5:text-sm leading-relaxed">
+            Os devOps são os caras que estão sempre apagando incêndio, que resolvem os BOs, que conectam o mundo da infra aos devs e usuários. 
           </p>
-          <ul className="mt-8 space-y-4">
-            <li className="flex gap-3 items-start">
-              <Rocket className="w-5 h-5 neon shrink-0 mt-0.5" />
-              <span className="text-sm txt-dim">
-                <strong className="text-[color:var(--txt)]">10 desafios por nível</strong>, sorteados
-                do banco de questões da linguagem escolhida.
-              </span>
-            </li>
-            <li className="flex gap-3 items-start">
-              <Shield className="w-5 h-5 neon-violet shrink-0 mt-0.5" />
-              <span className="text-sm txt-dim">
-                <strong className="text-[color:var(--txt)]">Agente de IA parceiro.</strong> — só diz se acertou e dá dicas controladas pelo professor.
-              </span>
-            </li>
-            <li className="flex gap-3 items-start">
-              <Trophy className="w-5 h-5 neon-amber shrink-0 mt-0.5" />
-              <span className="text-sm txt-dim">
-                <strong className="text-[color:var(--txt)]">Nível de experiência, conquistas e histórico</strong> de toda a sua evolução.
-              </span>
-            </li>
+
+          <ul className="mt-9 space-y-3">
+            {[
+              { n: "01", t: "Melhore seu desempenho", d: "Enriqueça seus conhecimentos de maneira divertida.", c: "neon" },
+              { n: "02", t: "Amplie seus conhecimentos em shell linux e windows", d: "Boas oportunidades aparecem mais fácil pra quem está preparado.", c: "neon-violet" },
+              { n: "03", t: "Chame os colegas pra um rally", d: "Aprender se divertindo é uma boa maneira de usar o tempo livre.", c: "neon-amber" },
+            ].map((f) => (
+              <li key={f.n} className="index-item flex items-start gap-4">
+                <span className={f.c}>{f.n}</span>
+                <span className="flex-1 normal-case tracking-normal">
+                  <strong className="text-[color:var(--txt)] font-semibold">{f.t}</strong>
+                  <span className="block txt-faint 2x:text-xs mt-0.5">{f.d}</span>
+                </span>
+              </li>
+            ))}
           </ul>
 
-          {/* Destaque do Terminal Ciberpunk */}
           
         </section>
 
         <div className="w-full max-w-md mx-auto">
           <div className="text-center mb-8 lg:hidden">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl glass mb-4">
-              <Terminal className="w-8 h-8 neon" />
-            </div>
-            <h1 className="text-3xl font-bold title-glow">Visual Labs - DevOps Trainer</h1>
-            <p className="txt-dim mt-2 text-sm">Avaliação para alunos DevOps</p>
+            <p className="display text-4xl">
+              LABS<span className="neon">.</span>
+            </p>
+            <p className="kicker-dim mt-2">DevOps Trainer</p>
           </div>
 
           <form onSubmit={enviar} className="card space-y-5">

@@ -4,6 +4,7 @@ import { Lock, Play, Loader2, Terminal, SquareTerminal, Container, Boxes, Star }
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/useAuth";
 import { AppShell } from "@/components/AppShell";
+import { LiveLounge } from "@/components/LiveLounge";
 import {
   LINGUAGENS,
   NIVEIS,
@@ -17,11 +18,11 @@ import {
 export const Route = createFileRoute("/painel")({
   head: () => ({
     meta: [
-      { title: "Painel de aprendizado — DevOps Trainer" },
+      { title: "Painel de treino — DevOps Trainer" },
       {
         name: "description",
         content:
-          "Escolha a linguagem e o nível de dificuldade para iniciar seus 10 desafios sorteados no DevOps Trainer.",
+          "Escolha a linguagem e o nível para iniciar 12 desafios sorteados, com teoria antes de cada questão.",
       },
       { property: "og:title", content: "Painel de treino — DevOps Trainer" },
       {
@@ -81,7 +82,7 @@ function Painel() {
   if (loading || !user) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-6 h-6 neon animate-spin" />
+        <Loader2 className="w-6 h-4 neon animate-spin" />
       </div>
     );
   }
@@ -90,7 +91,7 @@ function Painel() {
 
   return (
     <AppShell
-      titulo="Escolha a linguagem a ser avaliada:"
+      titulo="Escolha o assunto:"
       nome={perfil?.nome ?? "Aluno"}
       xp={perfil?.xp ?? 0}
       isProfessor={isProfessor}
@@ -101,10 +102,8 @@ function Painel() {
     >
       <div className="space-y-8">
         <section>
-          <h2 className="text-sm font-semibold uppercase tracking-wider txt-dim mb-3">
-            1. Linguagem a avaliar
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <h2 className="kicker mb-3">01 / Linguagem a treinar</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {LINGUAGENS.map((l) => {
               const Icon = ICONES[l.icone] ?? Terminal;
               const ativa = l.id === linguagemAtiva;
@@ -125,9 +124,7 @@ function Painel() {
         </section>
 
         <section>
-          <h2 className="text-sm font-semibold uppercase tracking-wider txt-dim mb-3">
-            2. Nível de dificuldade — {linguagem.nome}
-          </h2>
+          <h2 className="kicker mb-3">02 / Nível de dificuldade — {linguagem.nome}</h2>
           {carregando ? (
             <Loader2 className="w-5 h-5 neon animate-spin" />
           ) : (
@@ -163,7 +160,7 @@ function Painel() {
                         params={{ lang: linguagem.id, nivel }}
                         className="btn-primary w-full mt-auto"
                       >
-                        <Play className="w-4 h-4" /> Iniciar Avaliação
+                        <Play className="w-4 h-4" /> Iniciar treino
                       </Link>
                     ) : (
                       <button disabled className="btn-secondary w-full mt-auto">
@@ -176,6 +173,16 @@ function Painel() {
               })}
             </div>
           )}
+        </section>
+
+        <section>
+          <h2 className="kicker mb-3">03 / Sala ao vivo</h2>
+          <LiveLounge
+            userId={user.id}
+            nome={perfil?.nome ?? "Aluno"}
+            xp={perfil?.xp ?? 0}
+            atividade="escolhendo um treino"
+          />
         </section>
       </div>
     </AppShell>

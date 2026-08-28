@@ -14,6 +14,16 @@ export type Desafio = {
   aceitas?: string[];
   dica: string;
   explicacao: string;
+  /** id da teoria relacionada (card de conteúdo mostrado antes de responder) */
+  topico?: string;
+};
+
+export type Teoria = {
+  id: string;
+  titulo: string;
+  resumo: string;
+  pontos: string[];
+  exemplo?: string;
 };
 
 export type Linguagem = {
@@ -22,6 +32,7 @@ export type Linguagem = {
   icone: string;
   descricao: string;
   niveis: Record<Nivel, Desafio[]>;
+  teorias?: Teoria[];
 };
 
 export const LINGUAGENS = [bash, powershell, docker, kubernetes] as unknown as Linguagem[];
@@ -34,7 +45,7 @@ export const NIVEL_LABEL: Record<Nivel, string> = {
   avancado: "Avançado",
 };
 
-export const DESAFIOS_POR_NIVEL = 10;
+export const DESAFIOS_POR_NIVEL = 12;
 export const CHANCES_POR_DESAFIO = 3;
 export const APROVEITAMENTO_MINIMO = 0.8; // 80% para liberar o próximo nível
 
@@ -92,4 +103,22 @@ export function nivelAnterior(nivel: Nivel): Nivel | null {
 
 export function xpDoNivel(nivel: Nivel): number {
   return nivel === "facil" ? 10 : nivel === "intermediario" ? 20 : 30;
+}
+
+/** Conteúdo teórico ligado a um desafio (card de estudo antes de responder). */
+export function getTeoria(linguagem: string, topico?: string): Teoria | undefined {
+  if (!topico) return undefined;
+  return getLinguagem(linguagem)?.teorias?.find((t) => t.id === topico);
+}
+
+/** Embaralha um array sem mutar o original (Fisher-Yates). */
+export function embaralhar<T>(itens: readonly T[]): T[] {
+  const copia = [...itens];
+  for (let i = copia.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const a = copia[i]!;
+    copia[i] = copia[j]!;
+    copia[j] = a;
+  }
+  return copia;
 }

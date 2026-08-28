@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.15"
+    PostgrestVersion: "14.5"
   }
   public: {
     Tables: {
@@ -90,6 +90,30 @@ export type Database = {
           melhor_pontuacao?: number
           tentativas_nivel?: number
           updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      lounge_messages: {
+        Row: {
+          corpo: string
+          created_at: string
+          id: string
+          nome: string
+          user_id: string
+        }
+        Insert: {
+          corpo: string
+          created_at?: string
+          id?: string
+          nome?: string
+          user_id: string
+        }
+        Update: {
+          corpo?: string
+          created_at?: string
+          id?: string
+          nome?: string
           user_id?: string
         }
         Relationships: []
@@ -185,6 +209,36 @@ export type Database = {
           streak_dias?: number
           ultima_pratica?: string | null
           updated_at?: string
+          user_id?: string
+          xp?: number
+        }
+        Relationships: []
+      }
+      training_presence: {
+        Row: {
+          atividade: string
+          language: string | null
+          last_seen: string
+          level: string | null
+          nome: string
+          user_id: string
+          xp: number
+        }
+        Insert: {
+          atividade?: string
+          language?: string | null
+          last_seen?: string
+          level?: string | null
+          nome?: string
+          user_id: string
+          xp?: number
+        }
+        Update: {
+          atividade?: string
+          language?: string | null
+          last_seen?: string
+          level?: string | null
+          nome?: string
           user_id?: string
           xp?: number
         }

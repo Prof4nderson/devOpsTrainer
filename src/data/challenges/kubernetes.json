@@ -17,16 +17,21 @@
         ],
         "resposta": "apiVersion, kind, metadata, spec",
         "dica": "Dois identificam o recurso e dois descrevem o objeto.",
-        "explicacao": "Todo objeto declara apiVersion, kind, metadata (nome/labels) e spec com o estado desejado."
+        "explicacao": "Todo objeto declara apiVersion, kind, metadata (nome/labels) e spec com o estado desejado.",
+        "topico": "manifestos-yaml"
       },
       {
         "id": "k8s-f-02",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando que lista todos os pods do namespace atual.",
         "resposta": "kubectl get pods",
-        "aceitas": ["kubectl get po", "kubectl get pod"],
+        "aceitas": [
+          "kubectl get po",
+          "kubectl get pod"
+        ],
         "dica": "Verbo get do kubectl.",
-        "explicacao": "'kubectl get pods' lista os pods; use -A para todos os namespaces e -o wide para ver o nó."
+        "explicacao": "'kubectl get pods' lista os pods; use -A para todos os namespaces e -o wide para ver o nó.",
+        "topico": "pods"
       },
       {
         "id": "k8s-f-03",
@@ -40,88 +45,461 @@
         ],
         "resposta": "Somente espaços, nunca tabulações",
         "dica": "Um caractere invisível quebra o parser.",
-        "explicacao": "YAML proíbe tabs na indentação; use 2 espaços por nível de forma consistente."
+        "explicacao": "YAML proíbe tabs na indentação; use 2 espaços por nível de forma consistente.",
+        "topico": "manifestos-yaml"
       },
       {
         "id": "k8s-f-04",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando que aplica o manifest deployment.yaml no cluster.",
         "resposta": "kubectl apply -f deployment.yaml",
-        "aceitas": ["kubectl apply --filename deployment.yaml", "kubectl apply -f ./deployment.yaml"],
+        "aceitas": [
+          "kubectl apply --filename deployment.yaml",
+          "kubectl apply -f ./deployment.yaml"
+        ],
         "dica": "Modo declarativo: apply.",
-        "explicacao": "'kubectl apply -f' é declarativo e idempotente; 'create' falha se o recurso já existir."
+        "explicacao": "'kubectl apply -f' é declarativo e idempotente; 'create' falha se o recurso já existir.",
+        "topico": "deployments"
       },
       {
         "id": "k8s-f-05",
         "tipo": "multipla",
         "pergunta": "Qual objeto mantém um número desejado de réplicas de um pod?",
-        "opcoes": ["Deployment", "Service", "ConfigMap", "Ingress"],
+        "opcoes": [
+          "Deployment",
+          "Service",
+          "ConfigMap",
+          "Ingress"
+        ],
         "resposta": "Deployment",
         "dica": "Ele gerencia um ReplicaSet.",
-        "explicacao": "O Deployment cria e atualiza um ReplicaSet, que por sua vez mantém o número de pods definido em replicas."
+        "explicacao": "O Deployment cria e atualiza um ReplicaSet, que por sua vez mantém o número de pods definido em replicas.",
+        "topico": "deployments"
       },
       {
         "id": "k8s-f-06",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando que mostra os detalhes e eventos do pod api-123.",
         "resposta": "kubectl describe pod api-123",
-        "aceitas": ["kubectl describe pods api-123", "kubectl describe po api-123"],
+        "aceitas": [
+          "kubectl describe pods api-123",
+          "kubectl describe po api-123"
+        ],
         "dica": "Verbo describe.",
-        "explicacao": "'kubectl describe pod' mostra eventos, imagens, probes e motivos de falha — primeiro passo do troubleshooting."
+        "explicacao": "'kubectl describe pod' mostra eventos, imagens, probes e motivos de falha — primeiro passo do troubleshooting.",
+        "topico": "pods"
       },
       {
         "id": "k8s-f-07",
         "tipo": "multipla",
         "pergunta": "Qual objeto expõe pods como um endpoint estável dentro do cluster?",
-        "opcoes": ["Service", "Namespace", "Secret", "Job"],
+        "opcoes": [
+          "Service",
+          "Namespace",
+          "Secret",
+          "Job"
+        ],
         "resposta": "Service",
         "dica": "Ele agrupa pods por labels.",
-        "explicacao": "O Service dá um nome DNS e um IP estável, balanceando entre os pods que casam com o selector."
+        "explicacao": "O Service dá um nome DNS e um IP estável, balanceando entre os pods que casam com o selector.",
+        "topico": "services"
       },
       {
         "id": "k8s-f-08",
         "tipo": "sintaxe",
         "pergunta": "Escreva a linha YAML que define três réplicas dentro do spec de um Deployment.",
         "resposta": "replicas: 3",
-        "aceitas": ["replicas: 3 "],
+        "aceitas": [
+          "replicas: 3 "
+        ],
         "dica": "Chave e valor numérico.",
-        "explicacao": "'replicas: 3' pede três pods; o controlador reconcilia continuamente até atingir esse número."
+        "explicacao": "'replicas: 3' pede três pods; o controlador reconcilia continuamente até atingir esse número.",
+        "topico": "deployments"
       },
       {
         "id": "k8s-f-09",
         "tipo": "multipla",
         "pergunta": "Como um comentário é escrito em YAML?",
-        "opcoes": ["# comentário", "// comentário", "/* comentário */", "-- comentário"],
+        "opcoes": [
+          "# comentário",
+          "// comentário",
+          "/* comentário */",
+          "-- comentário"
+        ],
         "resposta": "# comentário",
         "dica": "O mesmo caractere usado em shell.",
-        "explicacao": "YAML aceita comentários iniciados por '#' até o fim da linha."
+        "explicacao": "YAML aceita comentários iniciados por '#' até o fim da linha.",
+        "topico": "manifestos-yaml"
       },
       {
         "id": "k8s-f-10",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando que mostra os logs do pod api-123.",
         "resposta": "kubectl logs api-123",
-        "aceitas": ["kubectl logs pod/api-123", "kubectl logs -f api-123"],
+        "aceitas": [
+          "kubectl logs pod/api-123",
+          "kubectl logs -f api-123"
+        ],
         "dica": "Subcomando logs.",
-        "explicacao": "'kubectl logs' lê o stdout do container; use -f para seguir e --previous para o container anterior que morreu."
+        "explicacao": "'kubectl logs' lê o stdout do container; use -f para seguir e --previous para o container anterior que morreu.",
+        "topico": "pods"
       },
       {
         "id": "k8s-f-11",
         "tipo": "multipla",
         "pergunta": "O que separa dois documentos YAML no mesmo arquivo?",
-        "opcoes": ["---", "===", "###", ">>>"],
+        "opcoes": [
+          "---",
+          "===",
+          "###",
+          ">>>"
+        ],
         "resposta": "---",
         "dica": "São três caracteres iguais.",
-        "explicacao": "'---' inicia um novo documento, permitindo agrupar Deployment e Service no mesmo arquivo."
+        "explicacao": "'---' inicia um novo documento, permitindo agrupar Deployment e Service no mesmo arquivo.",
+        "topico": "manifestos-yaml"
       },
       {
         "id": "k8s-f-12",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando que lista os pods de todos os namespaces.",
         "resposta": "kubectl get pods -A",
-        "aceitas": ["kubectl get pods --all-namespaces", "kubectl get po -A"],
+        "aceitas": [
+          "kubectl get pods --all-namespaces",
+          "kubectl get po -A"
+        ],
         "dica": "Existe uma flag curta de uma letra.",
-        "explicacao": "'-A' é o atalho de '--all-namespaces' e é essencial para inspecionar componentes de sistema."
+        "explicacao": "'-A' é o atalho de '--all-namespaces' e é essencial para inspecionar componentes de sistema.",
+        "topico": "namespaces-labels"
+      },
+      {
+        "id": "k8s-f-13",
+        "tipo": "multipla",
+        "pergunta": "Qual comando cria um namespace chamado staging?",
+        "opcoes": [
+          "kubectl create namespace staging",
+          "kubectl new namespace staging",
+          "kubectl namespace add staging",
+          "kubectl set namespace staging"
+        ],
+        "resposta": "kubectl create namespace staging",
+        "dica": "Verbo create.",
+        "explicacao": "'kubectl create namespace' cria um namespace isolado logicamente dentro do cluster.",
+        "topico": "namespaces-labels"
+      },
+      {
+        "id": "k8s-f-14",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que lista os pods apenas do namespace staging.",
+        "resposta": "kubectl get pods -n staging",
+        "aceitas": [
+          "kubectl get pods --namespace staging",
+          "kubectl get po -n staging"
+        ],
+        "dica": "Flag -n.",
+        "explicacao": "'-n' (ou '--namespace') restringe o comando a um namespace específico.",
+        "topico": "namespaces-labels"
+      },
+      {
+        "id": "k8s-f-15",
+        "tipo": "multipla",
+        "pergunta": "Qual campo do Deployment define a imagem do container?",
+        "opcoes": [
+          "spec.template.spec.containers[].image",
+          "spec.image",
+          "metadata.image",
+          "spec.containerImage"
+        ],
+        "resposta": "spec.template.spec.containers[].image",
+        "dica": "Fica dentro do template do pod.",
+        "explicacao": "O template do pod dentro do Deployment define containers, e cada container tem seu campo 'image'.",
+        "topico": "deployments"
+      },
+      {
+        "id": "k8s-f-16",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que remove o pod api-123.",
+        "resposta": "kubectl delete pod api-123",
+        "aceitas": [
+          "kubectl delete pods api-123",
+          "kubectl delete po api-123"
+        ],
+        "dica": "Verbo delete.",
+        "explicacao": "'kubectl delete pod' remove o pod; se ele pertence a um Deployment, um novo é recriado automaticamente.",
+        "topico": "pods"
+      },
+      {
+        "id": "k8s-f-17",
+        "tipo": "multipla",
+        "pergunta": "Para que servem as labels em objetos do Kubernetes?",
+        "opcoes": [
+          "Identificar e agrupar objetos para seleção posterior",
+          "Definir o namespace do objeto",
+          "Substituir o nome do recurso",
+          "Criptografar metadados"
+        ],
+        "resposta": "Identificar e agrupar objetos para seleção posterior",
+        "dica": "Pense em tags.",
+        "explicacao": "Labels são pares chave/valor usados por selectors de Service, Deployment, NetworkPolicy etc.",
+        "topico": "namespaces-labels"
+      },
+      {
+        "id": "k8s-f-18",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que lista pods filtrando pela label app=api.",
+        "resposta": "kubectl get pods -l app=api",
+        "aceitas": [
+          "kubectl get pods --selector app=api",
+          "kubectl get po -l app=api"
+        ],
+        "dica": "Flag -l.",
+        "explicacao": "'-l' (ou '--selector') filtra objetos cujas labels casam com a expressão informada.",
+        "topico": "namespaces-labels"
+      },
+      {
+        "id": "k8s-f-19",
+        "tipo": "multipla",
+        "pergunta": "O que um ConfigMap armazena?",
+        "opcoes": [
+          "Dados de configuração não sensíveis em formato chave-valor",
+          "Apenas senhas criptografadas",
+          "Imagens de container",
+          "Certificados TLS obrigatoriamente"
+        ],
+        "resposta": "Dados de configuração não sensíveis em formato chave-valor",
+        "dica": "Não é para dados sensíveis.",
+        "explicacao": "ConfigMaps guardam configurações como variáveis de ambiente ou arquivos; dados sensíveis vão em Secrets.",
+        "topico": "configmaps"
+      },
+      {
+        "id": "k8s-f-20",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que cria um ConfigMap chamado env-config com a chave ENV=prod.",
+        "resposta": "kubectl create configmap env-config --from-literal=ENV=prod",
+        "aceitas": [
+          "kubectl create cm env-config --from-literal=ENV=prod"
+        ],
+        "dica": "Flag --from-literal.",
+        "explicacao": "'--from-literal=chave=valor' cria uma entrada direta no ConfigMap sem precisar de arquivo.",
+        "topico": "configmaps"
+      },
+      {
+        "id": "k8s-f-21",
+        "tipo": "multipla",
+        "pergunta": "Qual comando cria um Secret genérico chamado db-secret?",
+        "opcoes": [
+          "kubectl create secret generic db-secret --from-literal=password=123",
+          "kubectl create configmap db-secret",
+          "kubectl new secret db-secret",
+          "kubectl secret create db-secret"
+        ],
+        "resposta": "kubectl create secret generic db-secret --from-literal=password=123",
+        "dica": "Tipo generic.",
+        "explicacao": "'kubectl create secret generic' cria um Secret a partir de literais ou arquivos.",
+        "topico": "secrets"
+      },
+      {
+        "id": "k8s-f-22",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que lista os secrets do namespace atual.",
+        "resposta": "kubectl get secrets",
+        "aceitas": [
+          "kubectl get secret"
+        ],
+        "dica": "Plural do recurso.",
+        "explicacao": "'kubectl get secrets' lista os Secrets; os valores aparecem ocultos, apenas o tipo e tamanho ficam visíveis.",
+        "topico": "secrets"
+      },
+      {
+        "id": "k8s-f-23",
+        "tipo": "multipla",
+        "pergunta": "Qual é o tipo padrão de Service quando não se especifica 'type'?",
+        "opcoes": [
+          "ClusterIP",
+          "NodePort",
+          "LoadBalancer",
+          "ExternalName"
+        ],
+        "resposta": "ClusterIP",
+        "dica": "É o mais restrito.",
+        "explicacao": "ClusterIP é o padrão e expõe o serviço apenas dentro do cluster.",
+        "topico": "services"
+      },
+      {
+        "id": "k8s-f-24",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que lista os services do namespace atual.",
+        "resposta": "kubectl get services",
+        "aceitas": [
+          "kubectl get svc"
+        ],
+        "dica": "Abreviação comum: svc.",
+        "explicacao": "'kubectl get services' (ou 'svc') mostra tipo, cluster-ip, portas e idade de cada Service.",
+        "topico": "services"
+      },
+      {
+        "id": "k8s-f-25",
+        "tipo": "multipla",
+        "pergunta": "O que acontece quando um pod isolado (sem controller) morre?",
+        "opcoes": [
+          "Ele não é recriado automaticamente",
+          "É recriado pelo kube-scheduler",
+          "É recriado pelo kubelet em outro nó",
+          "Vira um Job automaticamente"
+        ],
+        "resposta": "Ele não é recriado automaticamente",
+        "dica": "Sem Deployment/ReplicaSet não há reconciliação.",
+        "explicacao": "Pods criados diretamente (sem um controller) não são recriados; por isso usa-se Deployment na prática.",
+        "topico": "pods"
+      },
+      {
+        "id": "k8s-f-26",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que cria um deployment chamado web usando a imagem nginx.",
+        "resposta": "kubectl create deployment web --image=nginx",
+        "aceitas": [
+          "kubectl create deploy web --image=nginx"
+        ],
+        "dica": "Verbo create deployment.",
+        "explicacao": "'kubectl create deployment' cria rapidamente um Deployment de forma imperativa, útil para testes.",
+        "topico": "deployments"
+      },
+      {
+        "id": "k8s-f-27",
+        "tipo": "multipla",
+        "pergunta": "Como se representa uma lista (array) em YAML?",
+        "opcoes": [
+          "Itens precedidos por hífen e espaço",
+          "Itens entre colchetes obrigatoriamente",
+          "Itens separados por vírgula em uma linha",
+          "Itens numerados"
+        ],
+        "resposta": "Itens precedidos por hífen e espaço",
+        "dica": "O caractere é o mesmo de lista em Markdown.",
+        "explicacao": "Cada item de uma lista YAML é escrito como '- valor', podendo também usar a forma inline [a, b, c].",
+        "topico": "manifestos-yaml"
+      },
+      {
+        "id": "k8s-f-28",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva a chave YAML que define o nome de um recurso dentro de metadata.",
+        "resposta": "name: api",
+        "aceitas": [
+          "metadata:\n  name: api"
+        ],
+        "dica": "Fica dentro de metadata.",
+        "explicacao": "'metadata.name' identifica unicamente o recurso dentro do namespace.",
+        "topico": "manifestos-yaml"
+      },
+      {
+        "id": "k8s-f-29",
+        "tipo": "multipla",
+        "pergunta": "Qual estado de pod indica que todos os containers estão rodando normalmente?",
+        "opcoes": [
+          "Running",
+          "Pending",
+          "Succeeded",
+          "Terminating"
+        ],
+        "resposta": "Running",
+        "dica": "É o estado 'saudável' mais comum.",
+        "explicacao": "Pending indica que o pod ainda não foi agendado ou as imagens não baixaram; Running indica execução normal.",
+        "topico": "pods"
+      },
+      {
+        "id": "k8s-f-30",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que executa um shell interativo dentro do pod api-123.",
+        "resposta": "kubectl exec -it api-123 -- /bin/sh",
+        "aceitas": [
+          "kubectl exec -it api-123 -- bash",
+          "kubectl exec -it pod/api-123 -- sh"
+        ],
+        "dica": "Flags -it e o separador --.",
+        "explicacao": "'kubectl exec -it ... -- comando' abre uma sessão interativa dentro do container para depuração.",
+        "topico": "pods"
+      },
+      {
+        "id": "k8s-f-31",
+        "tipo": "multipla",
+        "pergunta": "O que é um ReplicaSet?",
+        "opcoes": [
+          "Um controlador que garante um número fixo de réplicas de pod",
+          "Um tipo de Service",
+          "Um volume persistente",
+          "Um agendador de tarefas"
+        ],
+        "resposta": "Um controlador que garante um número fixo de réplicas de pod",
+        "dica": "É gerenciado pelo Deployment.",
+        "explicacao": "O Deployment cria e gerencia ReplicaSets, que por sua vez garantem o número de réplicas definido.",
+        "topico": "deployments"
+      },
+      {
+        "id": "k8s-f-32",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que lista os deployments do namespace atual.",
+        "resposta": "kubectl get deployments",
+        "aceitas": [
+          "kubectl get deployment",
+          "kubectl get deploy"
+        ],
+        "dica": "Abreviação: deploy.",
+        "explicacao": "'kubectl get deployments' mostra réplicas desejadas, atuais, atualizadas e disponíveis.",
+        "topico": "deployments"
+      },
+      {
+        "id": "k8s-f-33",
+        "tipo": "multipla",
+        "pergunta": "Qual arquivo o kubectl usa por padrão para se conectar ao cluster?",
+        "opcoes": [
+          "~/.kube/config",
+          "/etc/kubernetes/kubeconfig",
+          "~/.kubectl/context",
+          "/root/cluster.yaml"
+        ],
+        "resposta": "~/.kube/config",
+        "dica": "Fica na pasta oculta .kube.",
+        "explicacao": "O kubeconfig em '~/.kube/config' guarda clusters, usuários e contextos que o kubectl usa.",
+        "topico": "manifestos-yaml"
+      },
+      {
+        "id": "k8s-f-34",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que mostra o contexto atual do kubectl.",
+        "resposta": "kubectl config current-context",
+        "aceitas": [
+          "kubectl config view --minify"
+        ],
+        "dica": "Subcomando config.",
+        "explicacao": "'kubectl config current-context' mostra qual cluster/usuário está ativo, evitando aplicar em ambiente errado.",
+        "topico": "namespaces-labels"
+      },
+      {
+        "id": "k8s-f-35",
+        "tipo": "multipla",
+        "pergunta": "Para que serve um recurso Ingress?",
+        "opcoes": [
+          "Rotear tráfego HTTP/HTTPS externo para Services internos",
+          "Armazenar variáveis de ambiente",
+          "Criar volumes persistentes",
+          "Agendar tarefas periódicas"
+        ],
+        "resposta": "Rotear tráfego HTTP/HTTPS externo para Services internos",
+        "dica": "Pense em roteamento de camada 7.",
+        "explicacao": "O Ingress define regras de host/path que direcionam requisições HTTP para Services, exigindo um Ingress Controller.",
+        "topico": "ingress"
+      },
+      {
+        "id": "k8s-f-36",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que lista os recursos Ingress do namespace atual.",
+        "resposta": "kubectl get ingress",
+        "aceitas": [
+          "kubectl get ing"
+        ],
+        "dica": "Abreviação: ing.",
+        "explicacao": "'kubectl get ingress' mostra hosts, endereços e portas configuradas para roteamento externo.",
+        "topico": "ingress"
       }
     ],
     "intermediario": [
@@ -137,16 +515,20 @@
         ],
         "resposta": "Liveness reinicia o container; readiness tira o pod do balanceamento",
         "dica": "Uma cuida de tráfego, a outra de reinício.",
-        "explicacao": "Readiness controla se o pod recebe tráfego do Service; liveness detecta travamentos e força restart."
+        "explicacao": "Readiness controla se o pod recebe tráfego do Service; liveness detecta travamentos e força restart.",
+        "topico": "probes"
       },
       {
         "id": "k8s-i-02",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando que cria um ConfigMap chamado app-config a partir do arquivo app.properties.",
         "resposta": "kubectl create configmap app-config --from-file=app.properties",
-        "aceitas": ["kubectl create cm app-config --from-file=app.properties"],
+        "aceitas": [
+          "kubectl create cm app-config --from-file=app.properties"
+        ],
         "dica": "A flag começa com --from.",
-        "explicacao": "'--from-file' carrega o conteúdo do arquivo como chave; '--from-literal=k=v' cria pares individuais."
+        "explicacao": "'--from-file' carrega o conteúdo do arquivo como chave; '--from-literal=k=v' cria pares individuais.",
+        "topico": "configmaps"
       },
       {
         "id": "k8s-i-03",
@@ -160,34 +542,49 @@
         ],
         "resposta": "Pelo selector que casa com as labels dos pods",
         "dica": "Labels e selectors andam juntos.",
-        "explicacao": "O selector do Service filtra pods por labels; se as labels não casarem, o Service fica sem endpoints."
+        "explicacao": "O selector do Service filtra pods por labels; se as labels não casarem, o Service fica sem endpoints.",
+        "topico": "services"
       },
       {
         "id": "k8s-i-04",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando que escala o deployment api para 5 réplicas.",
         "resposta": "kubectl scale deployment api --replicas=5",
-        "aceitas": ["kubectl scale deploy api --replicas=5", "kubectl scale --replicas=5 deployment/api"],
+        "aceitas": [
+          "kubectl scale deploy api --replicas=5",
+          "kubectl scale --replicas=5 deployment/api"
+        ],
         "dica": "Verbo scale com a flag replicas.",
-        "explicacao": "'kubectl scale' altera o número de réplicas imperativamente; em GitOps prefira editar o manifest."
+        "explicacao": "'kubectl scale' altera o número de réplicas imperativamente; em GitOps prefira editar o manifest.",
+        "topico": "deployments"
       },
       {
         "id": "k8s-i-05",
         "tipo": "multipla",
         "pergunta": "Qual tipo de Service expõe a aplicação para fora do cluster via balanceador da nuvem?",
-        "opcoes": ["LoadBalancer", "ClusterIP", "ExternalName", "Headless"],
+        "opcoes": [
+          "LoadBalancer",
+          "ClusterIP",
+          "ExternalName",
+          "Headless"
+        ],
         "resposta": "LoadBalancer",
         "dica": "O nome descreve exatamente o recurso provisionado.",
-        "explicacao": "ClusterIP é interno, NodePort abre uma porta em cada nó e LoadBalancer provisiona um balanceador externo."
+        "explicacao": "ClusterIP é interno, NodePort abre uma porta em cada nó e LoadBalancer provisiona um balanceador externo.",
+        "topico": "services"
       },
       {
         "id": "k8s-i-06",
         "tipo": "sintaxe",
         "pergunta": "Escreva as chaves YAML que definem limite de memória de 256Mi para um container (linha do limite).",
         "resposta": "limits:\n  memory: 256Mi",
-        "aceitas": ["memory: 256Mi", "limits: { memory: 256Mi }"],
+        "aceitas": [
+          "memory: 256Mi",
+          "limits: { memory: 256Mi }"
+        ],
         "dica": "Fica dentro de resources.",
-        "explicacao": "resources.requests garante o mínimo para o agendamento e resources.limits define o teto antes de OOMKill/throttling."
+        "explicacao": "resources.requests garante o mínimo para o agendamento e resources.limits define o teto antes de OOMKill/throttling.",
+        "topico": "resources-limits"
       },
       {
         "id": "k8s-i-07",
@@ -201,16 +598,20 @@
         ],
         "resposta": "O container inicia, falha e o kubelet reinicia com intervalos crescentes",
         "dica": "O backoff é exponencial.",
-        "explicacao": "Investigue com 'kubectl logs --previous' e 'describe' — costuma ser erro de configuração, dependência ou comando inválido."
+        "explicacao": "Investigue com 'kubectl logs --previous' e 'describe' — costuma ser erro de configuração, dependência ou comando inválido.",
+        "topico": "rollout-troubleshooting-helm"
       },
       {
         "id": "k8s-i-08",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando que faz port-forward da porta 8080 local para a 80 do service api.",
         "resposta": "kubectl port-forward svc/api 8080:80",
-        "aceitas": ["kubectl port-forward service/api 8080:80"],
+        "aceitas": [
+          "kubectl port-forward service/api 8080:80"
+        ],
         "dica": "Prefixo svc/ identifica o service.",
-        "explicacao": "'kubectl port-forward' cria um túnel para depuração local sem expor o serviço publicamente."
+        "explicacao": "'kubectl port-forward' cria um túnel para depuração local sem expor o serviço publicamente.",
+        "topico": "pods"
       },
       {
         "id": "k8s-i-09",
@@ -224,16 +625,21 @@
         ],
         "resposta": "env com valueFrom.secretKeyRef",
         "dica": "A referência aponta para nome e chave do Secret.",
-        "explicacao": "valueFrom.secretKeyRef.{name,key} injeta o valor sem escrevê-lo no manifest; configMapKeyRef faz o mesmo com ConfigMap."
+        "explicacao": "valueFrom.secretKeyRef.{name,key} injeta o valor sem escrevê-lo no manifest; configMapKeyRef faz o mesmo com ConfigMap.",
+        "topico": "secrets"
       },
       {
         "id": "k8s-i-10",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando que verifica o histórico de rollout do deployment api.",
         "resposta": "kubectl rollout history deployment/api",
-        "aceitas": ["kubectl rollout history deploy/api", "kubectl rollout history deployment api"],
+        "aceitas": [
+          "kubectl rollout history deploy/api",
+          "kubectl rollout history deployment api"
+        ],
         "dica": "Subcomando rollout.",
-        "explicacao": "'kubectl rollout history' lista revisões; 'rollout undo' volta para a anterior em caso de deploy ruim."
+        "explicacao": "'kubectl rollout history' lista revisões; 'rollout undo' volta para a anterior em caso de deploy ruim.",
+        "topico": "rollout-troubleshooting-helm"
       },
       {
         "id": "k8s-i-11",
@@ -247,7 +653,8 @@
         ],
         "resposta": "São apenas Base64 no etcd; é preciso habilitar encryption at rest",
         "dica": "Base64 é codificação, não criptografia.",
-        "explicacao": "Habilite EncryptionConfiguration no etcd ou use um gestor externo (Vault, sealed-secrets, provedores CSI)."
+        "explicacao": "Habilite EncryptionConfiguration no etcd ou use um gestor externo (Vault, sealed-secrets, provedores CSI).",
+        "topico": "secrets"
       },
       {
         "id": "k8s-i-12",
@@ -259,7 +666,332 @@
           "kubectl apply --dry-run=server -f deployment.yaml"
         ],
         "dica": "Existe uma flag de simulação.",
-        "explicacao": "'--dry-run=server' valida contra a API real (inclui webhooks); 'client' faz apenas a checagem local."
+        "explicacao": "'--dry-run=server' valida contra a API real (inclui webhooks); 'client' faz apenas a checagem local.",
+        "topico": "manifestos-yaml"
+      },
+      {
+        "id": "k8s-i-13",
+        "tipo": "multipla",
+        "pergunta": "Qual protocolo de probe é ideal para uma API HTTP que expõe /health?",
+        "opcoes": [
+          "httpGet",
+          "tcpSocket",
+          "exec",
+          "grpc apenas"
+        ],
+        "resposta": "httpGet",
+        "dica": "Combina com endpoints web.",
+        "explicacao": "httpGet faz uma requisição HTTP e considera saudável quando o código retornado está entre 200 e 399.",
+        "topico": "probes"
+      },
+      {
+        "id": "k8s-i-14",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva a chave YAML que define o caminho /health para uma readinessProbe do tipo httpGet.",
+        "resposta": "readinessProbe:\n  httpGet:\n    path: /health",
+        "aceitas": [
+          "path: /health"
+        ],
+        "dica": "Fica dentro de httpGet.",
+        "explicacao": "'path' define o endpoint chamado pela probe; combine com 'port' para indicar a porta do container.",
+        "topico": "probes"
+      },
+      {
+        "id": "k8s-i-15",
+        "tipo": "multipla",
+        "pergunta": "O que acontece quando um container ultrapassa o limit de memória?",
+        "opcoes": [
+          "O container é finalizado com OOMKilled",
+          "O container é apenas throttled",
+          "O pod é reagendado em outro nó automaticamente",
+          "Nada acontece"
+        ],
+        "resposta": "O container é finalizado com OOMKilled",
+        "dica": "Memória não pode ser 'compartilhada' como CPU.",
+        "explicacao": "Ao ultrapassar o limit de memória o kernel mata o processo (OOMKill); CPU acima do limit apenas sofre throttling.",
+        "topico": "resources-limits"
+      },
+      {
+        "id": "k8s-i-16",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva a chave YAML que define request de CPU de 100 miliCPUs.",
+        "resposta": "requests:\n  cpu: 100m",
+        "aceitas": [
+          "cpu: 100m"
+        ],
+        "dica": "Unidade 'm' para milicores.",
+        "explicacao": "'100m' equivale a 0.1 CPU; requests garantem esse mínimo para o agendamento do pod.",
+        "topico": "resources-limits"
+      },
+      {
+        "id": "k8s-i-17",
+        "tipo": "multipla",
+        "pergunta": "Qual a diferença entre PersistentVolume e PersistentVolumeClaim?",
+        "opcoes": [
+          "PV é o storage provisionado; PVC é o pedido feito pelo pod",
+          "São exatamente a mesma coisa",
+          "PVC provisiona hardware; PV é lógico",
+          "PV só existe em nuvem"
+        ],
+        "resposta": "PV é o storage provisionado; PVC é o pedido feito pelo pod",
+        "dica": "Pense em oferta e demanda.",
+        "explicacao": "O PV representa a capacidade real de storage; o PVC é a solicitação do usuário que o Kubernetes tenta casar com um PV compatível.",
+        "topico": "volumes-pvc"
+      },
+      {
+        "id": "k8s-i-18",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que lista os PersistentVolumeClaims do namespace atual.",
+        "resposta": "kubectl get pvc",
+        "aceitas": [
+          "kubectl get persistentvolumeclaims"
+        ],
+        "dica": "Abreviação pvc.",
+        "explicacao": "'kubectl get pvc' mostra status (Bound/Pending), capacidade e StorageClass de cada claim.",
+        "topico": "volumes-pvc"
+      },
+      {
+        "id": "k8s-i-19",
+        "tipo": "multipla",
+        "pergunta": "Qual campo de um Job define quantas execuções bem-sucedidas são necessárias?",
+        "opcoes": [
+          "completions",
+          "parallelism",
+          "replicas",
+          "backoffLimit"
+        ],
+        "resposta": "completions",
+        "dica": "Não confundir com paralelismo.",
+        "explicacao": "'completions' define o total de execuções bem-sucedidas exigidas; 'parallelism' controla quantas rodam ao mesmo tempo.",
+        "topico": "jobs-cronjobs"
+      },
+      {
+        "id": "k8s-i-20",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que cria manualmente um Job a partir do CronJob backup.",
+        "resposta": "kubectl create job --from=cronjob/backup backup-manual",
+        "aceitas": [
+          "kubectl create job backup-manual --from=cronjob/backup"
+        ],
+        "dica": "Flag --from.",
+        "explicacao": "'--from=cronjob/nome' dispara uma execução avulsa reaproveitando a definição do CronJob.",
+        "topico": "jobs-cronjobs"
+      },
+      {
+        "id": "k8s-i-21",
+        "tipo": "multipla",
+        "pergunta": "Qual é um caso de uso típico de DaemonSet?",
+        "opcoes": [
+          "Agente de coleta de logs em todos os nós",
+          "API stateless escalável",
+          "Banco de dados replicado",
+          "Job de processamento em lote"
+        ],
+        "resposta": "Agente de coleta de logs em todos os nós",
+        "dica": "Pense em algo que precisa estar presente em todo nó.",
+        "explicacao": "DaemonSets garantem que um pod (ex.: fluentd, node-exporter) rode em cada nó do cluster.",
+        "topico": "daemonset-statefulset"
+      },
+      {
+        "id": "k8s-i-22",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que lista os daemonsets do namespace atual.",
+        "resposta": "kubectl get daemonsets",
+        "aceitas": [
+          "kubectl get ds"
+        ],
+        "dica": "Abreviação: ds.",
+        "explicacao": "'kubectl get daemonsets' mostra quantos nós desejados/atuais possuem o pod do DaemonSet.",
+        "topico": "daemonset-statefulset"
+      },
+      {
+        "id": "k8s-i-23",
+        "tipo": "multipla",
+        "pergunta": "O que é uma ServiceAccount?",
+        "opcoes": [
+          "Uma identidade usada por pods para autenticar na API do cluster",
+          "Um usuário humano do kubectl",
+          "Um tipo de Secret exclusivo",
+          "Um alias de namespace"
+        ],
+        "resposta": "Uma identidade usada por pods para autenticar na API do cluster",
+        "dica": "É a 'conta' do pod, não de pessoas.",
+        "explicacao": "Toda pod usa uma ServiceAccount (default ou dedicada) para se autenticar ao chamar a API do Kubernetes.",
+        "topico": "rbac-serviceaccounts"
+      },
+      {
+        "id": "k8s-i-24",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que cria uma ServiceAccount chamada app-sa.",
+        "resposta": "kubectl create serviceaccount app-sa",
+        "aceitas": [
+          "kubectl create sa app-sa"
+        ],
+        "dica": "Abreviação sa.",
+        "explicacao": "'kubectl create serviceaccount' cria a identidade que depois é vinculada a Roles via RoleBinding.",
+        "topico": "rbac-serviceaccounts"
+      },
+      {
+        "id": "k8s-i-25",
+        "tipo": "multipla",
+        "pergunta": "Sem nenhuma NetworkPolicy definida, qual é o comportamento padrão de tráfego entre pods?",
+        "opcoes": [
+          "Todo tráfego é permitido",
+          "Todo tráfego é bloqueado",
+          "Só tráfego do mesmo namespace é permitido",
+          "Depende do RBAC configurado"
+        ],
+        "resposta": "Todo tráfego é permitido",
+        "dica": "Segurança de rede não é 'deny by default' automaticamente.",
+        "explicacao": "Por padrão o Kubernetes permite todo tráfego pod-a-pod; NetworkPolicies são necessárias para restringir.",
+        "topico": "network-policies"
+      },
+      {
+        "id": "k8s-i-26",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva a chave YAML que restringe uma NetworkPolicy a pods com label app=db.",
+        "resposta": "podSelector:\n  matchLabels:\n    app: db",
+        "aceitas": [
+          "matchLabels:\n  app: db"
+        ],
+        "dica": "Fica dentro de podSelector.",
+        "explicacao": "'podSelector.matchLabels' define quais pods são afetados pelas regras de ingress/egress da policy.",
+        "topico": "network-policies"
+      },
+      {
+        "id": "k8s-i-27",
+        "tipo": "multipla",
+        "pergunta": "O que faz um taint com effect NoSchedule em um nó?",
+        "opcoes": [
+          "Impede novos pods sem toleration correspondente de serem agendados ali",
+          "Remove imediatamente todos os pods do nó",
+          "Marca o nó como indisponível para sempre",
+          "Aumenta a prioridade dos pods existentes"
+        ],
+        "resposta": "Impede novos pods sem toleration correspondente de serem agendados ali",
+        "dica": "NoExecute é diferente e mais agressivo.",
+        "explicacao": "NoSchedule bloqueia novos agendamentos; NoExecute também evacua pods já rodando que não tolerem o taint.",
+        "topico": "taints-affinity"
+      },
+      {
+        "id": "k8s-i-28",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que adiciona o taint dedicated=gpu:NoSchedule ao nó node-01.",
+        "resposta": "kubectl taint nodes node-01 dedicated=gpu:NoSchedule",
+        "aceitas": [
+          "kubectl taint node node-01 dedicated=gpu:NoSchedule"
+        ],
+        "dica": "Verbo taint.",
+        "explicacao": "'kubectl taint nodes' adiciona a marcação; para remover, repita o comando com um '-' ao final do effect.",
+        "topico": "taints-affinity"
+      },
+      {
+        "id": "k8s-i-29",
+        "tipo": "multipla",
+        "pergunta": "Qual componente é pré-requisito para o HPA funcionar com métricas de CPU?",
+        "opcoes": [
+          "metrics-server",
+          "kube-proxy",
+          "etcd",
+          "CoreDNS"
+        ],
+        "resposta": "metrics-server",
+        "dica": "Sem ele 'kubectl top' também não funciona.",
+        "explicacao": "O metrics-server coleta uso de CPU/memória dos pods e alimenta tanto 'kubectl top' quanto o HPA.",
+        "topico": "hpa"
+      },
+      {
+        "id": "k8s-i-30",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que cria um HPA para o deployment api variando de 2 a 8 réplicas com 70% de CPU alvo.",
+        "resposta": "kubectl autoscale deployment api --min=2 --max=8 --cpu-percent=70",
+        "aceitas": [
+          "kubectl autoscale deploy api --min=2 --max=8 --cpu-percent=70"
+        ],
+        "dica": "Verbo autoscale.",
+        "explicacao": "'kubectl autoscale' cria um HPA imperativamente; em produção prefira declarar via manifest.",
+        "topico": "hpa"
+      },
+      {
+        "id": "k8s-i-31",
+        "tipo": "multipla",
+        "pergunta": "O que 'kubectl rollout status' mostra?",
+        "opcoes": [
+          "O progresso da atualização de um Deployment em tempo real",
+          "O histórico completo de revisões",
+          "Os logs do container atual",
+          "O uso de CPU dos pods"
+        ],
+        "resposta": "O progresso da atualização de um Deployment em tempo real",
+        "dica": "É acompanhamento, não histórico.",
+        "explicacao": "'rollout status' bloqueia o terminal até o rollout terminar ou falhar, útil em pipelines de CI/CD.",
+        "topico": "rollout-troubleshooting-helm"
+      },
+      {
+        "id": "k8s-i-32",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que pausa o rollout do deployment api.",
+        "resposta": "kubectl rollout pause deployment/api",
+        "aceitas": [
+          "kubectl rollout pause deploy/api"
+        ],
+        "dica": "Subcomando pause.",
+        "explicacao": "Pausar permite acumular múltiplas alterações antes de retomar com 'kubectl rollout resume'.",
+        "topico": "rollout-troubleshooting-helm"
+      },
+      {
+        "id": "k8s-i-33",
+        "tipo": "multipla",
+        "pergunta": "Como o Ingress decide para qual Service enviar uma requisição?",
+        "opcoes": [
+          "Por regras de host e path definidas no manifest",
+          "Por ordem alfabética dos Services",
+          "Pelo namespace mais antigo",
+          "Por round-robin entre todos os Services do cluster"
+        ],
+        "resposta": "Por regras de host e path definidas no manifest",
+        "dica": "Semelhante a um reverse proxy.",
+        "explicacao": "As regras 'rules' combinam host/path com um backend.service específico, funcionando como um roteador HTTP.",
+        "topico": "ingress"
+      },
+      {
+        "id": "k8s-i-34",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva a chave YAML que define o path / com pathType Prefix em uma regra de Ingress.",
+        "resposta": "path: /\npathType: Prefix",
+        "aceitas": [
+          "pathType: Prefix"
+        ],
+        "dica": "pathType acompanha path.",
+        "explicacao": "'pathType' pode ser Prefix, Exact ou ImplementationSpecific, definindo como o path é comparado.",
+        "topico": "ingress"
+      },
+      {
+        "id": "k8s-i-35",
+        "tipo": "multipla",
+        "pergunta": "O que acontece se um ConfigMap referenciado por um pod não existir?",
+        "opcoes": [
+          "O pod fica em Pending/erro até o ConfigMap ser criado",
+          "O pod ignora a referência e inicia normalmente",
+          "O Kubernetes cria o ConfigMap vazio automaticamente",
+          "O container usa valores padrão do sistema"
+        ],
+        "resposta": "O pod fica em Pending/erro até o ConfigMap ser criado",
+        "dica": "Depende, mas geralmente trava o start.",
+        "explicacao": "Se montado como volume obrigatório ou env var sem optional:true, o pod não consegue iniciar sem o ConfigMap.",
+        "topico": "configmaps"
+      },
+      {
+        "id": "k8s-i-36",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que edita o ConfigMap app-config diretamente no editor padrão.",
+        "resposta": "kubectl edit configmap app-config",
+        "aceitas": [
+          "kubectl edit cm app-config"
+        ],
+        "dica": "Verbo edit.",
+        "explicacao": "'kubectl edit' abre o recurso no editor definido em $EDITOR e aplica ao salvar.",
+        "topico": "configmaps"
       }
     ],
     "avancado": [
@@ -275,16 +1007,20 @@
         ],
         "resposta": "Um mínimo de pods disponíveis durante manutenções voluntárias",
         "dica": "Vale para drenagem de nós.",
-        "explicacao": "PDB com minAvailable/maxUnavailable impede que um drain derrube réplicas demais ao mesmo tempo."
+        "explicacao": "PDB com minAvailable/maxUnavailable impede que um drain derrube réplicas demais ao mesmo tempo.",
+        "topico": "deployments"
       },
       {
         "id": "k8s-a-02",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando que drena o nó node-01 ignorando daemonsets.",
         "resposta": "kubectl drain node-01 --ignore-daemonsets",
-        "aceitas": ["kubectl drain node-01 --ignore-daemonsets --delete-emptydir-data"],
+        "aceitas": [
+          "kubectl drain node-01 --ignore-daemonsets --delete-emptydir-data"
+        ],
         "dica": "Verbo drain com a flag de daemonsets.",
-        "explicacao": "'drain' cordona o nó e evita os pods; DaemonSets não podem ser evacuados, por isso a flag é necessária."
+        "explicacao": "'drain' cordona o nó e evita os pods; DaemonSets não podem ser evacuados, por isso a flag é necessária.",
+        "topico": "daemonset-statefulset"
       },
       {
         "id": "k8s-a-03",
@@ -298,16 +1034,20 @@
         ],
         "resposta": "NetworkPolicy com regras de ingress/egress",
         "dica": "Precisa de um CNI compatível.",
-        "explicacao": "NetworkPolicies definem tráfego permitido por labels; sem nenhuma policy o cluster é totalmente aberto."
+        "explicacao": "NetworkPolicies definem tráfego permitido por labels; sem nenhuma policy o cluster é totalmente aberto.",
+        "topico": "network-policies"
       },
       {
         "id": "k8s-a-04",
         "tipo": "sintaxe",
         "pergunta": "Escreva a chave de securityContext que impede a execução como root em um container.",
         "resposta": "runAsNonRoot: true",
-        "aceitas": ["securityContext:\n  runAsNonRoot: true"],
+        "aceitas": [
+          "securityContext:\n  runAsNonRoot: true"
+        ],
         "dica": "Combina 'runAs' com 'NonRoot'.",
-        "explicacao": "'runAsNonRoot: true' faz o kubelet recusar imagens que tentem rodar com UID 0; combine com allowPrivilegeEscalation: false."
+        "explicacao": "'runAsNonRoot: true' faz o kubelet recusar imagens que tentem rodar com UID 0; combine com allowPrivilegeEscalation: false.",
+        "topico": "rbac-serviceaccounts"
       },
       {
         "id": "k8s-a-05",
@@ -321,16 +1061,20 @@
         ],
         "resposta": "RollingUpdate com maxUnavailable ajustado",
         "dica": "A alternativa derruba tudo antes de subir.",
-        "explicacao": "RollingUpdate sobe pods novos antes de remover os antigos; Recreate encerra todos primeiro, gerando downtime."
+        "explicacao": "RollingUpdate sobe pods novos antes de remover os antigos; Recreate encerra todos primeiro, gerando downtime.",
+        "topico": "rollout-troubleshooting-helm"
       },
       {
         "id": "k8s-a-06",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando que aplica todos os manifests renderizados por kustomize no diretório overlays/prod.",
         "resposta": "kubectl apply -k overlays/prod",
-        "aceitas": ["kubectl apply --kustomize overlays/prod"],
+        "aceitas": [
+          "kubectl apply --kustomize overlays/prod"
+        ],
         "dica": "A flag é a letra k minúscula.",
-        "explicacao": "'-k' processa kustomization.yaml, aplicando bases e patches de overlay sem templating externo."
+        "explicacao": "'-k' processa kustomization.yaml, aplicando bases e patches de overlay sem templating externo.",
+        "topico": "manifestos-yaml"
       },
       {
         "id": "k8s-a-07",
@@ -344,34 +1088,48 @@
         ],
         "resposta": "Identidade de rede estável e volumes por réplica, em ordem previsível",
         "dica": "Pense em bancos de dados em cluster.",
-        "explicacao": "StatefulSet dá nomes ordinais estáveis (db-0, db-1), PVCs dedicados e criação/remoção ordenada."
+        "explicacao": "StatefulSet dá nomes ordinais estáveis (db-0, db-1), PVCs dedicados e criação/remoção ordenada.",
+        "topico": "daemonset-statefulset"
       },
       {
         "id": "k8s-a-08",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando que reverte o último rollout do deployment api.",
         "resposta": "kubectl rollout undo deployment/api",
-        "aceitas": ["kubectl rollout undo deploy/api", "kubectl rollout undo deployment api"],
+        "aceitas": [
+          "kubectl rollout undo deploy/api",
+          "kubectl rollout undo deployment api"
+        ],
         "dica": "O verbo é undo.",
-        "explicacao": "'rollout undo' volta para a revisão anterior; use --to-revision=N para escolher outra revisão do histórico."
+        "explicacao": "'rollout undo' volta para a revisão anterior; use --to-revision=N para escolher outra revisão do histórico.",
+        "topico": "rollout-troubleshooting-helm"
       },
       {
         "id": "k8s-a-09",
         "tipo": "multipla",
         "pergunta": "Qual recurso escala pods automaticamente conforme o uso de CPU?",
-        "opcoes": ["HorizontalPodAutoscaler", "VerticalPodAutoscaler", "ClusterAutoscaler", "PriorityClass"],
+        "opcoes": [
+          "HorizontalPodAutoscaler",
+          "VerticalPodAutoscaler",
+          "ClusterAutoscaler",
+          "PriorityClass"
+        ],
         "resposta": "HorizontalPodAutoscaler",
         "dica": "Horizontal significa mais réplicas.",
-        "explicacao": "HPA ajusta réplicas por métricas; VPA ajusta requests/limits e o Cluster Autoscaler adiciona nós."
+        "explicacao": "HPA ajusta réplicas por métricas; VPA ajusta requests/limits e o Cluster Autoscaler adiciona nós.",
+        "topico": "hpa"
       },
       {
         "id": "k8s-a-10",
         "tipo": "sintaxe",
         "pergunta": "Escreva a chave YAML que agenda um CronJob para rodar todo dia às 3h.",
         "resposta": "schedule: \"0 3 * * *\"",
-        "aceitas": ["schedule: '0 3 * * *'"],
+        "aceitas": [
+          "schedule: '0 3 * * *'"
+        ],
         "dica": "Formato cron padrão entre aspas.",
-        "explicacao": "A chave 'schedule' usa sintaxe cron; aspas evitam que o YAML interprete o asterisco de forma inesperada."
+        "explicacao": "A chave 'schedule' usa sintaxe cron; aspas evitam que o YAML interprete o asterisco de forma inesperada.",
+        "topico": "jobs-cronjobs"
       },
       {
         "id": "k8s-a-11",
@@ -385,17 +1143,582 @@
         ],
         "resposta": "ServiceAccount + Role/RoleBinding com verbos específicos",
         "dica": "RBAC com menor privilégio.",
-        "explicacao": "Crie uma ServiceAccount dedicada e vincule uma Role restrita aos verbos e recursos realmente necessários."
+        "explicacao": "Crie uma ServiceAccount dedicada e vincule uma Role restrita aos verbos e recursos realmente necessários.",
+        "topico": "rbac-serviceaccounts"
       },
       {
         "id": "k8s-a-12",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando que mostra o consumo de CPU e memória dos pods (metrics-server).",
         "resposta": "kubectl top pods",
-        "aceitas": ["kubectl top pod", "kubectl top pods -A"],
+        "aceitas": [
+          "kubectl top pod",
+          "kubectl top pods -A"
+        ],
         "dica": "O subcomando lembra o utilitário 'top' do Linux.",
-        "explicacao": "'kubectl top' consulta o metrics-server; sem ele instalado o comando retorna erro de métricas indisponíveis."
+        "explicacao": "'kubectl top' consulta o metrics-server; sem ele instalado o comando retorna erro de métricas indisponíveis.",
+        "topico": "rollout-troubleshooting-helm"
+      },
+      {
+        "id": "k8s-a-13",
+        "tipo": "multipla",
+        "pergunta": "Qual a diferença entre Role e ClusterRole?",
+        "opcoes": [
+          "Role vale para um namespace; ClusterRole vale para o cluster todo",
+          "São idênticos, apenas nomes diferentes",
+          "ClusterRole é para pods e Role para nós",
+          "Role só permite leitura"
+        ],
+        "resposta": "Role vale para um namespace; ClusterRole vale para o cluster todo",
+        "dica": "Escopo é a diferença chave.",
+        "explicacao": "ClusterRole pode ser usado tanto para recursos cluster-wide (nodes) quanto namespaced via ClusterRoleBinding em vários namespaces.",
+        "topico": "rbac-serviceaccounts"
+      },
+      {
+        "id": "k8s-a-14",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que cria uma RoleBinding associando a role pod-reader à serviceaccount app-sa no namespace default.",
+        "resposta": "kubectl create rolebinding read-pods --role=pod-reader --serviceaccount=default:app-sa",
+        "aceitas": [
+          "kubectl create rolebinding read-pods --role=pod-reader --serviceaccount=default:app-sa -n default"
+        ],
+        "dica": "Formato namespace:nome da serviceaccount.",
+        "explicacao": "RoleBinding conecta o sujeito (ServiceAccount) à Role, concedendo os verbos definidos apenas naquele namespace.",
+        "topico": "rbac-serviceaccounts"
+      },
+      {
+        "id": "k8s-a-15",
+        "tipo": "multipla",
+        "pergunta": "Como permitir tráfego apenas de pods com label role=frontend para pods com label role=backend?",
+        "opcoes": [
+          "NetworkPolicy no backend com ingress.from.podSelector matchLabels role=frontend",
+          "ResourceQuota limitando o backend",
+          "Um Service do tipo ClusterIP",
+          "Uma Role restringindo o Service"
+        ],
+        "resposta": "NetworkPolicy no backend com ingress.from.podSelector matchLabels role=frontend",
+        "dica": "A regra fica do lado que recebe tráfego.",
+        "explicacao": "A NetworkPolicy é aplicada aos pods de destino (podSelector) e define 'from' com o selector da origem permitida.",
+        "topico": "network-policies"
+      },
+      {
+        "id": "k8s-a-16",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva a chave YAML que restringe todo egress de uma NetworkPolicy (policyTypes).",
+        "resposta": "policyTypes:\n  - Egress",
+        "aceitas": [
+          "policyTypes: [Egress]"
+        ],
+        "dica": "Lista de tipos de política.",
+        "explicacao": "'policyTypes' declara se a policy afeta Ingress, Egress ou ambos; sem 'egress' definido e o tipo presente, tudo é bloqueado.",
+        "topico": "network-policies"
+      },
+      {
+        "id": "k8s-a-17",
+        "tipo": "multipla",
+        "pergunta": "Por que remover um StatefulSet não apaga automaticamente os PVCs das réplicas?",
+        "opcoes": [
+          "Para evitar perda acidental de dados persistentes",
+          "Porque o Kubernetes não suporta essa operação",
+          "Porque PVCs pertencem ao DaemonSet",
+          "É uma limitação temporária que será corrigida"
+        ],
+        "resposta": "Para evitar perda acidental de dados persistentes",
+        "dica": "É uma proteção deliberada.",
+        "explicacao": "volumeClaimTemplates cria PVCs que sobrevivem à remoção do StatefulSet, exigindo exclusão manual quando os dados não são mais necessários.",
+        "topico": "daemonset-statefulset"
+      },
+      {
+        "id": "k8s-a-18",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que escala o statefulset db para 5 réplicas.",
+        "resposta": "kubectl scale statefulset db --replicas=5",
+        "aceitas": [
+          "kubectl scale sts db --replicas=5"
+        ],
+        "dica": "Abreviação sts.",
+        "explicacao": "StatefulSets também suportam 'kubectl scale', respeitando a ordem de criação/remoção dos pods ordinais.",
+        "topico": "daemonset-statefulset"
+      },
+      {
+        "id": "k8s-a-19",
+        "tipo": "multipla",
+        "pergunta": "O que o VerticalPodAutoscaler ajusta, diferente do HPA?",
+        "opcoes": [
+          "Os valores de requests/limits dos containers",
+          "O número de réplicas do Deployment",
+          "O número de nós do cluster",
+          "As labels dos pods"
+        ],
+        "resposta": "Os valores de requests/limits dos containers",
+        "dica": "Vertical = tamanho, não quantidade.",
+        "explicacao": "O VPA recalcula requests/limits ideais e pode recriar pods para aplicar os novos valores, complementando o HPA.",
+        "topico": "hpa"
+      },
+      {
+        "id": "k8s-a-20",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que remove o HPA associado ao deployment api.",
+        "resposta": "kubectl delete hpa api",
+        "aceitas": [
+          "kubectl delete horizontalpodautoscaler api"
+        ],
+        "dica": "Abreviação hpa.",
+        "explicacao": "'kubectl delete hpa' remove a política de autoscaling, mantendo o número atual de réplicas fixo.",
+        "topico": "hpa"
+      },
+      {
+        "id": "k8s-a-21",
+        "tipo": "multipla",
+        "pergunta": "O que é uma StorageClass?",
+        "opcoes": [
+          "Define como volumes são provisionados dinamicamente (tipo de disco, provisionador etc.)",
+          "É um tipo de Secret para credenciais de storage",
+          "Define o tamanho máximo de um namespace",
+          "É sinônimo de PersistentVolume"
+        ],
+        "resposta": "Define como volumes são provisionados dinamicamente (tipo de disco, provisionador etc.)",
+        "dica": "Relaciona-se ao provisionamento dinâmico.",
+        "explicacao": "Ao referenciar uma StorageClass no PVC, o Kubernetes cria automaticamente um PV compatível via o provisionador configurado.",
+        "topico": "volumes-pvc"
+      },
+      {
+        "id": "k8s-a-22",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que mostra as StorageClasses disponíveis no cluster.",
+        "resposta": "kubectl get storageclass",
+        "aceitas": [
+          "kubectl get sc"
+        ],
+        "dica": "Abreviação sc.",
+        "explicacao": "'kubectl get storageclass' lista provisionadores disponíveis e qual é a classe padrão (marcada com annotation).",
+        "topico": "volumes-pvc"
+      },
+      {
+        "id": "k8s-a-23",
+        "tipo": "multipla",
+        "pergunta": "Para que serve 'helm template'?",
+        "opcoes": [
+          "Renderizar os manifests do chart localmente sem instalar no cluster",
+          "Instalar o chart diretamente em produção",
+          "Fazer rollback de uma release",
+          "Criar um novo chart do zero"
+        ],
+        "resposta": "Renderizar os manifests do chart localmente sem instalar no cluster",
+        "dica": "É uma etapa de depuração/pré-visualização.",
+        "explicacao": "'helm template' processa values.yaml e templates gerando o YAML final, útil para revisar antes de aplicar.",
+        "topico": "rollout-troubleshooting-helm"
+      },
+      {
+        "id": "k8s-a-24",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que instala o chart ./meu-chart como release chamada api usando values-prod.yaml.",
+        "resposta": "helm install api ./meu-chart -f values-prod.yaml",
+        "aceitas": [
+          "helm install api ./meu-chart --values values-prod.yaml"
+        ],
+        "dica": "Flag -f para values.",
+        "explicacao": "'helm install <release> <chart>' cria a release; '-f' sobrepõe valores padrão do chart com um arquivo customizado.",
+        "topico": "rollout-troubleshooting-helm"
+      },
+      {
+        "id": "k8s-a-25",
+        "tipo": "multipla",
+        "pergunta": "Qual comando reverte uma release Helm para a revisão anterior?",
+        "opcoes": [
+          "helm rollback api",
+          "helm undo api",
+          "helm revert api",
+          "helm downgrade api"
+        ],
+        "resposta": "helm rollback api",
+        "dica": "Mesma lógica do rollout undo do kubectl.",
+        "explicacao": "'helm rollback <release> [revisão]' restaura os manifests de uma revisão anterior gravada no histórico da release.",
+        "topico": "rollout-troubleshooting-helm"
+      },
+      {
+        "id": "k8s-a-26",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que lista o histórico de revisões da release Helm api.",
+        "resposta": "helm history api",
+        "aceitas": [
+          "helm history api -o table"
+        ],
+        "dica": "Subcomando history.",
+        "explicacao": "'helm history' mostra revisão, status, chart e descrição de cada upgrade/rollback realizado na release.",
+        "topico": "rollout-troubleshooting-helm"
+      },
+      {
+        "id": "k8s-a-27",
+        "tipo": "multipla",
+        "pergunta": "Quando usar podAntiAffinity com preferredDuringSchedulingIgnoredDuringExecution?",
+        "opcoes": [
+          "Quando se deseja espalhar réplicas entre nós/zonas sem tornar isso obrigatório",
+          "Quando é necessário forçar todos os pods no mesmo nó",
+          "Quando não existem outros nós disponíveis",
+          "Quando o pod não tem labels"
+        ],
+        "resposta": "Quando se deseja espalhar réplicas entre nós/zonas sem tornar isso obrigatório",
+        "dica": "'preferred' é uma preferência, não regra rígida.",
+        "explicacao": "'preferred' é soft-constraint (o scheduler tenta, mas pode ignorar); 'required' é hard-constraint e pode deixar pods Pending se não puder ser satisfeita.",
+        "topico": "taints-affinity"
+      },
+      {
+        "id": "k8s-a-28",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva a chave YAML que exige nodeAffinity obrigatória com a label disktype=ssd.",
+        "resposta": "requiredDuringSchedulingIgnoredDuringExecution:\n  nodeSelectorTerms:\n    - matchExpressions:\n        - key: disktype\n          operator: In\n          values: [\"ssd\"]",
+        "aceitas": [
+          "nodeSelectorTerms:\n  - matchExpressions:\n      - key: disktype\n        operator: In\n        values: [ssd]"
+        ],
+        "dica": "Fica dentro de nodeAffinity.",
+        "explicacao": "'requiredDuringSchedulingIgnoredDuringExecution' torna a regra obrigatória: sem nó compatível, o pod não é agendado.",
+        "topico": "taints-affinity"
+      },
+      {
+        "id": "k8s-a-29",
+        "tipo": "multipla",
+        "pergunta": "Como isolar completamente um namespace, negando todo tráfego de entrada por padrão?",
+        "opcoes": [
+          "Aplicar uma NetworkPolicy com podSelector vazio e sem regras de ingress",
+          "Deletar todos os Services do namespace",
+          "Criar uma ResourceQuota com limite zero",
+          "Remover o CNI do cluster"
+        ],
+        "resposta": "Aplicar uma NetworkPolicy com podSelector vazio e sem regras de ingress",
+        "dica": "podSelector: {} seleciona todos os pods do namespace.",
+        "explicacao": "Uma policy com podSelector vazio e ingress: [] bloqueia toda entrada não explicitamente permitida por outra policy.",
+        "topico": "network-policies"
+      },
+      {
+        "id": "k8s-a-30",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que verifica se a serviceaccount app-sa pode listar pods.",
+        "resposta": "kubectl auth can-i list pods --as=system:serviceaccount:default:app-sa",
+        "aceitas": [
+          "kubectl auth can-i list pods --as=system:serviceaccount:default:app-sa -n default"
+        ],
+        "dica": "Subcomando auth can-i.",
+        "explicacao": "'kubectl auth can-i' simula a permissão de um sujeito, essencial para depurar RBAC sem tentar a ação de verdade.",
+        "topico": "rbac-serviceaccounts"
+      },
+      {
+        "id": "k8s-a-31",
+        "tipo": "multipla",
+        "pergunta": "O que é um LimitRange em um namespace?",
+        "opcoes": [
+          "Define valores padrão e limites mínimos/máximos de recursos para objetos daquele namespace",
+          "É sinônimo de ResourceQuota",
+          "Limita o número de pods por nó",
+          "Define quotas de armazenamento apenas"
+        ],
+        "resposta": "Define valores padrão e limites mínimos/máximos de recursos para objetos daquele namespace",
+        "dica": "Atua por objeto, não pelo total do namespace.",
+        "explicacao": "Enquanto ResourceQuota limita o total agregado do namespace, LimitRange define/valida requests e limits por container/pod individualmente.",
+        "topico": "resources-limits"
+      },
+      {
+        "id": "k8s-a-32",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que mostra a ResourceQuota do namespace producao.",
+        "resposta": "kubectl get resourcequota -n producao",
+        "aceitas": [
+          "kubectl get quota -n producao"
+        ],
+        "dica": "Abreviação quota.",
+        "explicacao": "'kubectl get resourcequota' mostra o quanto já foi consumido versus o limite total configurado para o namespace.",
+        "topico": "resources-limits"
+      },
+      {
+        "id": "k8s-a-33",
+        "tipo": "multipla",
+        "pergunta": "O que a flag concurrencyPolicy: Forbid faz em um CronJob?",
+        "opcoes": [
+          "Impede que uma nova execução comece se a anterior ainda estiver rodando",
+          "Proíbe o CronJob de ser editado",
+          "Bloqueia a criação de novos CronJobs no namespace",
+          "Impede execuções em paralelo entre diferentes CronJobs"
+        ],
+        "resposta": "Impede que uma nova execução comece se a anterior ainda estiver rodando",
+        "dica": "Evita sobreposição de execuções do mesmo CronJob.",
+        "explicacao": "Além de Forbid, existem Allow (permite sobreposição) e Replace (cancela a execução antiga e inicia a nova).",
+        "topico": "jobs-cronjobs"
+      },
+      {
+        "id": "k8s-a-34",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que suspende (pausa) o cronjob backup sem removê-lo.",
+        "resposta": "kubectl patch cronjob backup -p '{\"spec\":{\"suspend\":true}}'",
+        "aceitas": [
+          "kubectl edit cronjob backup"
+        ],
+        "dica": "Campo spec.suspend.",
+        "explicacao": "'suspend: true' impede novas execuções agendadas mantendo o histórico e a definição do CronJob intactos.",
+        "topico": "jobs-cronjobs"
+      },
+      {
+        "id": "k8s-a-35",
+        "tipo": "multipla",
+        "pergunta": "O que investigar quando um pod fica preso em ImagePullBackOff?",
+        "opcoes": [
+          "Nome/tag da imagem, credenciais do registry e conectividade de rede",
+          "Apenas o uso de CPU do nó",
+          "Somente as labels do pod",
+          "O tamanho do PVC associado"
+        ],
+        "resposta": "Nome/tag da imagem, credenciais do registry e conectividade de rede",
+        "dica": "O erro é sobre baixar a imagem.",
+        "explicacao": "ImagePullBackOff geralmente indica imagem/tag inexistente, registry privado sem imagePullSecrets ou falha de rede/DNS para o registry.",
+        "topico": "rollout-troubleshooting-helm"
+      },
+      {
+        "id": "k8s-a-36",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que mostra os eventos do cluster ordenados por horário, mais recentes por último.",
+        "resposta": "kubectl get events --sort-by=.metadata.creationTimestamp",
+        "aceitas": [
+          "kubectl get events --sort-by='.lastTimestamp'"
+        ],
+        "dica": "Flag --sort-by com um campo do objeto.",
+        "explicacao": "'kubectl get events --sort-by' ajuda a correlacionar falhas de agendamento, probes e pulls de imagem em ordem cronológica.",
+        "topico": "rollout-troubleshooting-helm"
       }
     ]
-  }
+  },
+  "teorias": [
+    {
+      "id": "manifestos-yaml",
+      "titulo": "Manifests YAML e estrutura de recursos",
+      "resumo": "Todo recurso do Kubernetes é descrito declarativamente em YAML com quatro campos raiz.",
+      "pontos": [
+        "apiVersion, kind, metadata e spec formam a base de qualquer manifest",
+        "YAML usa apenas espaços para indentação, nunca tabs",
+        "'---' separa múltiplos documentos no mesmo arquivo",
+        "kubectl apply -f é declarativo e idempotente; create é imperativo",
+        "--dry-run=client/server valida um manifest antes de aplicar de fato"
+      ],
+      "exemplo": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: api\nspec:\n  replicas: 3"
+    },
+    {
+      "id": "pods",
+      "titulo": "Pods: a menor unidade de execução",
+      "resumo": "O Pod agrupa um ou mais containers que compartilham rede e storage.",
+      "pontos": [
+        "kubectl get pods lista os pods do namespace atual",
+        "kubectl describe pod mostra eventos e motivos de falha",
+        "kubectl logs lê o stdout do container; --previous mostra o container anterior",
+        "kubectl port-forward cria um túnel local para depuração",
+        "Pods são efêmeros; controllers como Deployment recriam quando morrem"
+      ],
+      "exemplo": "kubectl get pods\nkubectl describe pod api-123\nkubectl logs -f api-123"
+    },
+    {
+      "id": "deployments",
+      "titulo": "Deployments e ReplicaSets",
+      "resumo": "O Deployment gerencia ReplicaSets que garantem o número desejado de pods.",
+      "pontos": [
+        "replicas define quantos pods idênticos devem existir",
+        "kubectl scale altera réplicas imperativamente",
+        "RollingUpdate substitui pods gradualmente sem downtime",
+        "PodDisruptionBudget protege réplicas mínimas durante manutenções",
+        "O Deployment cria um novo ReplicaSet a cada alteração do template"
+      ],
+      "exemplo": "spec:\n  replicas: 3\n  strategy:\n    type: RollingUpdate"
+    },
+    {
+      "id": "services",
+      "titulo": "Services e exposição de rede",
+      "resumo": "O Service dá um endpoint estável para um conjunto de pods.",
+      "pontos": [
+        "ClusterIP é o padrão, acessível só dentro do cluster",
+        "NodePort abre uma porta fixa em todos os nós",
+        "LoadBalancer provisiona um balanceador externo na nuvem",
+        "O selector do Service casa com labels dos pods para formar endpoints",
+        "ExternalName mapeia o Service para um DNS externo"
+      ],
+      "exemplo": "apiVersion: v1\nkind: Service\nspec:\n  selector:\n    app: api\n  ports:\n    - port: 80\n      targetPort: 8080"
+    },
+    {
+      "id": "ingress",
+      "titulo": "Ingress e roteamento HTTP",
+      "resumo": "O Ingress expõe rotas HTTP/HTTPS externas para Services internos.",
+      "pontos": [
+        "Precisa de um Ingress Controller (nginx, traefik etc.) rodando no cluster",
+        "Regras de host e path roteiam para diferentes Services",
+        "Suporta TLS via secretName referenciando um Secret tls",
+        "rules.http.paths define backend.service.name e port",
+        "Sem controller instalado, o recurso Ingress não tem efeito"
+      ],
+      "exemplo": "apiVersion: networking.k8s.io/v1\nkind: Ingress\nspec:\n  rules:\n    - host: app.com\n      http:\n        paths:\n          - path: /\n            pathType: Prefix\n            backend:\n              service:\n                name: api\n                port:\n                  number: 80"
+    },
+    {
+      "id": "configmaps",
+      "titulo": "ConfigMaps",
+      "resumo": "ConfigMaps armazenam dados de configuração não sensíveis.",
+      "pontos": [
+        "--from-file carrega o conteúdo de um arquivo como chave",
+        "--from-literal cria pares chave=valor diretamente",
+        "Podem ser montados como variáveis de ambiente ou volumes",
+        "configMapKeyRef injeta uma chave específica como env var",
+        "Mudanças em ConfigMap montado como volume podem ser refletidas sem restart"
+      ],
+      "exemplo": "kubectl create configmap app-config --from-literal=ENV=prod"
+    },
+    {
+      "id": "secrets",
+      "titulo": "Secrets",
+      "resumo": "Secrets guardam dados sensíveis como senhas e tokens.",
+      "pontos": [
+        "Por padrão o valor é apenas Base64, não criptografado",
+        "secretKeyRef injeta uma chave do Secret como variável de ambiente",
+        "Habilite encryption at rest no etcd para maior segurança",
+        "Secrets também podem ser montados como arquivos em um volume",
+        "Ferramentas como Vault ou Sealed Secrets reforçam a segurança"
+      ],
+      "exemplo": "env:\n  - name: DB_URL\n    valueFrom:\n      secretKeyRef:\n        name: db-secret\n        key: url"
+    },
+    {
+      "id": "namespaces-labels",
+      "titulo": "Namespaces, Labels e Selectors",
+      "resumo": "Namespaces isolam recursos logicamente; labels/selectors os organizam e filtram.",
+      "pontos": [
+        "kubectl get pods -A lista recursos de todos os namespaces",
+        "Labels são pares chave/valor atribuídos a objetos",
+        "Selectors filtram objetos por labels (usados por Service, Deployment etc.)",
+        "kubectl get pods -l app=api filtra por label",
+        "ResourceQuota limita consumo de recursos por namespace"
+      ],
+      "exemplo": "kubectl get pods -n producao -l app=api"
+    },
+    {
+      "id": "probes",
+      "titulo": "Liveness, Readiness e Startup Probes",
+      "resumo": "Probes verificam a saúde dos containers para reiniciar ou controlar tráfego.",
+      "pontos": [
+        "livenessProbe reinicia o container quando falha continuamente",
+        "readinessProbe remove o pod do balanceamento sem reiniciá-lo",
+        "startupProbe dá tempo extra para aplicações de boot lento",
+        "Tipos comuns: httpGet, tcpSocket e exec",
+        "initialDelaySeconds e periodSeconds ajustam o timing das checagens"
+      ],
+      "exemplo": "livenessProbe:\n  httpGet:\n    path: /health\n    port: 8080\n  initialDelaySeconds: 5"
+    },
+    {
+      "id": "resources-limits",
+      "titulo": "Requests e Limits de recursos",
+      "resumo": "Definem quanto CPU/memória um container solicita e o teto que pode usar.",
+      "pontos": [
+        "requests influenciam o agendamento do pod no nó",
+        "limits definem o teto; ultrapassar memory causa OOMKill",
+        "Ultrapassar limit de CPU causa throttling, não término do pod",
+        "kubectl top pods mostra o consumo real via metrics-server",
+        "LimitRange define valores padrão por namespace"
+      ],
+      "exemplo": "resources:\n  requests:\n    memory: 128Mi\n    cpu: 100m\n  limits:\n    memory: 256Mi\n    cpu: 500m"
+    },
+    {
+      "id": "hpa",
+      "titulo": "HorizontalPodAutoscaler",
+      "resumo": "Escala automaticamente o número de réplicas conforme métricas.",
+      "pontos": [
+        "Depende do metrics-server para ler CPU/memória",
+        "targetCPUUtilizationPercentage define o gatilho de escala",
+        "minReplicas e maxReplicas limitam o intervalo de escala",
+        "VerticalPodAutoscaler ajusta requests/limits em vez de réplicas",
+        "Cluster Autoscaler adiciona/remove nós conforme demanda de pods"
+      ],
+      "exemplo": "kubectl autoscale deployment api --cpu-percent=70 --min=2 --max=10"
+    },
+    {
+      "id": "daemonset-statefulset",
+      "titulo": "DaemonSets e StatefulSets",
+      "resumo": "Controllers especializados para agentes por nó e aplicações com estado.",
+      "pontos": [
+        "DaemonSet garante um pod em cada nó (ex.: agentes de log/monitoramento)",
+        "kubectl drain --ignore-daemonsets é necessário pois DaemonSets não são evacuados",
+        "StatefulSet dá nomes ordinais estáveis (db-0, db-1...)",
+        "StatefulSet cria/atualiza/remove pods em ordem previsível",
+        "Cada réplica de StatefulSet pode ter seu próprio PVC via volumeClaimTemplates"
+      ],
+      "exemplo": "apiVersion: apps/v1\nkind: StatefulSet\nspec:\n  serviceName: db\n  replicas: 3"
+    },
+    {
+      "id": "jobs-cronjobs",
+      "titulo": "Jobs e CronJobs",
+      "resumo": "Executam tarefas até a conclusão, uma vez ou em agendamento recorrente.",
+      "pontos": [
+        "Job garante que um número de pods termine com sucesso",
+        "completions e parallelism controlam execuções de um Job",
+        "CronJob agenda Jobs usando sintaxe cron no campo schedule",
+        "backoffLimit define quantas tentativas até desistir",
+        "restartPolicy de um Job costuma ser Never ou OnFailure"
+      ],
+      "exemplo": "apiVersion: batch/v1\nkind: CronJob\nspec:\n  schedule: \"0 3 * * *\""
+    },
+    {
+      "id": "volumes-pvc",
+      "titulo": "Volumes e PersistentVolumeClaims",
+      "resumo": "Fornecem armazenamento persistente ou compartilhado para pods.",
+      "pontos": [
+        "emptyDir é temporário e some quando o pod é removido",
+        "PersistentVolume (PV) representa o storage físico/provisionado",
+        "PersistentVolumeClaim (PVC) é o pedido de storage feito pelo pod",
+        "StorageClass permite provisionamento dinâmico de PVs",
+        "accessModes definem como o volume pode ser montado (RWO, RWX, ROX)"
+      ],
+      "exemplo": "apiVersion: v1\nkind: PersistentVolumeClaim\nspec:\n  accessModes: [\"ReadWriteOnce\"]\n  resources:\n    requests:\n      storage: 1Gi"
+    },
+    {
+      "id": "rbac-serviceaccounts",
+      "titulo": "RBAC e ServiceAccounts",
+      "resumo": "Controlam quem/o que pode fazer o quê no cluster.",
+      "pontos": [
+        "ServiceAccount é a identidade usada por pods para chamar a API",
+        "Role/ClusterRole definem verbos permitidos sobre recursos",
+        "RoleBinding/ClusterRoleBinding associam a Role a um sujeito",
+        "Aplique o princípio do menor privilégio, evite cluster-admin",
+        "securityContext.runAsNonRoot reforça a segurança do container"
+      ],
+      "exemplo": "kubectl create role pod-reader --verb=get,list --resource=pods\nkubectl create rolebinding rb --role=pod-reader --serviceaccount=default:app"
+    },
+    {
+      "id": "network-policies",
+      "titulo": "NetworkPolicies",
+      "resumo": "Controlam o tráfego de rede permitido entre pods e namespaces.",
+      "pontos": [
+        "Sem nenhuma policy, todo tráfego entre pods é permitido por padrão",
+        "Selecionam pods afetados via podSelector",
+        "ingress e egress definem regras de entrada e saída",
+        "Requer um CNI que suporte NetworkPolicy (ex.: Calico)",
+        "Podem restringir tráfego entre namespaces usando namespaceSelector"
+      ],
+      "exemplo": "apiVersion: networking.k8s.io/v1\nkind: NetworkPolicy\nspec:\n  podSelector: {}\n  policyTypes: [Ingress]"
+    },
+    {
+      "id": "taints-affinity",
+      "titulo": "Taints, Tolerations e Affinity",
+      "resumo": "Controlam onde os pods podem ou não ser agendados.",
+      "pontos": [
+        "Taints em nós repelem pods, a menos que tenham toleration correspondente",
+        "nodeAffinity direciona pods para nós com certas labels",
+        "podAffinity/podAntiAffinity aproximam ou afastam pods entre si",
+        "kubectl taint node adiciona um taint a um nó",
+        "Effect pode ser NoSchedule, PreferNoSchedule ou NoExecute"
+      ],
+      "exemplo": "tolerations:\n  - key: \"dedicated\"\n    operator: \"Equal\"\n    value: \"gpu\"\n    effect: \"NoSchedule\""
+    },
+    {
+      "id": "rollout-troubleshooting-helm",
+      "titulo": "Rollouts, troubleshooting e Helm",
+      "resumo": "Gerenciar atualizações, diagnosticar falhas e empacotar aplicações com Helm.",
+      "pontos": [
+        "kubectl rollout history/undo controla revisões de um Deployment",
+        "CrashLoopBackOff indica reinícios repetidos por falha do container",
+        "kubectl top mostra consumo via metrics-server",
+        "Helm empacota manifests em charts reutilizáveis com values.yaml",
+        "helm install/upgrade aplicam e versionam releases no cluster"
+      ],
+      "exemplo": "kubectl rollout undo deployment/api\nhelm upgrade --install api ./chart -f values.yaml"
+    }
+  ]
 }

@@ -3,34 +3,270 @@
   "nome": "Bash Scripting",
   "icone": "Terminal",
   "descricao": "Shell scripting em Linux: variáveis, testes, loops, pipes e automação.",
+  "teorias": [
+    {
+      "id": "shebang-interpretador",
+      "titulo": "Shebang e interpretador",
+      "resumo": "A primeira linha de um script define qual interpretador o kernel deve usar para executá-lo.",
+      "pontos": [
+        "#!/bin/bash escolhe o Bash como interpretador",
+        "#!/usr/bin/env bash localiza o bash no PATH, mais portável",
+        "O script precisa de permissão de execução (chmod +x)",
+        "Sem shebang, o script roda no shell que o chamar (source) ou dá erro se executado diretamente"
+      ],
+      "exemplo": "#!/usr/bin/env bash\nset -euo pipefail\necho \"ola mundo\""
+    },
+    {
+      "id": "permissoes-arquivos",
+      "titulo": "Permissões e execução de arquivos",
+      "resumo": "Permissões controlam quem pode ler, escrever ou executar um arquivo em Linux.",
+      "pontos": [
+        "chmod +x arquivo dá permissão de execução",
+        "chmod 755 = rwxr-xr-x, 644 = rw-r--r--",
+        "chown troca dono/grupo do arquivo",
+        "ls -l mostra as permissões atuais"
+      ],
+      "exemplo": "chmod 750 deploy.sh\nchown app:app deploy.sh\nls -l deploy.sh"
+    },
+    {
+      "id": "variaveis-basico",
+      "titulo": "Variáveis em Bash",
+      "resumo": "Variáveis armazenam valores textuais e são atribuídas sem espaços ao redor do sinal de igual.",
+      "pontos": [
+        "NOME=valor, sem espaços; NOME = valor é um comando",
+        "echo \"$NOME\" para ler o valor, sempre entre aspas",
+        "export torna a variável visível a processos filhos",
+        "readonly impede reatribuição"
+      ],
+      "exemplo": "NOME=deploy\nexport AMBIENTE=prod\necho \"Ambiente: $AMBIENTE, script: $NOME\""
+    },
+    {
+      "id": "expansao-variaveis",
+      "titulo": "Expansão de parâmetros",
+      "resumo": "O Bash oferece operadores para valores padrão, substituição e manipulação de strings sem chamar comandos externos.",
+      "pontos": [
+        "${VAR:-padrao} usa padrão se VAR vazia/indefinida",
+        "${VAR:=padrao} também atribui o padrão à variável",
+        "${VAR#pref} / ${VAR%suf} removem prefixo/sufixo",
+        "${VAR//busca/novo} substitui todas as ocorrências",
+        "${#VAR} retorna o tamanho da string"
+      ],
+      "exemplo": "ARQ=app.tar.gz\necho \"${ARQ%.tar.gz}\"      # app\necho \"${PORT:-8080}\""
+    },
+    {
+      "id": "testes-condicionais",
+      "titulo": "Testes e condicionais",
+      "resumo": "if/[[ ]] permitem tomar decisões com base em arquivos, strings e números.",
+      "pontos": [
+        "[[ ]] é o teste estendido do Bash, mais seguro que [ ]",
+        "-f, -d, -e testam arquivo, diretório e existência",
+        "== e != comparam strings; -eq, -lt, -gt comparam números",
+        "&& e || combinam condições de forma curto-circuito"
+      ],
+      "exemplo": "if [[ -f /etc/hosts && \"$AMBIENTE\" == \"prod\" ]]; then\n  echo \"producao com hosts\"\nfi"
+    },
+    {
+      "id": "loops",
+      "titulo": "Laços de repetição",
+      "resumo": "for, while e until permitem iterar sobre listas, arquivos ou até uma condição mudar.",
+      "pontos": [
+        "for var in lista; do ... done itera sobre palavras/glob",
+        "while cond; do ... done repete enquanto verdadeiro",
+        "until cond; do ... done repete até ficar verdadeiro",
+        "break e continue controlam o fluxo do loop"
+      ],
+      "exemplo": "for f in *.log; do\n  echo \"Processando $f\"\ndone"
+    },
+    {
+      "id": "funcoes",
+      "titulo": "Funções em Bash",
+      "resumo": "Funções encapsulam lógica reutilizável, recebem argumentos posicionais e retornam código de saída.",
+      "pontos": [
+        "nome() { ... } é a forma portável de declarar",
+        "Argumentos chegam como $1, $2... dentro da função",
+        "return define o exit code (0-255), não um valor arbitrário",
+        "local restringe a variável ao escopo da função"
+      ],
+      "exemplo": "deploy() {\n  local ambiente=\"$1\"\n  echo \"Fazendo deploy em $ambiente\"\n  return 0\n}\ndeploy prod"
+    },
+    {
+      "id": "arrays",
+      "titulo": "Arrays indexados e associativos",
+      "resumo": "Bash suporta arrays indexados por número e, a partir da versão 4, arrays associativos (chave/valor).",
+      "pontos": [
+        "arr=(a b c) cria array indexado; declare -A cria associativo",
+        "${arr[@]} expande todos os elementos preservando espaços",
+        "${#arr[@]} retorna a quantidade de elementos",
+        "mapfile -t arr < <(comando) lê linhas de um comando em array"
+      ],
+      "exemplo": "declare -A CONFIG=([host]=localhost [porta]=8080)\nfor chave in \"${!CONFIG[@]}\"; do\n  echo \"$chave = ${CONFIG[$chave]}\"\ndone"
+    },
+    {
+      "id": "pipes-redirecionamento",
+      "titulo": "Pipes e redirecionamentos",
+      "resumo": "Pipes conectam comandos e redirecionamentos controlam para onde vão entrada e saída.",
+      "pontos": [
+        "| conecta stdout de um comando ao stdin do próximo",
+        "> sobrescreve, >> acrescenta ao arquivo",
+        "2>&1 redireciona stderr para o mesmo destino do stdout",
+        "< usa um arquivo como entrada padrão"
+      ],
+      "exemplo": "./build.sh > build.log 2>&1\ncat build.log | grep -i error"
+    },
+    {
+      "id": "grep-sed-awk",
+      "titulo": "grep, sed e awk",
+      "resumo": "Trio clássico de processamento de texto: grep busca, sed transforma linha a linha, awk processa campos.",
+      "pontos": [
+        "grep -r busca recursivamente, -i ignora maiúsculas",
+        "sed 's/de/para/' substitui a primeira ocorrência por linha",
+        "awk -F: define separador e $1,$2 acessam campos",
+        "sed -i edita o arquivo no lugar"
+      ],
+      "exemplo": "awk -F: '{print $1}' /etc/passwd\nsed -i 's/dev/prod/g' config.env"
+    },
+    {
+      "id": "processos-jobs",
+      "titulo": "Processos e jobs",
+      "resumo": "Todo comando roda como processo; o shell permite controlar execução em foreground, background e sinais.",
+      "pontos": [
+        "& executa em background; jobs lista os jobs ativos",
+        "ps aux lista processos; kill -SIGNAL PID envia sinal",
+        "wait espera um processo em background terminar",
+        "nohup evita que o processo termine ao fechar o terminal"
+      ],
+      "exemplo": "long_task & \npid=$!\nwait \"$pid\"\necho \"Terminou com status $?\""
+    },
+    {
+      "id": "cron-agendamento",
+      "titulo": "Cron e agendamento",
+      "resumo": "O cron executa tarefas periódicas conforme uma expressão de tempo definida na crontab.",
+      "pontos": [
+        "crontab -e edita as tarefas do usuário atual",
+        "Formato: minuto hora dia mes dia-semana comando",
+        "* * * * * roda a cada minuto; 0 3 * * * roda às 3h",
+        "Redirecione saída para log, pois cron não tem terminal interativo"
+      ],
+      "exemplo": "# Executa backup.sh todo dia às 2h\n0 2 * * * /opt/scripts/backup.sh >> /var/log/backup.log 2>&1"
+    },
+    {
+      "id": "traps-sinais",
+      "titulo": "Trap e sinais",
+      "resumo": "trap permite capturar sinais do sistema operacional e sinais do próprio shell para executar limpeza ou tratamento de erro.",
+      "pontos": [
+        "trap 'comando' SINAL registra um handler",
+        "EXIT é um pseudo-sinal disparado sempre que o script termina",
+        "SIGINT (Ctrl+C) e SIGTERM são sinais comuns de interrupção",
+        "ERR é disparado quando um comando falha (útil com set -e)"
+      ],
+      "exemplo": "cleanup() { rm -rf \"$TMPDIR\"; }\ntrap cleanup EXIT INT TERM"
+    },
+    {
+      "id": "modo-estrito-debugging",
+      "titulo": "Modo estrito e debugging",
+      "resumo": "Opções do set tornam scripts mais seguros e previsíveis, e ferramentas como shellcheck ajudam a evitar erros comuns.",
+      "pontos": [
+        "set -e aborta o script ao primeiro comando que falhar",
+        "set -u trata variável não definida como erro",
+        "set -o pipefail propaga falha de qualquer comando do pipe",
+        "bash -x script.sh ou set -x mostra cada comando executado",
+        "shellcheck faz análise estática do script"
+      ],
+      "exemplo": "set -euo pipefail\ntrap 'echo \"Erro na linha $LINENO\"' ERR"
+    },
+    {
+      "id": "subshells",
+      "titulo": "Subshells e escopo",
+      "resumo": "Parênteses criam uma subshell isolada, útil para isolar mudanças de diretório ou variáveis.",
+      "pontos": [
+        "( comandos ) roda em uma subshell, sem afetar o shell pai",
+        "cd dentro de ( ) não muda o diretório do script principal",
+        "$( comando ) é substituição de comando, também roda em subshell",
+        "Variáveis exportadas em subshell não retornam ao pai"
+      ],
+      "exemplo": "(cd /tmp && ./run.sh)\necho \"Ainda em: $(pwd)\""
+    },
+    {
+      "id": "here-docs",
+      "titulo": "Here-docs e here-strings",
+      "resumo": "Here-docs permitem passar blocos de texto multilinha como entrada de um comando.",
+      "pontos": [
+        "<< EOF ... EOF envia texto multilinha para stdin",
+        "<<-'EOF' com aspas simples desativa expansão de variáveis",
+        "<<< \"texto\" é um here-string, entrada de uma linha só",
+        "Útil para gerar arquivos de configuração dentro de scripts"
+      ],
+      "exemplo": "cat <<EOF > config.txt\nhost=$HOST\nporta=8080\nEOF"
+    },
+    {
+      "id": "getopts-jq",
+      "titulo": "getopts e jq",
+      "resumo": "getopts trata opções de linha de comando de forma padronizada e jq processa dados JSON no shell.",
+      "pontos": [
+        "getopts \"a:b\" opt lê flags como -a valor e -b",
+        "OPTARG guarda o valor da flag atual",
+        "jq -r '.campo' extrai valores de um JSON sem aspas",
+        "jq permite filtros, mapas e seleção de arrays em JSON"
+      ],
+      "exemplo": "while getopts \"e:v\" opt; do\n  case \"$opt\" in\n    e) AMBIENTE=\"$OPTARG\" ;;\n    v) VERBOSE=1 ;;\n  esac\ndone\ncurl -s api/status | jq -r '.status'"
+    },
+    {
+      "id": "performance-paralelismo",
+      "titulo": "Performance e paralelismo",
+      "resumo": "Scripts podem processar itens em paralelo e evitar concorrência indesejada usando locks.",
+      "pontos": [
+        "xargs -P N executa até N processos simultâneos",
+        "flock cria um lock de arquivo para evitar execuções concorrentes",
+        "Evitar subprocessos desnecessários (ex: cat | grep) melhora performance",
+        "time comando mede tempo de execução para identificar gargalos"
+      ],
+      "exemplo": "find . -name '*.log' -print0 | xargs -0 -P 4 -n 1 gzip\nflock -n /var/lock/job.lock ./job.sh"
+    }
+  ],
   "niveis": {
     "facil": [
       {
         "id": "bash-f-01",
         "tipo": "multipla",
         "pergunta": "Qual linha deve iniciar um script Bash para garantir que ele seja executado pelo interpretador correto?",
-        "opcoes": ["#!/bin/bash", "#/bin/bash", "!#/bin/bash", "# bash"],
+        "opcoes": [
+          "#!/bin/bash",
+          "#/bin/bash",
+          "!#/bin/bash",
+          "# bash"
+        ],
         "resposta": "#!/bin/bash",
         "dica": "O par de caracteres se chama shebang.",
-        "explicacao": "O shebang '#!/bin/bash' na primeira linha informa ao kernel qual interpretador usar para executar o script."
+        "explicacao": "O shebang '#!/bin/bash' na primeira linha informa ao kernel qual interpretador usar para executar o script.",
+        "topico": "shebang-interpretador"
       },
       {
         "id": "bash-f-02",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando que torna o arquivo deploy.sh executável para todos os usuários.",
         "resposta": "chmod +x deploy.sh",
-        "aceitas": ["chmod a+x deploy.sh", "chmod 755 deploy.sh"],
+        "aceitas": [
+          "chmod a+x deploy.sh",
+          "chmod 755 deploy.sh"
+        ],
         "dica": "Pense na permissão de execução (x).",
-        "explicacao": "'chmod +x deploy.sh' adiciona a permissão de execução. Também vale 'chmod 755 deploy.sh'."
+        "explicacao": "'chmod +x deploy.sh' adiciona a permissão de execução. Também vale 'chmod 755 deploy.sh'.",
+        "topico": "permissoes-arquivos"
       },
       {
         "id": "bash-f-03",
         "tipo": "multipla",
         "pergunta": "Como se imprime o valor da variável NOME?",
-        "opcoes": ["echo $NOME", "echo NOME", "print NOME", "echo &NOME"],
+        "opcoes": [
+          "echo $NOME",
+          "echo NOME",
+          "print NOME",
+          "echo &NOME"
+        ],
         "resposta": "echo $NOME",
         "dica": "Expansão de variável usa um símbolo antes do nome.",
-        "explicacao": "Em Bash a expansão de variáveis usa '$'. Prefira \"${NOME}\" entre aspas para evitar word splitting."
+        "explicacao": "Em Bash a expansão de variáveis usa '$'. Prefira \"${NOME}\" entre aspas para evitar word splitting.",
+        "topico": "variaveis-basico"
       },
       {
         "id": "bash-f-04",
@@ -44,25 +280,37 @@
         ],
         "resposta": "O código de saída do último comando",
         "dica": "Está relacionada a sucesso (0) ou falha (diferente de 0).",
-        "explicacao": "$? guarda o exit code do último comando: 0 significa sucesso e qualquer outro valor indica erro."
+        "explicacao": "$? guarda o exit code do último comando: 0 significa sucesso e qualquer outro valor indica erro.",
+        "topico": "processos-jobs"
       },
       {
         "id": "bash-f-05",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando que lista os arquivos do diretório atual, incluindo ocultos, em formato longo.",
         "resposta": "ls -la",
-        "aceitas": ["ls -al", "ls -l -a", "ls -lah"],
+        "aceitas": [
+          "ls -al",
+          "ls -l -a",
+          "ls -lah"
+        ],
         "dica": "Combine as flags de listagem longa e de arquivos ocultos.",
-        "explicacao": "'ls -la' combina -l (formato longo) e -a (inclui arquivos que começam com ponto)."
+        "explicacao": "'ls -la' combina -l (formato longo) e -a (inclui arquivos que começam com ponto).",
+        "topico": "permissoes-arquivos"
       },
       {
         "id": "bash-f-06",
         "tipo": "multipla",
         "pergunta": "Qual comando envia a saída de um comando como entrada de outro?",
-        "opcoes": ["|", ">", ">>", "&"],
+        "opcoes": [
+          "|",
+          ">",
+          ">>",
+          "&"
+        ],
         "resposta": "|",
         "dica": "É chamado de pipe.",
-        "explicacao": "O pipe '|' conecta a saída padrão de um comando à entrada padrão do próximo, por exemplo 'ps aux | grep nginx'."
+        "explicacao": "O pipe '|' conecta a saída padrão de um comando à entrada padrão do próximo, por exemplo 'ps aux | grep nginx'.",
+        "topico": "pipes-redirecionamento"
       },
       {
         "id": "bash-f-07",
@@ -70,7 +318,8 @@
         "pergunta": "Escreva o redirecionamento que acrescenta (sem apagar) a saída de 'echo ok' no arquivo log.txt.",
         "resposta": "echo ok >> log.txt",
         "dica": "Um sinal de maior sobrescreve; dois acrescentam.",
-        "explicacao": "'>>' acrescenta ao final do arquivo, enquanto '>' trunca o conteúdo existente."
+        "explicacao": "'>>' acrescenta ao final do arquivo, enquanto '>' trunca o conteúdo existente.",
+        "topico": "pipes-redirecionamento"
       },
       {
         "id": "bash-f-08",
@@ -84,7 +333,8 @@
         ],
         "resposta": "if [ -f /etc/hosts ]; then",
         "dica": "O operador de teste de arquivo regular é -f.",
-        "explicacao": "'[ -f caminho ]' retorna verdadeiro quando o caminho existe e é um arquivo regular. Use -d para diretórios."
+        "explicacao": "'[ -f caminho ]' retorna verdadeiro quando o caminho existe e é um arquivo regular. Use -d para diretórios.",
+        "topico": "testes-condicionais"
       },
       {
         "id": "bash-f-09",
@@ -98,34 +348,376 @@
         ],
         "resposta": "O primeiro argumento passado ao script",
         "dica": "$0 é outra coisa.",
-        "explicacao": "$0 é o nome do script e $1, $2... são os argumentos posicionais. $# traz a quantidade de argumentos."
+        "explicacao": "$0 é o nome do script e $1, $2... são os argumentos posicionais. $# traz a quantidade de argumentos.",
+        "topico": "variaveis-basico"
       },
       {
         "id": "bash-f-10",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando que procura recursivamente a palavra 'ERROR' nos arquivos do diretório /var/log.",
         "resposta": "grep -r ERROR /var/log",
-        "aceitas": ["grep -r \"ERROR\" /var/log", "grep -R ERROR /var/log", "grep -rn ERROR /var/log"],
+        "aceitas": [
+          "grep -r \"ERROR\" /var/log",
+          "grep -R ERROR /var/log",
+          "grep -rn ERROR /var/log"
+        ],
         "dica": "grep tem uma flag para busca recursiva.",
-        "explicacao": "'grep -r PADRAO CAMINHO' busca recursivamente. Acrescente -n para mostrar o número da linha."
+        "explicacao": "'grep -r PADRAO CAMINHO' busca recursivamente. Acrescente -n para mostrar o número da linha.",
+        "topico": "grep-sed-awk"
       },
       {
         "id": "bash-f-11",
         "tipo": "multipla",
         "pergunta": "Como criar um diretório e todos os pais que faltarem?",
-        "opcoes": ["mkdir -p a/b/c", "mkdir -r a/b/c", "mkdir --all a/b/c", "makedir a/b/c"],
+        "opcoes": [
+          "mkdir -p a/b/c",
+          "mkdir -r a/b/c",
+          "mkdir --all a/b/c",
+          "makedir a/b/c"
+        ],
         "resposta": "mkdir -p a/b/c",
         "dica": "A flag significa 'parents'.",
-        "explicacao": "'mkdir -p' cria a árvore inteira e não falha se o diretório já existir — ideal em scripts idempotentes."
+        "explicacao": "'mkdir -p' cria a árvore inteira e não falha se o diretório já existir — ideal em scripts idempotentes.",
+        "topico": "permissoes-arquivos"
       },
       {
         "id": "bash-f-12",
         "tipo": "sintaxe",
         "pergunta": "Escreva a atribuição de variável correta em Bash para NOME receber o texto deploy.",
         "resposta": "NOME=deploy",
-        "aceitas": ["NOME=\"deploy\"", "NOME='deploy'"],
+        "aceitas": [
+          "NOME=\"deploy\"",
+          "NOME='deploy'"
+        ],
         "dica": "Em Bash não existe espaço ao redor do sinal de igual.",
-        "explicacao": "A atribuição é 'NOME=valor', sem espaços. 'NOME = valor' seria interpretado como um comando chamado NOME."
+        "explicacao": "A atribuição é 'NOME=valor', sem espaços. 'NOME = valor' seria interpretado como um comando chamado NOME.",
+        "topico": "variaveis-basico"
+      },
+      {
+        "id": "bash-f-13",
+        "tipo": "multipla",
+        "pergunta": "Qual estrutura testa se o diretório /opt/app existe?",
+        "opcoes": [
+          "if [ -d /opt/app ]; then",
+          "if [ -dir /opt/app ]; then",
+          "if exists -d /opt/app; then",
+          "if [ /opt/app -is-dir ]; then"
+        ],
+        "resposta": "if [ -d /opt/app ]; then",
+        "dica": "O operador -d é específico de diretórios.",
+        "explicacao": "'[ -d caminho ]' retorna verdadeiro se o caminho existe e é um diretório.",
+        "topico": "testes-condicionais"
+      },
+      {
+        "id": "bash-f-14",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que exporta a variável AMBIENTE com o valor producao.",
+        "resposta": "export AMBIENTE=producao",
+        "aceitas": [
+          "export AMBIENTE=\"producao\""
+        ],
+        "dica": "export torna a variável visível para processos filhos.",
+        "explicacao": "'export VAR=valor' cria a variável e a marca para ser herdada por subprocessos.",
+        "topico": "variaveis-basico"
+      },
+      {
+        "id": "bash-f-15",
+        "tipo": "multipla",
+        "pergunta": "Qual comando encerra a iteração atual de um loop e passa para a próxima?",
+        "opcoes": [
+          "continue",
+          "break",
+          "exit",
+          "return"
+        ],
+        "resposta": "continue",
+        "dica": "Não é o que para o loop inteiro.",
+        "explicacao": "'continue' pula para a próxima iteração; 'break' encerra o loop por completo.",
+        "topico": "loops"
+      },
+      {
+        "id": "bash-f-16",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que descarta toda a saída de erro de ./script.sh.",
+        "resposta": "./script.sh 2>/dev/null",
+        "aceitas": [
+          "./script.sh 2> /dev/null"
+        ],
+        "dica": "/dev/null é o buraco negro do Linux.",
+        "explicacao": "'2>/dev/null' redireciona o descritor de erro (2) para /dev/null, descartando as mensagens.",
+        "topico": "pipes-redirecionamento"
+      },
+      {
+        "id": "bash-f-17",
+        "tipo": "multipla",
+        "pergunta": "Qual comando lista todas as variáveis de ambiente exportadas?",
+        "opcoes": [
+          "env",
+          "vars",
+          "list env",
+          "printenv -a"
+        ],
+        "resposta": "env",
+        "dica": "É um comando de uma palavra só.",
+        "explicacao": "'env' (ou 'printenv') lista as variáveis de ambiente do processo atual.",
+        "topico": "variaveis-basico"
+      },
+      {
+        "id": "bash-f-18",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando grep que ignora diferenças entre maiúsculas e minúsculas ao buscar 'erro' em app.log.",
+        "resposta": "grep -i erro app.log",
+        "aceitas": [
+          "grep -i \"erro\" app.log"
+        ],
+        "dica": "Existe uma flag para case-insensitive.",
+        "explicacao": "'grep -i' ignora a diferença entre maiúsculas e minúsculas na busca.",
+        "topico": "grep-sed-awk"
+      },
+      {
+        "id": "bash-f-19",
+        "tipo": "multipla",
+        "pergunta": "O que o número 644 representa em 'chmod 644 arquivo'?",
+        "opcoes": [
+          "rw-r--r--",
+          "rwxr-xr-x",
+          "rw-rw-rw-",
+          "r--r--r--"
+        ],
+        "resposta": "rw-r--r--",
+        "dica": "Cada dígito octal representa um grupo de permissões.",
+        "explicacao": "644 = dono lê/escreve (6), grupo lê (4), outros leem (4), ou seja rw-r--r--.",
+        "topico": "permissoes-arquivos"
+      },
+      {
+        "id": "bash-f-20",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva um loop while que imprime números de 1 a 5 (apenas a estrutura, usando a variável i).",
+        "resposta": "i=1; while [ $i -le 5 ]; do echo $i; i=$((i+1)); done",
+        "aceitas": [
+          "i=1\nwhile [ $i -le 5 ]; do echo $i; i=$((i+1)); done"
+        ],
+        "dica": "Use -le para 'menor ou igual'.",
+        "explicacao": "O while repete enquanto a condição for verdadeira; incrementar i evita loop infinito.",
+        "topico": "loops"
+      },
+      {
+        "id": "bash-f-21",
+        "tipo": "multipla",
+        "pergunta": "Qual comando mostra os processos em execução do usuário atual em formato detalhado?",
+        "opcoes": [
+          "ps aux",
+          "list process",
+          "tasklist",
+          "proc -l"
+        ],
+        "resposta": "ps aux",
+        "dica": "É o comando clássico de listagem de processos.",
+        "explicacao": "'ps aux' lista todos os processos do sistema com detalhes como PID, CPU e memória.",
+        "topico": "processos-jobs"
+      },
+      {
+        "id": "bash-f-22",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que conta quantas linhas tem o arquivo dados.csv.",
+        "resposta": "wc -l dados.csv",
+        "aceitas": [
+          "cat dados.csv | wc -l"
+        ],
+        "dica": "wc tem uma flag para contar linhas.",
+        "explicacao": "'wc -l' conta o número de linhas de um arquivo ou de uma entrada via pipe.",
+        "topico": "pipes-redirecionamento"
+      },
+      {
+        "id": "bash-f-23",
+        "tipo": "multipla",
+        "pergunta": "Qual operador testa se dois números inteiros são iguais dentro de [ ]?",
+        "opcoes": [
+          "-eq",
+          "==",
+          "-equal",
+          "=="
+        ],
+        "resposta": "-eq",
+        "dica": "Dentro de [ ] os operadores numéricos usam letras.",
+        "explicacao": "Dentro de '[ ]' use -eq, -ne, -lt, -gt, -le, -ge para comparação numérica; == é para strings em [[ ]].",
+        "topico": "testes-condicionais"
+      },
+      {
+        "id": "bash-f-24",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que remove a definição da variável TMP do ambiente atual.",
+        "resposta": "unset TMP",
+        "aceitas": [
+          "unset TMP"
+        ],
+        "dica": "Existe um comando específico para isso.",
+        "explicacao": "'unset NOME' remove a variável do shell atual.",
+        "topico": "variaveis-basico"
+      },
+      {
+        "id": "bash-f-25",
+        "tipo": "multipla",
+        "pergunta": "O que o comando 'sed -n \"2p\" arquivo' faz?",
+        "opcoes": [
+          "Imprime somente a segunda linha do arquivo",
+          "Apaga a segunda linha",
+          "Duplica a segunda linha",
+          "Substitui a segunda linha por vazio"
+        ],
+        "resposta": "Imprime somente a segunda linha do arquivo",
+        "dica": "-n suprime a saída padrão do sed.",
+        "explicacao": "'sed -n \"2p\"' com -n suprime a impressão automática e 'p' imprime apenas a linha 2.",
+        "topico": "grep-sed-awk"
+      },
+      {
+        "id": "bash-f-26",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que muda o dono do arquivo app.log para o usuário deploy e grupo deploy.",
+        "resposta": "chown deploy:deploy app.log",
+        "aceitas": [
+          "chown deploy:deploy app.log"
+        ],
+        "dica": "chown aceita usuario:grupo.",
+        "explicacao": "'chown usuario:grupo arquivo' altera o dono e o grupo do arquivo.",
+        "topico": "permissoes-arquivos"
+      },
+      {
+        "id": "bash-f-27",
+        "tipo": "multipla",
+        "pergunta": "Como se chama uma função chamada 'iniciar' passando o argumento 'prod'?",
+        "opcoes": [
+          "iniciar prod",
+          "call iniciar(prod)",
+          "iniciar(prod)",
+          "run iniciar prod"
+        ],
+        "resposta": "iniciar prod",
+        "dica": "Funções em Bash são chamadas como comandos.",
+        "explicacao": "Em Bash, funções são chamadas como comandos comuns: 'nome arg1 arg2', sem parênteses.",
+        "topico": "funcoes"
+      },
+      {
+        "id": "bash-f-28",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva um for que itera de 1 a 10 usando a sintaxe estilo C (apenas a linha do for).",
+        "resposta": "for ((i=1; i<=10; i++)); do",
+        "aceitas": [
+          "for (( i=1; i<=10; i++ )); do"
+        ],
+        "dica": "Bash suporta a sintaxe de for de linguagens C.",
+        "explicacao": "'for ((init; cond; incr)); do ... done' é a forma aritmética do for, útil para contadores.",
+        "topico": "loops"
+      },
+      {
+        "id": "bash-f-29",
+        "tipo": "multipla",
+        "pergunta": "Qual redirecionamento descarta a saída padrão de um comando?",
+        "opcoes": [
+          "> /dev/null",
+          "2> /dev/null",
+          "< /dev/null",
+          "| /dev/null"
+        ],
+        "resposta": "> /dev/null",
+        "dica": "1 é o descritor padrão do stdout.",
+        "explicacao": "'> /dev/null' redireciona o stdout (descritor 1) para o dispositivo nulo, descartando o texto.",
+        "topico": "pipes-redirecionamento"
+      },
+      {
+        "id": "bash-f-30",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o teste que verifica se a variável NOME está vazia.",
+        "resposta": "[ -z \"$NOME\" ]",
+        "aceitas": [
+          "[[ -z \"$NOME\" ]]",
+          "[ -z $NOME ]"
+        ],
+        "dica": "-z significa 'zero length'.",
+        "explicacao": "'-z string' é verdadeiro quando a string tem tamanho zero; -n testa o oposto (não vazia).",
+        "topico": "testes-condicionais"
+      },
+      {
+        "id": "bash-f-31",
+        "tipo": "multipla",
+        "pergunta": "Qual variável especial guarda a quantidade de argumentos posicionais recebidos pelo script?",
+        "opcoes": [
+          "$#",
+          "$*",
+          "$@",
+          "$?"
+        ],
+        "resposta": "$#",
+        "dica": "Começa com cerquilha.",
+        "explicacao": "'$#' contém o número de argumentos passados ao script ou função.",
+        "topico": "variaveis-basico"
+      },
+      {
+        "id": "bash-f-32",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que envia o sinal de término (SIGTERM) para o processo de PID 4321.",
+        "resposta": "kill -15 4321",
+        "aceitas": [
+          "kill -TERM 4321",
+          "kill 4321"
+        ],
+        "dica": "SIGTERM é o sinal padrão do kill.",
+        "explicacao": "'kill -15 PID' (ou apenas 'kill PID') envia SIGTERM, pedindo o encerramento gracioso do processo.",
+        "topico": "processos-jobs"
+      },
+      {
+        "id": "bash-f-33",
+        "tipo": "multipla",
+        "pergunta": "Qual comando conta quantas vezes a palavra 'ERROR' aparece em app.log?",
+        "opcoes": [
+          "grep -c ERROR app.log",
+          "grep -n ERROR app.log",
+          "grep -l ERROR app.log",
+          "grep -v ERROR app.log"
+        ],
+        "resposta": "grep -c ERROR app.log",
+        "dica": "A flag conta ocorrências de linhas casadas.",
+        "explicacao": "'grep -c' imprime a contagem de linhas que casam com o padrão, em vez das linhas em si.",
+        "topico": "grep-sed-awk"
+      },
+      {
+        "id": "bash-f-34",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva a chamada que testa se a função 'validar' foi bem-sucedida, executando 'echo ok' em caso positivo.",
+        "resposta": "if validar; then echo ok; fi",
+        "aceitas": [
+          "validar && echo ok"
+        ],
+        "dica": "Funções retornam um exit code como qualquer comando.",
+        "explicacao": "O exit code de uma função pode ser testado diretamente em 'if' ou com '&&'.",
+        "topico": "funcoes"
+      },
+      {
+        "id": "bash-f-35",
+        "tipo": "multipla",
+        "pergunta": "Qual comando exibe as permissões, dono e grupo de um arquivo?",
+        "opcoes": [
+          "ls -l arquivo",
+          "cat -l arquivo",
+          "stat --short arquivo apenas",
+          "chmod -l arquivo"
+        ],
+        "resposta": "ls -l arquivo",
+        "dica": "É a listagem em formato longo.",
+        "explicacao": "'ls -l' mostra permissões, dono, grupo, tamanho e data de modificação; 'stat' traz ainda mais detalhes.",
+        "topico": "permissoes-arquivos"
+      },
+      {
+        "id": "bash-f-36",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que repete 'echo tentando' até que o arquivo pronto.txt exista (apenas a linha do until).",
+        "resposta": "until [ -f pronto.txt ]; do",
+        "aceitas": [
+          "until [ -f pronto.txt ]"
+        ],
+        "dica": "until é o oposto do while.",
+        "explicacao": "'until condicao; do ... done' repete enquanto a condição for falsa, parando quando ela se tornar verdadeira.",
+        "topico": "loops"
       }
     ],
     "intermediario": [
@@ -134,45 +726,71 @@
         "tipo": "sintaxe",
         "pergunta": "Escreva a linha que ativa o modo estrito recomendado em scripts (encerrar em erro, variável indefinida e falha em pipe).",
         "resposta": "set -euo pipefail",
-        "aceitas": ["set -eu -o pipefail", "set -o errexit -o nounset -o pipefail"],
+        "aceitas": [
+          "set -eu -o pipefail",
+          "set -o errexit -o nounset -o pipefail"
+        ],
         "dica": "São três opções combinadas em um único set.",
-        "explicacao": "'set -euo pipefail': -e aborta em erro, -u falha em variável não definida e pipefail propaga erro de qualquer etapa do pipe."
+        "explicacao": "'set -euo pipefail': -e aborta em erro, -u falha em variável não definida e pipefail propaga erro de qualquer etapa do pipe.",
+        "topico": "modo-estrito-debugging"
       },
       {
         "id": "bash-i-02",
         "tipo": "multipla",
         "pergunta": "Qual expansão fornece um valor padrão quando PORT não está definida?",
-        "opcoes": ["${PORT:-8080}", "${PORT:=?8080}", "$PORT||8080", "${PORT?8080}"],
+        "opcoes": [
+          "${PORT:-8080}",
+          "${PORT:=?8080}",
+          "$PORT||8080",
+          "${PORT?8080}"
+        ],
         "resposta": "${PORT:-8080}",
         "dica": "O operador combina dois pontos com um traço.",
-        "explicacao": "${PORT:-8080} devolve 8080 se PORT estiver vazia ou indefinida, sem alterar a variável. ${PORT:=8080} também atribui."
+        "explicacao": "${PORT:-8080} devolve 8080 se PORT estiver vazia ou indefinida, sem alterar a variável. ${PORT:=8080} também atribui.",
+        "topico": "expansao-variaveis"
       },
       {
         "id": "bash-i-03",
         "tipo": "sintaxe",
         "pergunta": "Escreva o laço for que percorre todos os arquivos .log do diretório atual usando a variável f (apenas a linha do for).",
         "resposta": "for f in *.log; do",
-        "aceitas": ["for f in ./*.log; do", "for f in *.log", "for f in *.log ; do"],
+        "aceitas": [
+          "for f in ./*.log; do",
+          "for f in *.log",
+          "for f in *.log ; do"
+        ],
         "dica": "Use glob e a palavra-chave do.",
-        "explicacao": "'for f in *.log; do ... done' itera sobre o glob. Sempre use \"$f\" entre aspas dentro do corpo."
+        "explicacao": "'for f in *.log; do ... done' itera sobre o glob. Sempre use \"$f\" entre aspas dentro do corpo.",
+        "topico": "loops"
       },
       {
         "id": "bash-i-04",
         "tipo": "multipla",
         "pergunta": "Qual é a forma moderna e segura de capturar a saída de um comando em uma variável?",
-        "opcoes": ["HOJE=$(date +%F)", "HOJE=`date +%F`", "HOJE=<date +%F>", "HOJE=${date +%F}"],
+        "opcoes": [
+          "HOJE=$(date +%F)",
+          "HOJE=`date +%F`",
+          "HOJE=<date +%F>",
+          "HOJE=${date +%F}"
+        ],
         "resposta": "HOJE=$(date +%F)",
         "dica": "Prefira parênteses a crases.",
-        "explicacao": "$( ) é a substituição de comando recomendada: aninha melhor e é mais legível que as crases legadas."
+        "explicacao": "$( ) é a substituição de comando recomendada: aninha melhor e é mais legível que as crases legadas.",
+        "topico": "subshells"
       },
       {
         "id": "bash-i-05",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando que executa cleanup ao receber sinal de término ou interrupção do script.",
         "resposta": "trap cleanup EXIT",
-        "aceitas": ["trap cleanup INT TERM EXIT", "trap 'cleanup' EXIT", "trap cleanup SIGINT SIGTERM EXIT"],
+        "aceitas": [
+          "trap cleanup INT TERM EXIT",
+          "trap 'cleanup' EXIT",
+          "trap cleanup SIGINT SIGTERM EXIT"
+        ],
         "dica": "O comando começa com trap.",
-        "explicacao": "'trap funcao SINAL' registra um handler. 'trap cleanup EXIT' garante limpeza mesmo em saída normal."
+        "explicacao": "'trap funcao SINAL' registra um handler. 'trap cleanup EXIT' garante limpeza mesmo em saída normal.",
+        "topico": "traps-sinais"
       },
       {
         "id": "bash-i-06",
@@ -186,16 +804,22 @@
         ],
         "resposta": "\"$@\" preserva cada argumento com espaços como item separado",
         "dica": "Pense em argumentos com espaços no nome.",
-        "explicacao": "\"$@\" expande para uma lista de palavras citadas individualmente; \"$*\" junta tudo em uma única string."
+        "explicacao": "\"$@\" expande para uma lista de palavras citadas individualmente; \"$*\" junta tudo em uma única string.",
+        "topico": "variaveis-basico"
       },
       {
         "id": "bash-i-07",
         "tipo": "sintaxe",
         "pergunta": "Escreva o teste que compara se a string \"$AMBIENTE\" é igual a prod usando colchetes duplos.",
         "resposta": "[[ \"$AMBIENTE\" == \"prod\" ]]",
-        "aceitas": ["[[ $AMBIENTE == prod ]]", "[[ \"$AMBIENTE\" = \"prod\" ]]", "[[ $AMBIENTE == \"prod\" ]]"],
+        "aceitas": [
+          "[[ $AMBIENTE == prod ]]",
+          "[[ \"$AMBIENTE\" = \"prod\" ]]",
+          "[[ $AMBIENTE == \"prod\" ]]"
+        ],
         "dica": "Colchetes duplos e comparação de string.",
-        "explicacao": "[[ ]] é o teste estendido do Bash: mais seguro com strings vazias e suporta padrões e regex."
+        "explicacao": "[[ ]] é o teste estendido do Bash: mais seguro com strings vazias e suporta padrões e regex.",
+        "topico": "testes-condicionais"
       },
       {
         "id": "bash-i-08",
@@ -209,16 +833,21 @@
         ],
         "resposta": "while IFS= read -r linha; do ... done < arquivo",
         "dica": "IFS vazio e a flag -r evitam surpresas.",
-        "explicacao": "'while IFS= read -r linha' preserva espaços iniciais e barras invertidas; o for com $(cat) quebra em espaços."
+        "explicacao": "'while IFS= read -r linha' preserva espaços iniciais e barras invertidas; o for com $(cat) quebra em espaços.",
+        "topico": "loops"
       },
       {
         "id": "bash-i-09",
         "tipo": "sintaxe",
         "pergunta": "Escreva o redirecionamento que envia stdout e stderr de ./build.sh para build.log.",
         "resposta": "./build.sh > build.log 2>&1",
-        "aceitas": ["./build.sh &> build.log", "./build.sh >build.log 2>&1"],
+        "aceitas": [
+          "./build.sh &> build.log",
+          "./build.sh >build.log 2>&1"
+        ],
         "dica": "O descritor 2 é o stderr.",
-        "explicacao": "'> arquivo 2>&1' redireciona stdout e depois aponta stderr para o mesmo destino. A ordem importa."
+        "explicacao": "'> arquivo 2>&1' redireciona stdout e depois aponta stderr para o mesmo destino. A ordem importa.",
+        "topico": "pipes-redirecionamento"
       },
       {
         "id": "bash-i-10",
@@ -232,25 +861,360 @@
         ],
         "resposta": "Verifica silenciosamente se o docker existe no PATH",
         "dica": "O resultado útil é o exit code.",
-        "explicacao": "'command -v' resolve o binário; descartando a saída, só o exit code importa — padrão para checar dependências."
+        "explicacao": "'command -v' resolve o binário; descartando a saída, só o exit code importa — padrão para checar dependências.",
+        "topico": "testes-condicionais"
       },
       {
         "id": "bash-i-11",
         "tipo": "sintaxe",
         "pergunta": "Escreva a declaração de uma função chamada deploy na sintaxe POSIX (somente a primeira linha).",
         "resposta": "deploy() {",
-        "aceitas": ["deploy () {", "function deploy() {"],
+        "aceitas": [
+          "deploy () {",
+          "function deploy() {"
+        ],
         "dica": "Nome, parênteses vazios e abertura de bloco.",
-        "explicacao": "'nome() { ... }' é a forma portável. A palavra-chave 'function' é uma extensão do Bash."
+        "explicacao": "'nome() { ... }' é a forma portável. A palavra-chave 'function' é uma extensão do Bash.",
+        "topico": "funcoes"
       },
       {
         "id": "bash-i-12",
         "tipo": "multipla",
         "pergunta": "Qual expansão remove o sufixo .tar.gz de \"$ARQ\"?",
-        "opcoes": ["${ARQ%.tar.gz}", "${ARQ#.tar.gz}", "${ARQ/.tar.gz}", "${ARQ-.tar.gz}"],
+        "opcoes": [
+          "${ARQ%.tar.gz}",
+          "${ARQ#.tar.gz}",
+          "${ARQ/.tar.gz}",
+          "${ARQ-.tar.gz}"
+        ],
         "resposta": "${ARQ%.tar.gz}",
         "dica": "Um símbolo corta do fim, o outro do começo.",
-        "explicacao": "% remove o menor sufixo casado (%% o maior); # remove do início (## o maior prefixo)."
+        "explicacao": "% remove o menor sufixo casado (%% o maior); # remove do início (## o maior prefixo).",
+        "topico": "expansao-variaveis"
+      },
+      {
+        "id": "bash-i-13",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva a expansão que retorna o comprimento da string armazenada em NOME.",
+        "resposta": "${#NOME}",
+        "aceitas": [
+          "${#NOME}"
+        ],
+        "dica": "Use cerquilha dentro das chaves.",
+        "explicacao": "'${#VAR}' retorna o número de caracteres da string armazenada em VAR.",
+        "topico": "expansao-variaveis"
+      },
+      {
+        "id": "bash-i-14",
+        "tipo": "multipla",
+        "pergunta": "Como declarar uma variável local dentro de uma função para não vazar para o escopo global?",
+        "opcoes": [
+          "local var=valor",
+          "global var=valor",
+          "private var=valor",
+          "scope var=valor"
+        ],
+        "resposta": "local var=valor",
+        "dica": "A palavra-chave é curta e específica de shell.",
+        "explicacao": "'local' restringe a variável ao escopo da função, evitando conflitos com variáveis globais.",
+        "topico": "funcoes"
+      },
+      {
+        "id": "bash-i-15",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva a declaração de um array indexado chamado SERVIDORES com os valores web1, web2 e web3.",
+        "resposta": "SERVIDORES=(web1 web2 web3)",
+        "aceitas": [
+          "SERVIDORES=(\"web1\" \"web2\" \"web3\")"
+        ],
+        "dica": "Use parênteses separando por espaço.",
+        "explicacao": "'arr=(a b c)' cria um array indexado; acesse elementos com ${arr[0]} e todos com ${arr[@]}.",
+        "topico": "arrays"
+      },
+      {
+        "id": "bash-i-16",
+        "tipo": "multipla",
+        "pergunta": "O que acontece com uma variável exportada dentro de um subshell '( )' após ele terminar?",
+        "opcoes": [
+          "A alteração não afeta o shell pai",
+          "A alteração é propagada ao shell pai",
+          "O script é abortado",
+          "A variável se torna somente leitura"
+        ],
+        "resposta": "A alteração não afeta o shell pai",
+        "dica": "Subshells têm cópia isolada do ambiente.",
+        "explicacao": "Um subshell herda uma cópia do ambiente do pai; mudanças feitas nele desaparecem quando ele termina.",
+        "topico": "subshells"
+      },
+      {
+        "id": "bash-i-17",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva um here-doc que grava as linhas 'host=localhost' e 'porta=5432' no arquivo db.conf.",
+        "resposta": "cat <<EOF > db.conf\nhost=localhost\nporta=5432\nEOF",
+        "aceitas": [
+          "cat << EOF > db.conf\nhost=localhost\nporta=5432\nEOF"
+        ],
+        "dica": "Comece com cat <<EOF e termine repetindo EOF sozinho na linha.",
+        "explicacao": "Um here-doc '<<EOF ... EOF' envia texto multilinha como entrada, aqui redirecionado para um arquivo.",
+        "topico": "here-docs"
+      },
+      {
+        "id": "bash-i-18",
+        "tipo": "multipla",
+        "pergunta": "Qual builtin do Bash é usado para processar opções de linha de comando no formato -a valor -b?",
+        "opcoes": [
+          "getopts",
+          "parseopts",
+          "argparse",
+          "optparse"
+        ],
+        "resposta": "getopts",
+        "dica": "É nativo do shell POSIX.",
+        "explicacao": "'getopts \"a:b\" opt' processa flags curtas; ':' após a letra indica que ela espera um argumento.",
+        "topico": "getopts-jq"
+      },
+      {
+        "id": "bash-i-19",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que extrai o valor do campo 'nome' de um JSON retornado por 'curl -s api/user', sem aspas na saída.",
+        "resposta": "curl -s api/user | jq -r '.nome'",
+        "aceitas": [
+          "curl -s api/user | jq -r \".nome\""
+        ],
+        "dica": "jq tem uma flag para saída crua (raw).",
+        "explicacao": "'jq -r' imprime strings sem as aspas do JSON, facilitando o uso do valor em variáveis Bash.",
+        "topico": "getopts-jq"
+      },
+      {
+        "id": "bash-i-20",
+        "tipo": "multipla",
+        "pergunta": "Qual sinal um processo recebe ao pressionar Ctrl+C no terminal?",
+        "opcoes": [
+          "SIGINT",
+          "SIGTERM",
+          "SIGKILL",
+          "SIGHUP"
+        ],
+        "resposta": "SIGINT",
+        "dica": "INT vem de 'interrupt'.",
+        "explicacao": "Ctrl+C envia SIGINT ao processo em foreground, que pode ser capturado com 'trap ... INT'.",
+        "topico": "traps-sinais"
+      },
+      {
+        "id": "bash-i-21",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que imprime todos os elementos do array SERVIDORES, um por linha.",
+        "resposta": "printf '%s\\n' \"${SERVIDORES[@]}\"",
+        "aceitas": [
+          "for s in \"${SERVIDORES[@]}\"; do echo \"$s\"; done"
+        ],
+        "dica": "printf com %s e o array expandido com @.",
+        "explicacao": "'printf \"%s\\n\" \"${arr[@]}\"' imprime cada elemento em uma linha, respeitando espaços internos.",
+        "topico": "arrays"
+      },
+      {
+        "id": "bash-i-22",
+        "tipo": "multipla",
+        "pergunta": "O que 'set -x' faz em um script Bash?",
+        "opcoes": [
+          "Imprime cada comando antes de executá-lo, útil para depurar",
+          "Interrompe a execução em qualquer erro",
+          "Ativa modo silencioso",
+          "Desativa expansão de variáveis"
+        ],
+        "resposta": "Imprime cada comando antes de executá-lo, útil para depurar",
+        "dica": "x de 'trace'.",
+        "explicacao": "'set -x' ativa o modo de rastreamento (xtrace), mostrando cada comando expandido antes da execução.",
+        "topico": "modo-estrito-debugging"
+      },
+      {
+        "id": "bash-i-23",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva a linha de crontab que executa /opt/scripts/limpeza.sh todos os dias às 3h da manhã.",
+        "resposta": "0 3 * * * /opt/scripts/limpeza.sh",
+        "aceitas": [
+          "0 3 * * * /opt/scripts/limpeza.sh >> /var/log/limpeza.log 2>&1"
+        ],
+        "dica": "Formato: minuto hora dia mes dia-semana.",
+        "explicacao": "'0 3 * * *' significa minuto 0, hora 3, todo dia, todo mês, qualquer dia da semana.",
+        "topico": "cron-agendamento"
+      },
+      {
+        "id": "bash-i-24",
+        "tipo": "multipla",
+        "pergunta": "O que '$!' retorna após executar um comando em background com '&'?",
+        "opcoes": [
+          "O PID do último processo colocado em background",
+          "O código de saída do processo",
+          "O nome do processo",
+          "O PID do shell atual"
+        ],
+        "resposta": "O PID do último processo colocado em background",
+        "dica": "O símbolo de exclamação está associado a jobs.",
+        "explicacao": "'$!' guarda o PID do último comando iniciado em background, útil para usar com 'wait' ou 'kill'.",
+        "topico": "processos-jobs"
+      },
+      {
+        "id": "bash-i-25",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva uma função chamada 'somar' que recebe dois números e imprime a soma (corpo completo).",
+        "resposta": "somar() {\n  echo $(( $1 + $2 ))\n}",
+        "aceitas": [
+          "somar() { echo $(($1+$2)); }"
+        ],
+        "dica": "Use aritmética com $(( )).",
+        "explicacao": "Dentro da função, $1 e $2 são os dois argumentos; $(( $1 + $2 )) calcula a soma.",
+        "topico": "funcoes"
+      },
+      {
+        "id": "bash-i-26",
+        "tipo": "multipla",
+        "pergunta": "Qual comando mede o tempo total de execução de um script?",
+        "opcoes": [
+          "time ./script.sh",
+          "measure ./script.sh",
+          "duration ./script.sh",
+          "clock ./script.sh"
+        ],
+        "resposta": "time ./script.sh",
+        "dica": "É um builtin/keyword muito usado em benchmarks simples.",
+        "explicacao": "'time comando' imprime tempo real, de usuário e de sistema gastos na execução.",
+        "topico": "performance-paralelismo"
+      },
+      {
+        "id": "bash-i-27",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando sed que substitui todas as ocorrências de 'http' por 'https' no arquivo urls.txt, alterando o arquivo diretamente.",
+        "resposta": "sed -i 's/http/https/g' urls.txt",
+        "aceitas": [
+          "sed -i.bak 's/http/https/g' urls.txt"
+        ],
+        "dica": "-i edita in place; g substitui todas na linha.",
+        "explicacao": "'sed -i \"s/http/https/g\" arquivo' aplica a substituição global diretamente no arquivo.",
+        "topico": "grep-sed-awk"
+      },
+      {
+        "id": "bash-i-28",
+        "tipo": "multipla",
+        "pergunta": "Qual operador em [[ ]] testa se uma string casa com um padrão regex?",
+        "opcoes": [
+          "=~",
+          "==",
+          "-match",
+          "~="
+        ],
+        "resposta": "=~",
+        "dica": "É o operador de regex do Bash.",
+        "explicacao": "'[[ string =~ regex ]]' testa correspondência com expressão regular estendida (ERE).",
+        "topico": "testes-condicionais"
+      },
+      {
+        "id": "bash-i-29",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que executa 'npm install' dentro do diretório frontend sem mudar o diretório do shell atual.",
+        "resposta": "(cd frontend && npm install)",
+        "aceitas": [
+          "( cd frontend && npm install )"
+        ],
+        "dica": "Use parênteses para criar um subshell.",
+        "explicacao": "Os comandos dentro de '( )' rodam em subshell; o 'cd' não afeta o diretório de trabalho do script principal.",
+        "topico": "subshells"
+      },
+      {
+        "id": "bash-i-30",
+        "tipo": "multipla",
+        "pergunta": "Como remover o elemento de índice 2 do array ARR?",
+        "opcoes": [
+          "unset 'ARR[2]'",
+          "ARR.remove(2)",
+          "delete ARR[2]",
+          "ARR[2]=null"
+        ],
+        "resposta": "unset 'ARR[2]'",
+        "dica": "unset também funciona em elementos de array.",
+        "explicacao": "'unset \"ARR[indice]\"' remove o elemento específico, deixando um buraco no índice.",
+        "topico": "arrays"
+      },
+      {
+        "id": "bash-i-31",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva a linha de trap que imprime o número da linha em que ocorreu um erro (usa a variável LINENO).",
+        "resposta": "trap 'echo \"Erro na linha $LINENO\"' ERR",
+        "aceitas": [
+          "trap 'echo Erro na linha $LINENO' ERR"
+        ],
+        "dica": "Combine trap com o pseudo-sinal ERR.",
+        "explicacao": "'trap comando ERR' executa o comando sempre que um comando do script falhar; $LINENO indica a linha atual.",
+        "topico": "modo-estrito-debugging"
+      },
+      {
+        "id": "bash-i-32",
+        "tipo": "multipla",
+        "pergunta": "O que acontece se usarmos '<<-EOF' em vez de '<<EOF' num here-doc?",
+        "opcoes": [
+          "Tabs no início de cada linha do heredoc são ignorados, permitindo indentação",
+          "Espaços são convertidos em tabs",
+          "O conteúdo é lido de trás para frente",
+          "Variáveis deixam de ser expandidas"
+        ],
+        "resposta": "Tabs no início de cada linha do heredoc são ignorados, permitindo indentação",
+        "dica": "O traço lida com indentação.",
+        "explicacao": "'<<-' remove tabs (não espaços) do início de cada linha, permitindo indentar o heredoc dentro de blocos.",
+        "topico": "here-docs"
+      },
+      {
+        "id": "bash-i-33",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando jq que filtra apenas os objetos de um array JSON em dados.json onde o campo ativo é true.",
+        "resposta": "jq '.[] | select(.ativo == true)' dados.json",
+        "aceitas": [
+          "cat dados.json | jq '.[] | select(.ativo==true)'"
+        ],
+        "dica": "Use select() dentro de um pipe do jq.",
+        "explicacao": "'select(condicao)' dentro do jq filtra elementos de um array que satisfazem a condição.",
+        "topico": "getopts-jq"
+      },
+      {
+        "id": "bash-i-34",
+        "tipo": "multipla",
+        "pergunta": "Qual expressão de crontab executa uma tarefa a cada 15 minutos?",
+        "opcoes": [
+          "*/15 * * * *",
+          "15 * * * *",
+          "*/15 * * * *  (repetido)",
+          "0,15,30,45 * * * * ambos válidos"
+        ],
+        "resposta": "*/15 * * * *",
+        "dica": "Use o operador de passo com barra.",
+        "explicacao": "'*/15 * * * *' usa o operador de passo, equivalente a executar nos minutos 0,15,30,45.",
+        "topico": "cron-agendamento"
+      },
+      {
+        "id": "bash-i-35",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva a expansão que retorna 'sim' se a variável DEBUG estiver definida (mesmo vazia) e 'nao' caso contrário, usando um único operador de expansão.",
+        "resposta": "${DEBUG+sim}",
+        "aceitas": [
+          "${DEBUG+sim}"
+        ],
+        "dica": "O operador de mais testa apenas a existência, não o valor.",
+        "explicacao": "'${VAR+valor}' expande para 'valor' se VAR estiver definida (mesmo vazia), e para nada se não estiver.",
+        "topico": "expansao-variaveis"
+      },
+      {
+        "id": "bash-i-36",
+        "tipo": "multipla",
+        "pergunta": "Dentro de um loop getopts, o que a variável OPTARG contém?",
+        "opcoes": [
+          "O valor passado para a opção atual",
+          "O nome da opção atual",
+          "O índice da opção atual",
+          "O total de opções"
+        ],
+        "resposta": "O valor passado para a opção atual",
+        "dica": "ARG sugere 'argument'.",
+        "explicacao": "Quando a opção espera argumento (ex: 'a:'), OPTARG guarda o valor fornecido após a flag.",
+        "topico": "getopts-jq"
       }
     ],
     "avancado": [
@@ -264,7 +1228,8 @@
           "find /data -name '*.tmp' -mtime +7 -exec rm -f {} +"
         ],
         "dica": "-print0 com xargs -0, ou -delete/-exec ... +.",
-        "explicacao": "Nomes com espaço exigem -print0 | xargs -0, ou o uso direto de -delete / -exec rm -f {} +."
+        "explicacao": "Nomes com espaço exigem -print0 | xargs -0, ou o uso direto de -delete / -exec rm -f {} +.",
+        "topico": "grep-sed-awk"
       },
       {
         "id": "bash-a-02",
@@ -278,16 +1243,21 @@
         ],
         "resposta": "if ! saida=$(cmd); then rc=$?; fi",
         "dica": "Comandos dentro de if não disparam o errexit.",
-        "explicacao": "Sob 'set -e' o errexit é suprimido em condições de if/while e após && ou ||, permitindo tratar o erro."
+        "explicacao": "Sob 'set -e' o errexit é suprimido em condições de if/while e após && ou ||, permitindo tratar o erro.",
+        "topico": "modo-estrito-debugging"
       },
       {
         "id": "bash-a-03",
         "tipo": "sintaxe",
         "pergunta": "Escreva a declaração de um array associativo chamado CONFIG em Bash.",
         "resposta": "declare -A CONFIG",
-        "aceitas": ["typeset -A CONFIG", "declare -A CONFIG=()"],
+        "aceitas": [
+          "typeset -A CONFIG",
+          "declare -A CONFIG=()"
+        ],
         "dica": "A flag maiúscula indica associativo.",
-        "explicacao": "'declare -A' cria um hash map (Bash 4+); 'declare -a' cria um array indexado."
+        "explicacao": "'declare -A' cria um hash map (Bash 4+); 'declare -a' cria um array indexado.",
+        "topico": "arrays"
       },
       {
         "id": "bash-a-04",
@@ -301,16 +1271,21 @@
         ],
         "resposta": "mapfile -t linhas < <(comando)",
         "dica": "Existe um builtin dedicado a ler linhas em array.",
-        "explicacao": "'mapfile -t arr < <(cmd)' (ou readarray) evita word splitting e globbing que ocorrem em arr=($(cmd))."
+        "explicacao": "'mapfile -t arr < <(cmd)' (ou readarray) evita word splitting e globbing que ocorrem em arr=($(cmd)).",
+        "topico": "arrays"
       },
       {
         "id": "bash-a-05",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando que executa health.sh com timeout de 30 segundos.",
         "resposta": "timeout 30 ./health.sh",
-        "aceitas": ["timeout 30s ./health.sh", "timeout --signal=TERM 30 ./health.sh"],
+        "aceitas": [
+          "timeout 30s ./health.sh",
+          "timeout --signal=TERM 30 ./health.sh"
+        ],
         "dica": "Existe um utilitário coreutils com esse nome.",
-        "explicacao": "'timeout DURACAO COMANDO' encerra o processo e retorna 124 quando o tempo estoura — útil em health checks de pipeline."
+        "explicacao": "'timeout DURACAO COMANDO' encerra o processo e retorna 124 quando o tempo estoura — útil em health checks de pipeline.",
+        "topico": "processos-jobs"
       },
       {
         "id": "bash-a-06",
@@ -324,16 +1299,21 @@
         ],
         "resposta": "Abre o arquivo no descritor 3 para leitura",
         "dica": "3 é um file descriptor personalizado.",
-        "explicacao": "'exec 3< arquivo' abre um descritor persistente; leia com 'read -u 3' e feche com 'exec 3<&-'."
+        "explicacao": "'exec 3< arquivo' abre um descritor persistente; leia com 'read -u 3' e feche com 'exec 3<&-'.",
+        "topico": "pipes-redirecionamento"
       },
       {
         "id": "bash-a-07",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando que cria um diretório temporário seguro e guarda o caminho na variável TMPDIR.",
         "resposta": "TMPDIR=$(mktemp -d)",
-        "aceitas": ["TMPDIR=\"$(mktemp -d)\"", "TMPDIR=$(mktemp -d -t app.XXXXXX)"],
+        "aceitas": [
+          "TMPDIR=\"$(mktemp -d)\"",
+          "TMPDIR=$(mktemp -d -t app.XXXXXX)"
+        ],
         "dica": "Nunca use /tmp/nome-fixo em script de produção.",
-        "explicacao": "'mktemp -d' cria um diretório com nome único e permissões restritas, evitando ataques de symlink em /tmp."
+        "explicacao": "'mktemp -d' cria um diretório com nome único e permissões restritas, evitando ataques de symlink em /tmp.",
+        "topico": "permissoes-arquivos"
       },
       {
         "id": "bash-a-08",
@@ -347,16 +1327,21 @@
         ],
         "resposta": "flock em um arquivo de lock",
         "dica": "É um lock de arquivo atômico do kernel.",
-        "explicacao": "'flock -n /var/lock/job.lock comando' garante exclusão mútua atômica; grep em ps é sujeito a corrida."
+        "explicacao": "'flock -n /var/lock/job.lock comando' garante exclusão mútua atômica; grep em ps é sujeito a corrida.",
+        "topico": "cron-agendamento"
       },
       {
         "id": "bash-a-09",
         "tipo": "sintaxe",
         "pergunta": "Escreva o comando awk que imprime a segunda coluna de um arquivo separado por dois-pontos chamado /etc/passwd.",
         "resposta": "awk -F: '{print $2}' /etc/passwd",
-        "aceitas": ["awk -F ':' '{print $2}' /etc/passwd", "awk -F\":\" '{print $2}' /etc/passwd"],
+        "aceitas": [
+          "awk -F ':' '{print $2}' /etc/passwd",
+          "awk -F\":\" '{print $2}' /etc/passwd"
+        ],
         "dica": "-F define o separador de campos.",
-        "explicacao": "awk -F: define ':' como delimitador e $2 referencia o segundo campo de cada registro."
+        "explicacao": "awk -F: define ':' como delimitador e $2 referencia o segundo campo de cada registro.",
+        "topico": "grep-sed-awk"
       },
       {
         "id": "bash-a-10",
@@ -370,25 +1355,361 @@
         ],
         "resposta": "xargs -P 4 -n 1",
         "dica": "xargs tem uma flag de paralelismo.",
-        "explicacao": "'xargs -P N -n 1 comando' executa até N processos simultâneos; GNU parallel é a alternativa mais rica."
+        "explicacao": "'xargs -P N -n 1 comando' executa até N processos simultâneos; GNU parallel é a alternativa mais rica.",
+        "topico": "performance-paralelismo"
       },
       {
         "id": "bash-a-11",
         "tipo": "sintaxe",
         "pergunta": "Escreva a substituição que troca todas as ocorrências de 'dev' por 'prod' na variável URL.",
         "resposta": "${URL//dev/prod}",
-        "aceitas": ["\"${URL//dev/prod}\""],
+        "aceitas": [
+          "\"${URL//dev/prod}\""
+        ],
         "dica": "Uma barra troca a primeira ocorrência; duas trocam todas.",
-        "explicacao": "${VAR/padrao/novo} substitui a primeira ocorrência e ${VAR//padrao/novo} substitui todas, sem chamar sed."
+        "explicacao": "${VAR/padrao/novo} substitui a primeira ocorrência e ${VAR//padrao/novo} substitui todas, sem chamar sed.",
+        "topico": "expansao-variaveis"
       },
       {
         "id": "bash-a-12",
         "tipo": "multipla",
         "pergunta": "Qual ferramenta faz análise estática de scripts shell em pipelines de CI?",
-        "opcoes": ["shellcheck", "shfmt --lint-all", "bashdb", "checkbash"],
+        "opcoes": [
+          "shellcheck",
+          "shfmt --lint-all",
+          "bashdb",
+          "checkbash"
+        ],
         "resposta": "shellcheck",
         "dica": "O nome combina shell e verificação.",
-        "explicacao": "ShellCheck aponta quoting incorreto, variáveis não usadas e armadilhas comuns; shfmt cuida da formatação."
+        "explicacao": "ShellCheck aponta quoting incorreto, variáveis não usadas e armadilhas comuns; shfmt cuida da formatação.",
+        "topico": "modo-estrito-debugging"
+      },
+      {
+        "id": "bash-a-13",
+        "tipo": "multipla",
+        "pergunta": "O que 'diff <(comando1) <(comando2)' realiza?",
+        "opcoes": [
+          "Compara as saídas de dois comandos usando substituição de processo",
+          "Executa os dois comandos em paralelo sem comparar",
+          "Cria dois arquivos temporários permanentes",
+          "Falha porque diff não aceita comandos"
+        ],
+        "resposta": "Compara as saídas de dois comandos usando substituição de processo",
+        "dica": "O sinal < seguido de parênteses é substituição de processo.",
+        "explicacao": "'<(comando)' cria um descritor de arquivo temporário com a saída do comando, permitindo comparar saídas diretamente com diff.",
+        "topico": "subshells"
+      },
+      {
+        "id": "bash-a-14",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que usa GNU parallel para converter todos os arquivos .png em .jpg usando até 8 processos simultâneos (assuma um comando convert já definido).",
+        "resposta": "ls *.png | parallel -j 8 convert {} {.}.jpg",
+        "aceitas": [
+          "parallel -j8 convert {} {.}.jpg ::: *.png"
+        ],
+        "dica": "parallel tem a flag -j para jobs simultâneos.",
+        "explicacao": "GNU parallel distribui a execução entre N jobs simultâneos; {} representa cada item e {.} remove a extensão.",
+        "topico": "performance-paralelismo"
+      },
+      {
+        "id": "bash-a-15",
+        "tipo": "multipla",
+        "pergunta": "Qual a diferença entre SIGTERM e SIGKILL?",
+        "opcoes": [
+          "SIGTERM pode ser tratado/ignorado pelo processo; SIGKILL encerra imediatamente e não pode ser capturado",
+          "Ambos podem ser tratados da mesma forma",
+          "SIGKILL é mais lento que SIGTERM",
+          "SIGTERM só funciona em root"
+        ],
+        "resposta": "SIGTERM pode ser tratado/ignorado pelo processo; SIGKILL encerra imediatamente e não pode ser capturado",
+        "dica": "Um dos dois é 'à força'.",
+        "explicacao": "SIGTERM (15) pede término gracioso e pode ser interceptado com trap; SIGKILL (9) mata o processo imediatamente no kernel, sem chance de limpeza.",
+        "topico": "traps-sinais"
+      },
+      {
+        "id": "bash-a-16",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que ordena os elementos do array NUMEROS numericamente e guarda o resultado em ORDENADOS.",
+        "resposta": "mapfile -t ORDENADOS < <(printf '%s\\n' \"${NUMEROS[@]}\" | sort -n)",
+        "aceitas": [
+          "ORDENADOS=($(printf '%s\\n' \"${NUMEROS[@]}\" | sort -n))"
+        ],
+        "dica": "Combine printf, sort -n e mapfile.",
+        "explicacao": "Convertendo o array em linhas com printf, ordenando com 'sort -n' e recapturando com mapfile evitamos problemas de word splitting.",
+        "topico": "arrays"
+      },
+      {
+        "id": "bash-a-17",
+        "tipo": "multipla",
+        "pergunta": "Como usar jq para transformar um array de objetos JSON em uma lista simples dos valores do campo 'id'?",
+        "opcoes": [
+          "jq '[.[].id]' arquivo.json",
+          "jq '.id[]' arquivo.json",
+          "jq 'map.id' arquivo.json",
+          "jq --extract id arquivo.json"
+        ],
+        "resposta": "jq '[.[].id]' arquivo.json",
+        "dica": "Use .[] para iterar e colchetes para reagrupar em array.",
+        "explicacao": "'.[].id' extrai o campo id de cada elemento; envolver em colchetes '[...]' reagrupa os resultados em um novo array JSON.",
+        "topico": "getopts-jq"
+      },
+      {
+        "id": "bash-a-18",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que executa script.sh mostrando cada linha executada, sem alterar o próprio arquivo.",
+        "resposta": "bash -x script.sh",
+        "aceitas": [
+          "bash -x ./script.sh"
+        ],
+        "dica": "Existe uma flag do interpretador para isso.",
+        "explicacao": "'bash -x script.sh' ativa temporariamente o xtrace apenas para essa execução, sem precisar editar o script.",
+        "topico": "modo-estrito-debugging"
+      },
+      {
+        "id": "bash-a-19",
+        "tipo": "multipla",
+        "pergunta": "Qual arquivo, além da crontab do usuário, também pode agendar tarefas do sistema em muitas distros?",
+        "opcoes": [
+          "/etc/crontab e /etc/cron.d/",
+          "/etc/passwd",
+          "/etc/fstab",
+          "/var/spool/mail"
+        ],
+        "resposta": "/etc/crontab e /etc/cron.d/",
+        "dica": "Pense em arquivos administrados por root.",
+        "explicacao": "/etc/crontab e os arquivos em /etc/cron.d/ permitem agendar tarefas do sistema, geralmente com um campo extra para o usuário.",
+        "topico": "cron-agendamento"
+      },
+      {
+        "id": "bash-a-20",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que lista todos os processos e filtra apenas os que contêm 'nginx', excluindo o próprio grep da lista.",
+        "resposta": "ps aux | grep '[n]ginx'",
+        "aceitas": [
+          "ps aux | grep nginx | grep -v grep"
+        ],
+        "dica": "Colocar uma letra entre colchetes engana o próprio grep.",
+        "explicacao": "'grep [n]ginx' cria um padrão regex que casa com 'nginx', mas o próprio comando grep não contém esse padrão literal, evitando aparecer na saída.",
+        "topico": "processos-jobs"
+      },
+      {
+        "id": "bash-a-21",
+        "tipo": "multipla",
+        "pergunta": "Qual a diferença entre '<<EOF' e '<<\"EOF\"' (com aspas no delimitador)?",
+        "opcoes": [
+          "Com aspas, variáveis e substituições de comando dentro do heredoc não são expandidas",
+          "Não há diferença nenhuma",
+          "Aspas fazem o heredoc virar here-string",
+          "Aspas desativam completamente o heredoc"
+        ],
+        "resposta": "Com aspas, variáveis e substituições de comando dentro do heredoc não são expandidas",
+        "dica": "Aspas no delimitador mudam o comportamento de expansão.",
+        "explicacao": "Quando o delimitador é citado ('EOF' ou \"EOF\"), o conteúdo do heredoc é tratado literalmente, sem expansão de $VAR ou $(comando).",
+        "topico": "here-docs"
+      },
+      {
+        "id": "bash-a-22",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o laço getopts completo que trata a flag -a (com valor, guardado em AMBIENTE) e -v (booleana, guardada em VERBOSE=1).",
+        "resposta": "while getopts \"a:v\" opt; do\n  case \"$opt\" in\n    a) AMBIENTE=\"$OPTARG\" ;;\n    v) VERBOSE=1 ;;\n  esac\ndone",
+        "aceitas": [
+          "while getopts \"a:v\" opt; do case $opt in a) AMBIENTE=$OPTARG;; v) VERBOSE=1;; esac; done"
+        ],
+        "dica": "Dois pontos após a letra indicam que ela espera argumento.",
+        "explicacao": "'\"a:v\"' diz ao getopts que -a exige argumento (dois pontos) e -v é uma flag simples; case trata cada opção.",
+        "topico": "getopts-jq"
+      },
+      {
+        "id": "bash-a-23",
+        "tipo": "multipla",
+        "pergunta": "Por que 'cat arquivo | grep padrao' costuma ser considerado um 'useless use of cat'?",
+        "opcoes": [
+          "Porque grep pode ler o arquivo diretamente, evitando um processo extra",
+          "Porque cat é mais rápido que grep",
+          "Porque grep não aceita pipes",
+          "Porque cat sempre falha com arquivos grandes"
+        ],
+        "resposta": "Porque grep pode ler o arquivo diretamente, evitando um processo extra",
+        "dica": "Pense em quantos processos são criados.",
+        "explicacao": "'grep padrao arquivo' evita criar um processo 'cat' desnecessário; é mais eficiente e igualmente legível.",
+        "topico": "performance-paralelismo"
+      },
+      {
+        "id": "bash-a-24",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o trap que ignora completamente o sinal SIGINT (Ctrl+C) no script.",
+        "resposta": "trap '' INT",
+        "aceitas": [
+          "trap \"\" INT"
+        ],
+        "dica": "Uma ação vazia ignora o sinal.",
+        "explicacao": "'trap \"\" SINAL' com uma ação vazia faz o shell ignorar aquele sinal completamente.",
+        "topico": "traps-sinais"
+      },
+      {
+        "id": "bash-a-25",
+        "tipo": "multipla",
+        "pergunta": "O que ocorre quando um comando é executado em uma pipeline como 'comando1 | comando2' dentro do Bash?",
+        "opcoes": [
+          "Cada comando da pipeline roda em seu próprio subshell",
+          "Ambos rodam no mesmo processo do shell principal",
+          "Apenas o último comando cria subshell",
+          "Pipelines não usam subshells"
+        ],
+        "resposta": "Cada comando da pipeline roda em seu próprio subshell",
+        "dica": "Isso explica por que variáveis definidas dentro de um pipe não persistem depois.",
+        "explicacao": "Cada estágio de uma pipeline roda em um subshell separado; por isso, atribuir variáveis dentro de um 'while ... | comando' não afeta o shell pai.",
+        "topico": "subshells"
+      },
+      {
+        "id": "bash-a-26",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que concatena os arrays A e B em um novo array chamado TODOS.",
+        "resposta": "TODOS=(\"${A[@]}\" \"${B[@]}\")",
+        "aceitas": [
+          "TODOS=(\"${A[@]}\" \"${B[@]}\")"
+        ],
+        "dica": "Basta expandir os dois arrays dentro dos parênteses.",
+        "explicacao": "Colocar '\"${A[@]}\" \"${B[@]}\"' dentro de parênteses concatena os elementos preservando espaços internos.",
+        "topico": "arrays"
+      },
+      {
+        "id": "bash-a-27",
+        "tipo": "multipla",
+        "pergunta": "Com 'set -u' ativo, o que acontece ao referenciar uma variável não definida?",
+        "opcoes": [
+          "O script encerra com erro imediatamente",
+          "A variável assume string vazia silenciosamente",
+          "O Bash pergunta um valor ao usuário",
+          "Nada muda em relação ao padrão"
+        ],
+        "resposta": "O script encerra com erro imediatamente",
+        "dica": "u vem de 'unset/unbound'.",
+        "explicacao": "'set -u' (nounset) faz o Bash tratar referência a variável não definida como erro fatal, ajudando a pegar bugs de digitação.",
+        "topico": "modo-estrito-debugging"
+      },
+      {
+        "id": "bash-a-28",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando flock que garante que somente uma instância de backup.sh rode por vez, usando o arquivo /var/lock/backup.lock.",
+        "resposta": "flock -n /var/lock/backup.lock ./backup.sh",
+        "aceitas": [
+          "flock -n /var/lock/backup.lock -- ./backup.sh"
+        ],
+        "dica": "flock -n falha rapidamente se já houver lock.",
+        "explicacao": "'flock -n arquivo comando' tenta obter um lock exclusivo; com -n, se já estiver bloqueado, retorna erro em vez de esperar.",
+        "topico": "performance-paralelismo"
+      },
+      {
+        "id": "bash-a-29",
+        "tipo": "multipla",
+        "pergunta": "O que 'awk '{sum+=$1} END {print sum}' arquivo' calcula?",
+        "opcoes": [
+          "A soma de todos os valores da primeira coluna",
+          "A média da primeira coluna",
+          "O total de linhas do arquivo",
+          "O maior valor da primeira coluna"
+        ],
+        "resposta": "A soma de todos os valores da primeira coluna",
+        "dica": "O bloco END roda depois de processar todas as linhas.",
+        "explicacao": "O awk acumula $1 de cada linha em 'sum' e o bloco END imprime o total ao final do processamento.",
+        "topico": "grep-sed-awk"
+      },
+      {
+        "id": "bash-a-30",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando jq que conta quantos elementos existem em um array JSON no arquivo lista.json.",
+        "resposta": "jq 'length' lista.json",
+        "aceitas": [
+          "jq '. | length' lista.json"
+        ],
+        "dica": "Existe uma função jq chamada length.",
+        "explicacao": "'jq length' aplicado a um array retorna o número de elementos; aplicado a um objeto retorna o número de chaves.",
+        "topico": "getopts-jq"
+      },
+      {
+        "id": "bash-a-31",
+        "tipo": "multipla",
+        "pergunta": "Qual comando permite testar rapidamente se uma expressão cron está correta, sem esperar o agendamento real?",
+        "opcoes": [
+          "Ferramentas online como crontab.guru, ou rodar o comando manualmente",
+          "cron --test",
+          "crontab --dry-run sempre disponível",
+          "Não é possível testar"
+        ],
+        "resposta": "Ferramentas online como crontab.guru, ou rodar o comando manualmente",
+        "dica": "Pense em validação externa da expressão.",
+        "explicacao": "Não há um '--dry-run' universal no cron; a prática comum é validar a expressão em ferramentas como crontab.guru e testar o comando manualmente.",
+        "topico": "cron-agendamento"
+      },
+      {
+        "id": "bash-a-32",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva a expansão que retorna erro fatal com a mensagem 'PORTA obrigatoria' caso a variável PORTA não esteja definida.",
+        "resposta": "${PORTA:?PORTA obrigatoria}",
+        "aceitas": [
+          "${PORTA?PORTA obrigatoria}"
+        ],
+        "dica": "O operador de interrogação aborta com mensagem customizada.",
+        "explicacao": "'${VAR:?mensagem}' faz o shell abortar com a mensagem de erro se VAR estiver vazia ou indefinida.",
+        "topico": "expansao-variaveis"
+      },
+      {
+        "id": "bash-a-33",
+        "tipo": "multipla",
+        "pergunta": "O que o comando 'disown' faz em relação a um job em background?",
+        "opcoes": [
+          "Remove o job da tabela de jobs do shell, para que sobreviva ao fechamento do terminal",
+          "Mata o processo imediatamente",
+          "Coloca o processo em foreground",
+          "Pausa o processo"
+        ],
+        "resposta": "Remove o job da tabela de jobs do shell, para que sobreviva ao fechamento do terminal",
+        "dica": "Pense em 'desassociar' o processo do shell.",
+        "explicacao": "'disown %1' remove o job da lista de jobs do shell atual, evitando que ele receba SIGHUP quando o terminal fechar.",
+        "topico": "processos-jobs"
+      },
+      {
+        "id": "bash-a-34",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o comando que executa 4 tarefas em paralelo a partir de uma lista em 'urls.txt', usando xargs.",
+        "resposta": "xargs -P 4 -n 1 curl -O < urls.txt",
+        "aceitas": [
+          "xargs -P4 -n1 curl -O < urls.txt",
+          "cat urls.txt | xargs -P 4 -n 1 curl -O"
+        ],
+        "dica": "-P define o número de processos paralelos.",
+        "explicacao": "'xargs -P 4 -n 1' dispara até 4 processos simultâneos, um argumento por invocação — forma simples de paralelizar em shell.",
+        "topico": "performance-paralelismo"
+      },
+      {
+        "id": "bash-a-35",
+        "tipo": "multipla",
+        "pergunta": "Em 'set -euo pipefail', qual é o papel específico de 'pipefail'?",
+        "opcoes": [
+          "Faz o pipeline retornar o status do primeiro comando que falhar, e não apenas do último",
+          "Impede o uso de pipes",
+          "Silencia erros dentro de pipes",
+          "Força a execução sequencial dos comandos do pipeline"
+        ],
+        "resposta": "Faz o pipeline retornar o status do primeiro comando que falhar, e não apenas do último",
+        "dica": "Sem ele, 'false | true' retorna sucesso.",
+        "explicacao": "Com 'pipefail', o código de saída do pipeline é o do último comando que falhou, evitando erros silenciosos em pipelines.",
+        "topico": "modo-estrito-debugging"
+      },
+      {
+        "id": "bash-a-36",
+        "tipo": "sintaxe",
+        "pergunta": "Escreva o here-doc que grava as linhas literais (sem expansão de variáveis) em 'config.env'.",
+        "resposta": "cat <<'EOF' > config.env",
+        "aceitas": [
+          "cat << 'EOF' > config.env",
+          "cat <<\"EOF\" > config.env"
+        ],
+        "dica": "Aspas no delimitador desligam a expansão.",
+        "explicacao": "Colocar o delimitador entre aspas ('EOF') faz o here-doc tratar o conteúdo como literal, sem expandir $variáveis nem comandos.",
+        "topico": "here-docs"
       }
     ]
   }

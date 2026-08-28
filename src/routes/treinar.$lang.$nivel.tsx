@@ -14,6 +14,8 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/useAuth";
 import { pedirFeedback } from "@/lib/assistente.functions";
+import { TeoriaCard } from "@/components/TeoriaCard";
+import { LiveLounge } from "@/components/LiveLounge";
 import {
   CHANCES_POR_DESAFIO,
   DESAFIOS_POR_NIVEL,
@@ -23,6 +25,8 @@ import {
   getLinguagem,
   isNivel,
   sortearDesafios,
+  getTeoria,
+  embaralhar,
   verificarResposta,
   xpDoNivel,
   type Desafio,
@@ -36,7 +40,7 @@ export const Route = createFileRoute("/treinar/$lang/$nivel")({
       {
         name: "description",
         content:
-          "Resolva 10 desafios sorteados com 3 chances cada e receba dicas do tutor sem nunca ver a resposta pronta.",
+          "Resolva 12 desafios sorteados com 3 chances cada e receba dicas do tutor sem nunca ver a resposta pronta.",
       },
       { property: "og:title", content: "Treino em andamento — DevOps Trainer" },
       {
@@ -102,6 +106,14 @@ function Treino() {
   const desafio: Desafio | undefined = useMemo(
     () => (ids[indice] ? getDesafio(lang, nivel, ids[indice]!) : undefined),
     [ids, indice, lang, nivel],
+  );
+
+  const teoria = useMemo(() => getTeoria(lang, desafio?.topico), [lang, desafio]);
+
+  // ordem das alternativas também é randomizada a cada desafio
+  const opcoes = useMemo(
+    () => (desafio?.opcoes ? embaralhar(desafio.opcoes) : []),
+    [desafio],
   );
 
   if (!linguagem) {
@@ -321,6 +333,8 @@ function Treino() {
           </div>
         </div>
 
+        {teoria && <TeoriaCard teoria={teoria} aberto={!resolvido} />}
+
         <div className="card">
           <span className="badge-neon mb-4 inline-flex">
             {desafio.tipo === "multipla" ? "Múltipla escolha" : "Sintaxe correta"}
@@ -331,7 +345,7 @@ function Treino() {
 
           {desafio.tipo === "multipla" ? (
             <div className="space-y-2">
-              {(desafio.opcoes ?? []).map((op) => {
+              {opcoes.map((op) => {
                 const escolhida = resposta === op;
                 const correta = resolvido && op === desafio.resposta;
                 const errada = resolvido === "errou" && escolhida && op !== desafio.resposta;
@@ -400,6 +414,16 @@ function Treino() {
             )}
           </div>
         </div>
+
+        <LiveLounge
+          userId={user.id}
+          nome={perfil?.nome ?? "Aluno"}
+          xp={perfil?.xp ?? 0}
+          atividade={`treinando ${linguagem.nome}`}
+          language={linguagem.nome}
+          level={NIVEL_LABEL[nivel]}
+          compacto
+        />
       </div>
     </div>
   );

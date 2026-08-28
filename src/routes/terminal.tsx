@@ -8,7 +8,7 @@ import { CyberpunkTerminal } from "@/components/CyberpunkTerminal";
 export const Route = createFileRoute("/terminal")({
   head: () => ({
     meta: [
-      { title: "Cyber Lab Treinamento— Terminal DevOps gamificado" },
+      { title: "Cyber Lab — Terminal DevOps gamificado" },
       {
         name: "description",
         content:
@@ -40,14 +40,14 @@ function TerminalPage() {
   if (loading || !user) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-6 h-6 neon animate-spin" />
+        <Loader2 className="w-6 h-4 neon animate-spin" />
       </div>
     );
   }
 
   return (
     <AppShell
-      titulo="Cyber Lab - Treinamento"
+      titulo="Labs DevOps Arena"
       nome={perfil?.nome ?? "Aluno"}
       xp={perfil?.xp ?? 0}
       isProfessor={isProfessor}
